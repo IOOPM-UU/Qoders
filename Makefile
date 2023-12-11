@@ -11,7 +11,7 @@ TEST_DIR = test
 MAIN_SOURCES = $(wildcard $(MAIN_DIR)/*.c)
 DEMO_SOURCES = $(wildcard $(DEMO_DIR)/*.c)
 TEST_SOURCES = $(wildcard $(TEST_DIR)/*.c)
-UNIT_TESTS = unit_tests.c #FIXME: change name of unit test file if alternate name is given
+UNIT_TESTS = tests.c #FIXME: change name of unit test file if alternate name is given
 
 # Include directory
 INC_DIR = -I$(MAIN_DIR) -I$(DEMO_DIR) -I$(TEST_DIR)
@@ -21,13 +21,13 @@ BUILD_DIR = build
 
 # Executables
 MAIN_EXECUTABLE = $(BUILD_DIR)/main
-UNIT_TESTS_EXECUTABLE = $(BUILD_DIR)/unit_tests#a
+UNIT_TESTS_EXECUTABLE = $(BUILD_DIR)/tests
 
 # Object files
 MAIN_OBJECTS = $(patsubst $(MAIN_DIR)/%.c,$(BUILD_DIR)/%.o,$(MAIN_SOURCES))
 DEMO_OBJECTS = $(patsubst $(DEMO_DIR)/%.c,$(BUILD_DIR)/%.o,$(DEMO_SOURCES))
 TEST_OBJECTS = $(patsubst $(TEST_DIR)/%.c,$(BUILD_DIR)/%.o,$(TEST_SOURCES))
-UNIT_TESTS_OBJECTS = $(BUILD_DIR)/unit_tests.o
+UNIT_TESTS_OBJECTS = $(BUILD_DIR)/tests.o
 
 # Default target
 .DEFAULT_GOAL := all
