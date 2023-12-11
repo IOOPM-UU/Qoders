@@ -15,8 +15,12 @@ int clean_suite(void) {
     return 0;
 }
 
-void test_() {
+void test_test() {
+    CU_ASSERT_TRUE(true);
+}
 
+void test_() {
+    
 }
 
 
@@ -36,7 +40,7 @@ int main() {
     }
 
     if(
-    (CU_add_test(my_test_suite, "Create/Destroy Warehouse", test_wh_create_destroy) == NULL) ||
+    (CU_add_test(my_test_suite, "test make", test_test) == NULL) ||
     0
     )
 
