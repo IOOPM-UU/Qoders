@@ -30,7 +30,7 @@ TEST_OBJECTS = $(patsubst $(TEST_DIR)/%.c,$(BUILD_DIR)/%.o,$(TEST_SOURCES))
 UNIT_TESTS_OBJECTS = $(BUILD_DIR)/unit_tests.o
 
 # Default target
-.DEFAULT_GOAL := all
+.DEFAULT_GOAL := all #a
 
 # Targets
 all: clean_build
