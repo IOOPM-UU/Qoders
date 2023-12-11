@@ -32,6 +32,8 @@ UNIT_TESTS_OBJECTS = $(BUILD_DIR)/unit_tests.o
 # Default target
 .DEFAULT_GOAL := all
 
+#test
+
 # Targets
 all: clean_build
 all: build_directory
