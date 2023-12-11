@@ -21,7 +21,7 @@ BUILD_DIR = build
 
 # Executables
 MAIN_EXECUTABLE = $(BUILD_DIR)/main
-UNIT_TESTS_EXECUTABLE = $(BUILD_DIR)/unit_tests
+UNIT_TESTS_EXECUTABLE = $(BUILD_DIR)/unit_tests#a
 
 # Object files
 MAIN_OBJECTS = $(patsubst $(MAIN_DIR)/%.c,$(BUILD_DIR)/%.o,$(MAIN_SOURCES))
