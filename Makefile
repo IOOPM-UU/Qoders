@@ -27,7 +27,7 @@ UNIT_TESTS_EXECUTABLE = $(BUILD_DIR)/tests
 MAIN_OBJECTS = $(patsubst $(MAIN_DIR)/%.c,$(BUILD_DIR)/%.o,$(MAIN_SOURCES))
 DEMO_OBJECTS = $(patsubst $(DEMO_DIR)/%.c,$(BUILD_DIR)/%.o,$(DEMO_SOURCES))
 TEST_OBJECTS = $(patsubst $(TEST_DIR)/%.c,$(BUILD_DIR)/%.o,$(TEST_SOURCES))
-UNIT_TESTS_OBJECTS = $(BUILD_DIR)/tests.o
+UNIT_TESTS_OBJECTS = $(BUILD_DIR)/unit_tests.o
 
 # Default target
 .DEFAULT_GOAL := all
@@ -59,7 +59,7 @@ $(BUILD_DIR)/%.o: $(MAIN_DIR)/%.c
 $(BUILD_DIR)/%.o: $(DEMO_DIR)/%.c
 	$(CC) $(CFLAGS) $(INC_DIR) -o $@ -c $<
 
-$(BUILD_DIR)/unit_tests.o: $(TEST_DIR)/unit_tests.c
+$(BUILD_DIR)/unit_tests.o: $(TEST_DIR)/tests.c
 	$(CC) $(CFLAGS) $(INC_DIR) -o $@ -c $<
 
 .PHONY: clean
