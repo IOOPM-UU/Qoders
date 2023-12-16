@@ -41,6 +41,12 @@ unit_tests: clean_build
 unit_tests: build_directory
 unit_tests: $(UNIT_TESTS_EXECUTABLE)
 
+run_tests:
+	./build/tests
+
+run_main:
+	./build/main
+
 clean_build: 
 	make clean
 

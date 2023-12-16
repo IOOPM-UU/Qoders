@@ -34,6 +34,8 @@ void test_allocate() {
     // CU_ASSERT_PTR_NOT_NULL(meta_data->destructor);    
     retain(new_object); 
     CU_ASSERT_EQUAL(meta_data->reference_counter, 1); 
+
+    
     // release(new_object); 
     // CU_ASSERT_PTR_NULL(new_object);  this isn't working, looking at the release function 
                                      // nothing should be left; I'm missing something
@@ -50,11 +52,14 @@ void test_allocate_array() {
     CU_ASSERT_EQUAL(meta_data->reference_counter, 0); 
 
     retain(meta_data); 
+    printf("%d", meta_data->reference_counter);
     CU_ASSERT_EQUAL(meta_data->reference_counter, 1);
+
+    release(meta_data);
+    printf("%d", meta_data->reference_counter);
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 0); 
     // release(meta_data); 
-    // CU_ASSERT_EQUAL(meta_data->reference_counter, 0); 
-    // release(meta_data); 
-    // CU_ASSERT_EQUAL(meta_data->reference_counter, 2);
+    // CU_ASSERT_PTR_NULL(new_object); // FIXME: Double free because no destructor
 
 }
 
@@ -64,9 +69,14 @@ void test_retain(){
     CU_ASSERT_EQUAL(((meta_data_t *)new_object)->reference_counter, 1);    
 }
 
-// void test_release(){
+void test_release(){
+    obj *new_object = allocate(10, NULL);
+    meta_data_t *meta_data = (meta_data_t *)new_object;
 
-// }
+    CU_ASSERT_FALSE(meta_data->garbage);
+    release(new_object); 
+    CU_ASSERT_TRUE(meta_data->garbage);
+}
 
 
 int main() {
