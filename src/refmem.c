@@ -83,3 +83,9 @@ void deallocate(obj *c) {
 
     free(m);
 }
+
+void temp_deallocate(obj **object) 
+{
+  free(*object); // Free the object
+  *object = NULL; // Destroy the pointer to the object
+}
