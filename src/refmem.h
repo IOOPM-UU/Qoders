@@ -9,7 +9,7 @@ struct meta_data
 {
     meta_data_t *next;
     int reference_counter;
-    function1_t destructor; //?
+    function1_t destructor; 
 };
 
 //TODO: Function Specifications

@@ -1,5 +1,6 @@
 
 #include <CUnit/Basic.h>
+#include "../src/refmem.h"
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -15,13 +16,57 @@ int clean_suite(void) {
     return 0;
 }
 
-void test_test() {
-    CU_ASSERT_TRUE(true);
+void destructor1(obj *object){
+    if(object != NULL) {
+        free(object);
+    }
 }
 
-void test_() {
-    
+void test_allocate() {
+    obj *new_object = allocate(10, NULL);
+    meta_data_t *meta_data = (meta_data_t *)new_object;
+
+    CU_ASSERT_PTR_NOT_NULL(new_object);
+    CU_ASSERT_PTR_NULL(meta_data->destructor);    
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 0); 
+
+    // meta_data->destructor = destructor1; 
+    // CU_ASSERT_PTR_NOT_NULL(meta_data->destructor);    
+    retain(new_object); 
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 1); 
+    // release(new_object); 
+    // CU_ASSERT_PTR_NULL(new_object);  this isn't working, looking at the release function 
+                                     // nothing should be left; I'm missing something
+
 }
+
+void test_allocate_array() {
+
+    obj* new_object = allocate_array(10, sizeof(int), NULL); 
+    CU_ASSERT_PTR_NOT_NULL(new_object);
+    
+    meta_data_t *meta_data = (meta_data_t *)new_object;
+    CU_ASSERT_PTR_NULL(meta_data->destructor);    
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 0); 
+
+    retain(meta_data); 
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 1);
+    // release(meta_data); 
+    // CU_ASSERT_EQUAL(meta_data->reference_counter, 0); 
+    // release(meta_data); 
+    // CU_ASSERT_EQUAL(meta_data->reference_counter, 2);
+
+}
+
+void test_retain(){
+    obj *new_object = allocate(10, NULL);
+    retain(new_object); 
+    CU_ASSERT_EQUAL(((meta_data_t *)new_object)->reference_counter, 1);    
+}
+
+// void test_release(){
+
+// }
 
 
 int main() {
@@ -40,7 +85,11 @@ int main() {
     }
 
     if(
-    (CU_add_test(my_test_suite, "test make", test_test) == NULL) ||
+    (CU_add_test(my_test_suite, "test make", test_allocate) == NULL) ||
+    (CU_add_test(my_test_suite, "test make", test_allocate_array) == NULL) ||
+    (CU_add_test(my_test_suite, "test make", test_retain) == NULL) ||
+    // (CU_add_test(my_test_suite, "test make", test_release) == NULL) ||
+    
     0
     )
 

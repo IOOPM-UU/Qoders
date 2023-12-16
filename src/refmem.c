@@ -22,6 +22,9 @@ obj *allocate(size_t bytes, function1_t destructor){
     return new_object;
 }
 
+//we could make a hashtable that's dynamic
+//as we get closer to the threshold of our HT, we'll the double the amount of buckets 
+//then resize all of the entries that we previously added
 
 obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
 
@@ -44,8 +47,24 @@ void retain(obj *c) {
 }
 
 void release(obj *c) {
-    meta_data_t *m = (meta_data_t *)c;
-    m->reference_counter--;
+
+    // if(c == NULL) {
+    //     printf("There's nothing to release");
+    // }
+
+    meta_data_t *meta_data = (meta_data_t *)c; 
+
+    if(c != NULL && meta_data->reference_counter >=  1){
+        meta_data_t *m = (meta_data_t *)c;
+        m->reference_counter--;
+    }
+
+    if(meta_data->reference_counter == 0 && meta_data->destructor != NULL) {
+        meta_data->destructor(c); 
+    } else {
+        free(meta_data);
+        free(c);
+    }
 }
 
 size_t rc(obj *c) {

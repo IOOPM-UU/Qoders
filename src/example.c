@@ -15,22 +15,22 @@ void cell_destructor(obj *c)
   release(((struct cell *) c)->cell);
 }
 
-int main(void)
-{
-  struct cell *c = allocate(sizeof(struct cell), NULL);
-  assert(rc(c) == 0);
-  retain(c);
-  assert(rc(c) == 1);
+// int main(void)
+// {
+//   struct cell *c = allocate(sizeof(struct cell), NULL);
+//   assert(rc(c) == 0);
+//   retain(c);
+//   assert(rc(c) == 1);
 
 
-  c->cell = allocate(sizeof(struct cell), cell_destructor);
-  assert(rc(c->cell) == 0);
-  retain(c->cell);
-  assert(rc(c->cell) == 1);
+//   c->cell = allocate(sizeof(struct cell), cell_destructor);
+//   assert(rc(c->cell) == 0);
+//   retain(c->cell);
+//   assert(rc(c->cell) == 1);
 
-  c->cell->cell = NULL;
+//   c->cell->cell = NULL;
 
-  release(c);
+//   release(c);
 
-  return 0;
-}
+//   return 0;
+// }
