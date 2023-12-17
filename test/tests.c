@@ -95,9 +95,9 @@ int main() {
     }
 
     if(
-    (CU_add_test(my_test_suite, "test make", test_allocate) == NULL) ||
-    (CU_add_test(my_test_suite, "test make", test_allocate_array) == NULL) ||
-    (CU_add_test(my_test_suite, "test make", test_retain) == NULL) ||
+    (CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
+    (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
+    (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
     // (CU_add_test(my_test_suite, "test make", test_release) == NULL) ||
     
     0
