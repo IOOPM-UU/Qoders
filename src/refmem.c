@@ -4,7 +4,16 @@
 #include <string.h>
 #include <stdbool.h>
 
+<<<<<<< Updated upstream
 obj *allocate(size_t bytes, function1_t destructor){
+=======
+size_t cascade_limit = 100;
+
+hash_table_t ht;
+
+obj *allocate(size_t bytes, function1_t destructor)
+{
+>>>>>>> Stashed changes
 
     obj* new_object = (obj *)malloc(sizeof(meta_data_t)+bytes);
 
@@ -62,5 +71,37 @@ void deallocate(obj *c) {
         m->destructor(c);
     }
 
+<<<<<<< Updated upstream
     free(m);
+=======
+void temp_deallocate(obj **object)
+{
+    free(*object);  // Free the object
+    *object = NULL; // Destroy the pointer to the object
+}
+
+void cleanup()
+{
+    for (int i = 0; i < No_Buckets; i++)
+    {
+        if (ht->buckets[i].next != NULL)
+        {
+            entry_t *current = ht->buckets[i].next;
+            entry_t *next_entry = current->next;
+
+            while (next_entry != NULL)
+            {
+                deallocate(current);
+                current = next_entry;
+                next_entry = current->next;
+            }
+            deallocate(current);
+        }
+    }
+}
+
+void set_cascade_limit(size_t lim)
+{
+    cascade_limit = lim;
+>>>>>>> Stashed changes
 }

@@ -5,6 +5,9 @@ typedef void obj;
 typedef struct meta_data meta_data_t;
 typedef void(*function1_t)(obj *);
 
+extern cascade_limit;
+extern ht;
+
 struct meta_data
 {
     meta_data_t *next;
