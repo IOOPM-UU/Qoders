@@ -4,12 +4,23 @@
 #include <string.h>
 #include <stdbool.h>
 
+size_t cascade_limit = 100;
+delay_t *list_delayed_frees = (delay_t)allocate(sizeof(delay_t), NULL); 
+
+
+
 meta_data_t *get_meta_data(obj *c){
     return c - sizeof(meta_data_t);
 }
 
 obj *allocate(size_t bytes, function1_t destructor)
 {
+
+    if(cascade_limit == 0){
+
+        cascade_limit = 100; 
+
+    }
 
     obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
 
@@ -23,8 +34,11 @@ obj *allocate(size_t bytes, function1_t destructor)
         meta_data->garbage = true;
     }
 
+
     return new_object + sizeof(meta_data_t);
 }
+
+
 
 // we could make a hashtable that's dynamic
 // as we get closer to the threshold of our HT, we'll the double the amount of buckets
@@ -89,12 +103,46 @@ size_t rc(obj *c)
 void deallocate(obj *c)
 {
     meta_data_t *m = get_meta_data(c);
+    // delay_t *list_delayed_frees = (delay_t)allocate(sizeof(delay_t), NULL);
 
-    if (rc(c) == 0)
-    {
-        m->destructor(c);
+    //this should keep the objects that are to be freed once we allocate something 
+    //new and reset the cascading list, the linked list is globally available and 
+    // can(should?) be used by cleanup()
+    if(set_cascade_limit == 0) {        
+
+        if(list_delayed_frees->object_to_free == NULL) {
+            list_delayed_frees->object_to_free = c; 
+            list_delayed_frees->next = NULL; 
+
+        } else {
+            delay_t *last_object = list_delayed_frees->next;
+
+            while(list_delayed_frees->next != NULL) {
+                last_object = list_delayed_frees->next; 
+            }
+
+            list_delayed_frees->next = last_object; 
+        }
+
+    } 
+
+
+    while(list_delayed_frees->object_to_free != NULL) {
+
+        delay_t *current_list = list_delayed_frees; 
+
+        free(current_list->object_to_free); 
+
     }
+
     free(m);
+    }
+
+    // if (rc(c) == 0)
+    // {
+    //     m->destructor(c);
+    // }
+  
 }
 
 void temp_deallocate(obj **object)
@@ -103,3 +151,14 @@ void temp_deallocate(obj **object)
     *object = NULL; // Destroy the pointer to the object
 }
 
+void cleanup()
+{
+
+    cascade_limit--; //after each free we reduce the global variable by one
+}
+
+
+void set_cascade_limit(size_t lim)
+{
+    cascade_limit = lim;
+}
