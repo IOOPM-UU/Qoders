@@ -41,6 +41,12 @@ unit_tests: clean_build
 unit_tests: build_directory
 unit_tests: $(UNIT_TESTS_EXECUTABLE)
 
+run_tests:
+	./build/tests
+
+run_main:
+	./build/main
+
 clean_build: 
 	make clean
 
@@ -50,7 +56,7 @@ build_directory:
 $(MAIN_EXECUTABLE): $(MAIN_OBJECTS) #$(DEMO_OBJECTS)
 	$(CC) $(CFLAGS) $(INC_DIR) -o $@ $^
 
-$(UNIT_TESTS_EXECUTABLE): $(UNIT_TESTS_OBJECTS)
+$(UNIT_TESTS_EXECUTABLE): $(UNIT_TESTS_OBJECTS) $(MAIN_OBJECTS)
 	$(CC) $(CFLAGS) $(INC_DIR) -o $@ $^ -lcunit
 
 $(BUILD_DIR)/%.o: $(MAIN_DIR)/%.c
