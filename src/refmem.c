@@ -89,12 +89,12 @@ size_t rc(obj *c)
 void deallocate(obj *c)
 {
     meta_data_t *m = get_meta_data(c);
+    function1_t func = m->destructor;
 
-    if (rc(c) == 0)
+    if (rc(c) == 0 && func != NULL)
     {
-        m->destructor(c);
+        func(c);
     }
-    free(m);
 }
 
 void temp_deallocate(obj **object)

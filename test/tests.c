@@ -95,6 +95,29 @@ void test_release()
     CU_ASSERT_TRUE(meta_data->garbage);
 }
 
+void test_deallocate(){
+    
+    obj *new_object = allocate(10, NULL);
+
+    meta_data_t *meta_data = get_meta_data(new_object);
+
+    CU_ASSERT_PTR_NOT_NULL(new_object);
+
+    deallocate(new_object);
+
+    CU_ASSERT_PTR_NOT_NULL(new_object);
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 0); 
+
+    retain(new_object);
+
+    deallocate(new_object);
+
+    CU_ASSERT_PTR_NOT_NULL(new_object);
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 1); 
+    
+
+}
+
 int main()
 {
     // First we try to set up CUnit, and exit if we fail
@@ -117,6 +140,7 @@ int main()
         (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
         (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
         (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||
+        (CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
 
         0)
 
