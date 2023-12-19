@@ -2,7 +2,6 @@
 #include <assert.h>
 #include <stdio.h>
 
-
 struct cell
 {
   struct cell *cell;
@@ -12,7 +11,7 @@ struct cell
 
 void cell_destructor(obj *c)
 {
-  release(((struct cell *) c)->cell);
+  release(((struct cell *)c)->cell);
 }
 
 // int main(void)
@@ -21,7 +20,6 @@ void cell_destructor(obj *c)
 //   assert(rc(c) == 0);
 //   retain(c);
 //   assert(rc(c) == 1);
-
 
 //   c->cell = allocate(sizeof(struct cell), cell_destructor);
 //   assert(rc(c->cell) == 0);

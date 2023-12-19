@@ -4,18 +4,21 @@
 
 typedef void obj;
 typedef struct meta_data meta_data_t;
-typedef void(*function1_t)(obj *);
+typedef void (*function1_t)(obj *);
 
 struct meta_data
 {
     meta_data_t *next;
     obj *adress;
-    int reference_counter;
-    function1_t destructor; 
+    size_t reference_counter;
+    function1_t destructor;
     bool garbage; // [TRUE] if element is to be removed by cleanup
 };
 
-//TODO: Function Specifications
+// TODO: Function Specifications
+
+meta_data_t *get_meta_data(obj *);
+
 void retain(obj *);
 void release(obj *);
 size_t rc(obj *);
