@@ -6,6 +6,9 @@
 #include <assert.h>
 #include <stdio.h>
 
+extern size_t cascade_limit;
+extern ioopm_hash_table_t *ht;
+
 int init_suite(void)
 {
     // Initialization code for the test suite (if needed)
@@ -81,6 +84,14 @@ void test_release()
     CU_ASSERT_FALSE(meta_data->garbage);
     release(new_object);
     CU_ASSERT_TRUE(meta_data->garbage);
+}
+
+void test_hash_func()
+{
+    obj *new_object = allocate(10, NULL);
+    meta_data_t *meta_data = (meta_data_t *)new_object;
+    printf("%d", obj_address_hash_function(ptr_elem(meta_data)));
+    CU_ASSERT_TRUE(1 == 1);
 }
 
 int main()

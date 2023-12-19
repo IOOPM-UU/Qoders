@@ -1,4 +1,6 @@
 #include "refmem.h"
+#include "../demo/hash_table.h"
+#include "../demo/common.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,7 +8,18 @@
 
 size_t cascade_limit = 100;
 
-hash_table_t ht;
+ioopm_hash_table_t *ht = ioopm_hash_table_create(int_compare, meta_data_compare, obj_address_hash_function);
+
+bool meta_data_compare(elem_t elem1, elem_t elem2)
+{
+    return elem1.p.reference_counter == elem2.p.reference_counter; // temp solution
+}
+
+int obj_address_hash_function(elem_t key)
+{
+    int *hash = &key.p.adress;
+    return *hash;
+}
 
 obj *allocate(size_t bytes, function1_t destructor)
 {
@@ -97,6 +110,7 @@ void deallocate(obj *c)
 
     free(m);
 }
+
 void temp_deallocate(obj **object)
 {
     free(*object);  // Free the object
@@ -105,31 +119,9 @@ void temp_deallocate(obj **object)
 
 void cleanup()
 {
-    for (int i = 0; i < No_Buckets; i++)
-    {
-        if (ht->buckets[i].next != NULL)
-        {
-            entry_t *current = ht->buckets[i].next;
-            entry_t *next_entry = current->next;
-
-            while (next_entry != NULL)
-            {
-                deallocate(current);
-                current = next_entry;
-                next_entry = current->next;
-            }
-            deallocate(current);
-        }
-    }
 }
 
 void set_cascade_limit(size_t lim)
 {
     cascade_limit = lim;
-}
-
-void temp_deallocate(obj **object)
-{
-    free(*object);  // Free the object
-    *object = NULL; // Destroy the pointer to the object
 }
