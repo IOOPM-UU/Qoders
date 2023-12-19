@@ -4,6 +4,10 @@
 #include <string.h>
 #include <stdbool.h>
 
+meta_data_t *get_meta_data(obj *c){
+    return c - sizeof(meta_data_t);
+}
+
 obj *allocate(size_t bytes, function1_t destructor)
 {
 
@@ -19,7 +23,7 @@ obj *allocate(size_t bytes, function1_t destructor)
         meta_data->garbage = true;
     }
 
-    return new_object;
+    return new_object + sizeof(meta_data_t);
 }
 
 // we could make a hashtable that's dynamic
@@ -29,7 +33,7 @@ obj *allocate(size_t bytes, function1_t destructor)
 obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
 {
 
-    obj *new_object = (obj *)calloc(elements, elem_size);
+    obj *new_object = (obj *)calloc(elements, elem_size + sizeof(meta_data_t));
 
     if (new_object != NULL)
     {
@@ -42,12 +46,12 @@ obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
         meta_data->garbage = true;
     }
 
-    return new_object;
+    return new_object + sizeof(meta_data_t);
 }
 
 void retain(obj *c)
 {
-    meta_data_t *m = (meta_data_t *)c;
+    meta_data_t *m = get_meta_data(c);
     m->reference_counter++;
     m->garbage = false;
 }
@@ -55,11 +59,11 @@ void retain(obj *c)
 void release(obj *c)
 {
 
-    meta_data_t *meta_data = (meta_data_t *)c;
+    meta_data_t *meta_data = get_meta_data(c);
 
     if (c != NULL && meta_data->reference_counter >= 1)
     {
-        meta_data_t *m = (meta_data_t *)c;
+        meta_data_t *m = get_meta_data(c);
         m->reference_counter--;
     }
 
@@ -77,14 +81,14 @@ void release(obj *c)
 
 size_t rc(obj *c)
 {
-    meta_data_t *meta_data = (meta_data_t *)c;
+    meta_data_t *meta_data = get_meta_data(c);
     // meta_data->reference_counter++;
     return meta_data->reference_counter;
 }
 
 void deallocate(obj *c)
 {
-    meta_data_t *m = (meta_data_t *)c;
+    meta_data_t *m = get_meta_data(c);
 
     if (rc(c) == 0)
     {
@@ -98,3 +102,4 @@ void temp_deallocate(obj **object)
     free(*object);  // Free the object
     *object = NULL; // Destroy the pointer to the object
 }
+

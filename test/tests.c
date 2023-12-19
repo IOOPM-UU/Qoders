@@ -29,7 +29,7 @@ void destructor1(obj *object)
 void test_allocate()
 {
     obj *new_object = allocate(10, NULL);
-    meta_data_t *meta_data = (meta_data_t *)new_object;
+    meta_data_t *meta_data = get_meta_data(new_object);
 
     CU_ASSERT_PTR_NOT_NULL(new_object);
     CU_ASSERT_PTR_NULL(meta_data->destructor);
@@ -51,16 +51,18 @@ void test_allocate_array()
     obj *new_object = allocate_array(10, sizeof(int), NULL);
     CU_ASSERT_PTR_NOT_NULL(new_object);
 
-    meta_data_t *meta_data = (meta_data_t *)new_object;
+    meta_data_t *meta_data = get_meta_data(new_object);
+    printf("1.%ld ", meta_data->reference_counter);
+
     CU_ASSERT_PTR_NULL(meta_data->destructor);
     CU_ASSERT_EQUAL(meta_data->reference_counter, 0);
 
-    retain(meta_data);
-    printf("%d", meta_data->reference_counter);
+    retain(new_object);
+    printf("2.%ld ", meta_data->reference_counter);
     CU_ASSERT_EQUAL(meta_data->reference_counter, 1);
 
-    release(meta_data);
-    printf("%d", meta_data->reference_counter);
+    release(new_object);
+    printf("3.%ld ", meta_data->reference_counter);
     CU_ASSERT_EQUAL(meta_data->reference_counter, 0);
     // release(meta_data);
     // CU_ASSERT_PTR_NULL(new_object); // FIXME: Double free because no destructor
@@ -70,13 +72,13 @@ void test_retain()
 {
     obj *new_object = allocate(10, NULL);
     retain(new_object);
-    CU_ASSERT_EQUAL(((meta_data_t *)new_object)->reference_counter, 1);
+    CU_ASSERT_EQUAL(get_meta_data(new_object)->reference_counter, 1);
 }
 
 void test_release()
 {
     obj *new_object = allocate(10, NULL);
-    meta_data_t *meta_data = (meta_data_t *)new_object;
+    meta_data_t *meta_data = get_meta_data(new_object);
 
     CU_ASSERT_FALSE(meta_data->garbage);
     release(new_object);
@@ -103,7 +105,7 @@ int main()
         (CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
         (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
         (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
-        // (CU_add_test(my_test_suite, "test make", test_release) == NULL) ||
+        (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||
 
         0)
 
