@@ -30,5 +30,5 @@ void cleanup();
 void shutdown();
 void temp_deallocate(obj **object);
 
-int obj_address_hash_function(elem_t key);
+unsigned int obj_address_hash_function(elem_t key);
 bool meta_data_compare(elem_t elem1, elem_t elem2);

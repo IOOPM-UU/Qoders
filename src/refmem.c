@@ -8,16 +8,16 @@
 
 size_t cascade_limit = 100;
 
-ioopm_hash_table_t *ht = ioopm_hash_table_create(int_compare, meta_data_compare, obj_address_hash_function);
+#define ht ioopm_hash_table_create(int_compare, meta_data_compare, obj_address_hash_function)
 
 bool meta_data_compare(elem_t elem1, elem_t elem2)
 {
-    return elem1.p.reference_counter == elem2.p.reference_counter; // temp solution
+    return &elem1.p == &elem2.p; // temp solution
 }
 
-int obj_address_hash_function(elem_t key)
+unsigned int obj_address_hash_function(elem_t key)
 {
-    int *hash = &key.p.adress;
+    unsigned int *hash = (unsigned int)key.p;
     return *hash;
 }
 
@@ -119,6 +119,7 @@ void temp_deallocate(obj **object)
 
 void cleanup()
 {
+    ioopm_hash_table_apply_to_all_2(ht, deallocate);
 }
 
 void set_cascade_limit(size_t lim)

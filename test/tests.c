@@ -92,6 +92,16 @@ void test_hash_func()
     meta_data_t *meta_data = (meta_data_t *)new_object;
     printf("%d", obj_address_hash_function(ptr_elem(meta_data)));
     CU_ASSERT_TRUE(1 == 1);
+    release(new_object);
+}
+
+void test_cleanup()
+{
+    obj *new_object = allocate(10, NULL);
+    meta_data_t *meta_data = (meta_data_t *)new_object;
+    meta_data->reference_counter = 0;
+    cleanup();
+    CU_ASSERT(ioopm_hash_table_is_empty(ht));
 }
 
 int main()
@@ -114,7 +124,7 @@ int main()
         (CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
         (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
         (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
-        // (CU_add_test(my_test_suite, "test make", test_release) == NULL) ||
+        (CU_add_test(my_test_suite, "test hash func", test_hash_func) == NULL) ||
 
         0)
 
