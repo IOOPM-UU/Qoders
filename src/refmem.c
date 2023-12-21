@@ -100,9 +100,9 @@ size_t rc(obj *c)
     return meta_data->reference_counter;
 }
 
-void deallocate(obj *c)
+void deallocate(obj **c)
 {
-    meta_data_t *m = get_meta_data(c);
+    meta_data_t *m = get_meta_data(*c);
     // delay_t *list_delayed_frees = (delay_t)allocate(sizeof(delay_t), NULL);
 
     //this should keep the objects that are to be freed once we allocate something 
@@ -111,28 +111,30 @@ void deallocate(obj *c)
     if(set_cascade_limit == 0) {        
 
         if(list_delayed_frees->object_to_free == NULL) {
-            list_delayed_frees->object_to_free = c; 
+            list_delayed_frees = (delay_t *)malloc(sizeof(delay_t));
+            list_delayed_frees->object_to_free = NULL; 
             list_delayed_frees->next = NULL; 
 
         } else {
-            delay_t *last_object = list_delayed_frees->next;
+            delay_t *latest_object = (delay_t *)malloc(sizeof(delay_t));
+            latest_object->object_to_free = c;
 
             while(list_delayed_frees->next != NULL) {
-                last_object = list_delayed_frees->next; 
+                latest_object = list_delayed_frees->next; 
             }
 
-            list_delayed_frees->next = last_object; 
+            list_delayed_frees->next = latest_object; 
         }
-
-    } 
-
+    } else {
 
     while(list_delayed_frees->object_to_free != NULL) {
 
-        delay_t *current_list = list_delayed_frees; 
+        delay_t *current_list = list_delayed_frees->next; 
+        list_delayed_frees->next = current_list->next; 
 
         free(current_list->object_to_free); 
-
+        free(current_list);
+        }
     }
 
     free(m);
@@ -143,7 +145,7 @@ void deallocate(obj *c)
     //     m->destructor(c);
     // }
   
-}
+//}
 
 void temp_deallocate(obj **object)
 {
@@ -153,7 +155,6 @@ void temp_deallocate(obj **object)
 
 void cleanup()
 {
-
     cascade_limit--; //after each free we reduce the global variable by one
 }
 

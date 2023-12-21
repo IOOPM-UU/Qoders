@@ -18,7 +18,7 @@ struct meta_data
 
 struct delay 
 {
-    obj *object_to_free = NULL; 
+    obj **object_to_free = NULL; 
     delay_t *next; 
 };
 
