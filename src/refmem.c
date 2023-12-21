@@ -17,9 +17,7 @@ obj *allocate(size_t bytes, function1_t destructor)
 {
 
     if(cascade_limit == 0){
-
         cascade_limit = 100; 
-
     }
 
     obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
@@ -136,7 +134,7 @@ void deallocate(obj **c)
         free(current_list);
         }
     }
-
+    cascade_limit--; 
     free(m);
     }
 
@@ -155,7 +153,6 @@ void temp_deallocate(obj **object)
 
 void cleanup()
 {
-    cascade_limit--; //after each free we reduce the global variable by one
 }
 
 
