@@ -12,12 +12,15 @@ struct meta_data
 {
     meta_data_t *next;
     obj *adress;
-    int reference_counter;
+    size_t reference_counter;
     function1_t destructor;
     bool garbage; // [TRUE] if element is to be removed by cleanup
 };
 
 // TODO: Function Specifications
+
+meta_data_t *get_meta_data(obj *);
+
 void retain(obj *);
 void release(obj *);
 size_t rc(obj *);
