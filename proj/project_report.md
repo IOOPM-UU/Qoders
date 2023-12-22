@@ -1,5 +1,15 @@
+<<<<<<< HEAD
 # Project Report Y64 
 # Qoders 
+=======
+# Project Report
+Write a report where you summarise the main points of the project but also in which you reflect on how the team has worked together. You must use the report template here. Be sure to address all the items in the template!
+The project report goes into the file proj/project_report.md. This file should convince the examiner that you pass Y64. 
+
+
+
+Qoders 
+>>>>>>> e36e1ab6dc3c39dbadc5aa89953b7b1bc921a781
 
 # 1.1 Participant list
 | NAME | EMAIL |
@@ -49,6 +59,7 @@ For this project our main tools to have been used has been Visual Studio Code fo
     Discord as our main means of communication as it provides an intuitive UI and can be combined with built in bots that automatically provides us with up-to-date information from our Github repository. 
     Valgrind GDB cov 
 
+<<<<<<< HEAD
 #### Were you missing any tools?
 #### What tools would you rather not use in the future?
 
@@ -58,3 +69,6 @@ For this project our main tools to have been used has been Visual Studio Code fo
 # 6 Work Breakdown Structure
 
 # 7 Reflection
+=======
+7 Reflection
+>>>>>>> e36e1ab6dc3c39dbadc5aa89953b7b1bc921a781
