@@ -7,6 +7,7 @@
 size_t cascade_limit = 100;
 delay_t *list_delayed_frees;
 int counter = 0; 
+bool check = true; 
 
 
 meta_data_t *get_meta_data(obj *c){
@@ -145,7 +146,13 @@ void deallocate(obj **c)
         free(current_list);
         }
     }
-    cascade_limit--; 
+
+    if(check){
+        cascade_limit--; 
+    } else {
+        check = true; 
+    }
+
     free(m);
     }
 
@@ -164,6 +171,8 @@ void temp_deallocate(obj **object)
 
 void cleanup()
 {
+    
+    check = false; 
 }
 
 
