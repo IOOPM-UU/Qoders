@@ -36,10 +36,12 @@ UNIT_TESTS_OBJECTS = $(BUILD_DIR)/unit_tests.o
 all: clean_build
 all: build_directory
 all: $(MAIN_EXECUTABLE)
+all: run_main
 
 unit_tests: clean_build
 unit_tests: build_directory
 unit_tests: $(UNIT_TESTS_EXECUTABLE)
+unit_tests: run_tests
 
 run_tests:
 	./build/tests

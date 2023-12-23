@@ -136,7 +136,7 @@ void deallocate(obj **c)
     }
     cascade_limit--; 
     free(m);
-    }
+}
 
     // if (rc(c) == 0)
     // {
