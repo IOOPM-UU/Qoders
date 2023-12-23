@@ -112,6 +112,7 @@ size_t rc(obj *c)
 
 void deallocate(obj **c)
 {
+
     meta_data_t *m = get_meta_data(*c);
     // delay_t *list_delayed_frees = (delay_t)allocate(sizeof(delay_t), NULL);
 
