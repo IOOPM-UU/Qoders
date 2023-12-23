@@ -16,8 +16,8 @@ meta_data_t *get_meta_data(obj *c){
 obj *allocate(size_t bytes, function1_t destructor)
 {
     if(counter == 0){
-    list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
-    counter++; 
+        list_delayed_frees = (delay_t *)calloc(1, sizeof(delay_t));
+        counter++; 
     }
     
 
@@ -32,6 +32,7 @@ obj *allocate(size_t bytes, function1_t destructor)
         meta_data_t *meta_data = (meta_data_t *)new_object;
 
         meta_data->next = NULL;
+        meta_data->adress = &new_object + sizeof(meta_data_t);
         meta_data->reference_counter = 0;
         meta_data->destructor = destructor;
         meta_data->garbage = true;
@@ -109,45 +110,48 @@ size_t rc(obj *c)
     return meta_data->reference_counter;
 }
 
-void deallocate(obj **c)
+void deallocate(obj *c)
 {
-    meta_data_t *m = get_meta_data(*c);
+    meta_data_t *m = get_meta_data(c);
+    
     // delay_t *list_delayed_frees = (delay_t)allocate(sizeof(delay_t), NULL);
 
-    //this should keep the objects that are to be freed once we allocate something 
-    //new and reset the cascading list, the linked list is globally available and 
-    // can(should?) be used by cleanup()
-    if(cascade_limit == 0) {        
 
-        if(list_delayed_frees->object_to_free == NULL) {
-            list_delayed_frees = (delay_t *)malloc(sizeof(delay_t));
-            list_delayed_frees->object_to_free = NULL; 
-            list_delayed_frees->next = NULL; 
+    // if(cascade_limit == 0) {        
 
-        } else {
-            delay_t *latest_object = (delay_t *)malloc(sizeof(delay_t));
-            latest_object->object_to_free = c;
+    //     if(list_delayed_frees->object_to_free == NULL) {
+    //         list_delayed_frees = (delay_t *)malloc(sizeof(delay_t));
+    //         list_delayed_frees->object_to_free = NULL; 
+    //         list_delayed_frees->next = NULL; 
 
-            while(list_delayed_frees->next != NULL) {
-                latest_object = list_delayed_frees->next; 
-            }
+    //     } else {
+    //         delay_t *latest_object = (delay_t *)malloc(sizeof(delay_t));
+    //         latest_object->object_to_free = c;
 
-            list_delayed_frees->next = latest_object; 
-        }
-    } else {
+    //         while(list_delayed_frees->next != NULL) {
+    //             latest_object = list_delayed_frees->next; 
+    //         }
 
-    while(list_delayed_frees->object_to_free != NULL) {
+    //         list_delayed_frees->next = latest_object; 
+    //     }
+    // } else {
 
-        delay_t *current_list = list_delayed_frees->next; 
-        list_delayed_frees->next = current_list->next; 
+    // while(list_delayed_frees->object_to_free != NULL) {
 
-        free(current_list->object_to_free); 
-        free(current_list);
-        }
-    }
-    cascade_limit--; 
-    free(m);
-    }
+    //     delay_t *current_list = list_delayed_frees->next; 
+    //     list_delayed_frees->next = current_list->next; 
+
+    //     free(current_list->object_to_free); 
+    //     free(current_list);
+    //     }
+    // }
+
+    cascade_limit--;
+    // free(c);
+    // free(m);
+    free(&m);
+    c = NULL; 
+}
 
     // if (rc(c) == 0)
     // {

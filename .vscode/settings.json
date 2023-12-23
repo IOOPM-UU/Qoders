@@ -1,6 +1,15 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "__mutex_base": "c"
+        "__mutex_base": "c",
+        "refmem.h": "c",
+        "stdbool.h": "c",
+        "__hash_table": "c",
+        "__split_buffer": "c",
+        "memory_resource": "c",
+        "memory": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c"
     }
 }
