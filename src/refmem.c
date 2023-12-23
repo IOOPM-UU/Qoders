@@ -5,8 +5,8 @@
 #include <stdbool.h>
 
 size_t cascade_limit = 100;
-delay_t *list_delayed_frees = (delay_t)allocate(sizeof(delay_t), NULL); 
-
+delay_t *list_delayed_frees;
+int counter = 0; 
 
 
 meta_data_t *get_meta_data(obj *c){
@@ -15,6 +15,11 @@ meta_data_t *get_meta_data(obj *c){
 
 obj *allocate(size_t bytes, function1_t destructor)
 {
+    if(counter == 0){
+    list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
+    counter++; 
+    }
+    
 
     if(cascade_limit == 0){
         cascade_limit = 100; 
@@ -36,6 +41,12 @@ obj *allocate(size_t bytes, function1_t destructor)
     return new_object + sizeof(meta_data_t);
 }
 
+// void delayed_list_initialize() {
+//     list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
+// }
+
+
+// delayed_list_initialize();
 
 
 // we could make a hashtable that's dynamic
@@ -106,7 +117,7 @@ void deallocate(obj **c)
     //this should keep the objects that are to be freed once we allocate something 
     //new and reset the cascading list, the linked list is globally available and 
     // can(should?) be used by cleanup()
-    if(set_cascade_limit == 0) {        
+    if(cascade_limit == 0) {        
 
         if(list_delayed_frees->object_to_free == NULL) {
             list_delayed_frees = (delay_t *)malloc(sizeof(delay_t));
