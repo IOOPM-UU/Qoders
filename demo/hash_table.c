@@ -317,20 +317,6 @@ void ioopm_hash_table_apply_to_all(ioopm_hash_table_t *ht, ioopm_apply_function 
   }
 }
 
-void ioopm_hash_table_apply_to_all_2(ioopm_hash_table_t *ht, function1_t f)
-{
-  for (int i = 0; i < No_buckets; i++)
-  {
-    entry_t *ptr = ht->buckets[i]->next;
-
-    while (NULL != ptr)
-    {
-      f(&ptr->value);
-      ptr = ptr->next;
-    }
-  }
-}
-
 bool ioopm_hash_table_any(ioopm_hash_table_t *ht, ioopm_predicate P, void *x)
 {
   ioopm_list_t *keys = ioopm_hash_table_keys(ht);

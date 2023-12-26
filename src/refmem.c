@@ -6,23 +6,23 @@
 #include <string.h>
 #include <stdbool.h>
 
-size_t cascade_limit = 100;
+static size_t cascade_limit = 100;
 
-#define ht ioopm_hash_table_create(int_compare, meta_data_compare, obj_address_hash_function)
+ioopm_list_t *object_linked = NULL;
 
 bool meta_data_compare(elem_t elem1, elem_t elem2)
 {
-    return &elem1.p == &elem2.p; // temp solution
+    return elem1.p == elem2.p;
 }
 
-unsigned int obj_address_hash_function(elem_t key)
-{
-    unsigned int *hash = (unsigned int)key.p;
-    return *hash;
+void init_list()
+{ // temporary
+    object_linked = ioopm_linked_list_create(NULL);
 }
 
 meta_data_t *get_meta_data(obj *c)
 {
+    printf("222");
     return c - sizeof(meta_data_t);
 }
 
@@ -40,6 +40,7 @@ obj *allocate(size_t bytes, function1_t destructor)
         meta_data->destructor = destructor;
         meta_data->garbage = true;
     }
+    ioopm_linked_list_append(object_linked, ptr_elem(new_object + sizeof(meta_data_t)));
 
     return new_object + sizeof(meta_data_t);
 }
@@ -106,12 +107,16 @@ size_t rc(obj *c)
 
 void deallocate(obj *c)
 {
+    printf("test");
     meta_data_t *m = get_meta_data(c);
-
+    printf("HEJHEJ");
     if (rc(c) == 0)
     {
+        printf("testasdasdas");
         m->destructor(c);
+        printf("111");
     }
+    printf("333");
 
     free(m);
 }
@@ -124,10 +129,39 @@ void temp_deallocate(obj **object)
 
 void cleanup()
 {
-    ioopm_hash_table_apply_to_all_2(ht, deallocate);
+    printf("asdasd");
+    if (!ioopm_linked_list_is_empty(object_linked))
+    {
+        ioopm_list_iterator_t *iter = ioopm_list_iterator(object_linked);
+        int index = 0;
+        do
+        {
+            void *current = ioopm_iterator_current(iter).p;
+            if ((rc(current)) == 0)
+            {
+                printf("najajasd");
+                deallocate(get_meta_data(current)->adress);
+                printf("111");
+                ioopm_linked_list_remove(object_linked, index);
+                printf("222");
+                index--;
+            }
+            index++;
+            if (ioopm_iterator_has_next(iter))
+            {
+                ioopm_iterator_next(iter);
+            }
+        } while (ioopm_iterator_has_next(iter));
+        ioopm_iterator_destroy(&iter);
+    }
 }
 
 void set_cascade_limit(size_t lim)
 {
     cascade_limit = lim;
+}
+
+ioopm_list_t *get_obj_list()
+{
+    return object_linked;
 }

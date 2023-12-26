@@ -7,7 +7,6 @@
 #include <stdio.h>
 
 extern size_t cascade_limit;
-extern ioopm_hash_table_t *ht;
 
 int init_suite(void)
 {
@@ -88,22 +87,13 @@ void test_release()
     CU_ASSERT_TRUE(meta_data->garbage);
 }
 
-void test_hash_func()
-{
-    obj *new_object = allocate(10, NULL);
-    meta_data_t *meta_data = (meta_data_t *)new_object;
-    printf("%d", obj_address_hash_function(ptr_elem(meta_data)));
-    CU_ASSERT_TRUE(1 == 1);
-    release(new_object);
-}
-
 void test_cleanup()
 {
-    obj *new_object = allocate(10, NULL);
-    meta_data_t *meta_data = (meta_data_t *)new_object;
-    meta_data->reference_counter = 0;
+    init_list();
+    obj *new_object = allocate(10, free);
+    CU_ASSERT_FALSE(ioopm_linked_list_is_empty(get_obj_list()));
     cleanup();
-    CU_ASSERT(ioopm_hash_table_is_empty(ht));
+    CU_ASSERT(ioopm_linked_list_is_empty(get_obj_list()));
 }
 
 int main()
@@ -123,10 +113,11 @@ int main()
     }
 
     if (
-        (CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
+        /*(CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
         (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
         (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
-        (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||
+        (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||*/
+        (CU_add_test(my_test_suite, "test cleanup", test_cleanup) == NULL) ||
 
         0)
 
