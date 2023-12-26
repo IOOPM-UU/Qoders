@@ -6,9 +6,11 @@
 #include <string.h>
 #include <stdbool.h>
 
-static size_t cascade_limit = 100;
+delay_t *list_delayed_frees;
+int counter = 0;
+bool check = true;
 
-ioopm_list_t *object_linked = NULL;
+static size_t cascade_limit = 100;
 
 bool meta_data_compare(elem_t elem1, elem_t elem2)
 {
@@ -28,6 +30,16 @@ meta_data_t *get_meta_data(obj *c)
 
 obj *allocate(size_t bytes, function1_t destructor)
 {
+    if (counter == 0)
+    {
+        list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
+        counter++;
+    }
+
+    if (cascade_limit == 0)
+    {
+        cascade_limit = 100;
+    }
 
     obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
 
@@ -44,6 +56,12 @@ obj *allocate(size_t bytes, function1_t destructor)
 
     return new_object + sizeof(meta_data_t);
 }
+
+// void delayed_list_initialize() {
+//     list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
+// }
+
+// delayed_list_initialize();
 
 // we could make a hashtable that's dynamic
 // as we get closer to the threshold of our HT, we'll the double the amount of buckets
@@ -105,21 +123,69 @@ size_t rc(obj *c)
     return meta_data->reference_counter;
 }
 
-void deallocate(obj *c)
+void deallocate(obj **c)
 {
-    printf("test");
-    meta_data_t *m = get_meta_data(c);
-    printf("HEJHEJ");
-    if (rc(c) == 0)
+
+    meta_data_t *m = get_meta_data(*c);
+    // delay_t *list_delayed_frees = (delay_t)allocate(sizeof(delay_t), NULL);
+
+    // this should keep the objects that are to be freed once we allocate something
+    // new and reset the cascading list, the linked list is globally available and
+    //  can(should?) be used by cleanup()
+    if (cascade_limit == 0)
     {
-        printf("testasdasdas");
-        m->destructor(c);
-        printf("111");
+
+        if (list_delayed_frees->object_to_free == NULL)
+        {
+            list_delayed_frees = (delay_t *)malloc(sizeof(delay_t));
+            list_delayed_frees->object_to_free = NULL;
+            list_delayed_frees->next = NULL;
+        }
+        else
+        {
+            delay_t *latest_object = (delay_t *)malloc(sizeof(delay_t));
+            latest_object->object_to_free = c;
+
+            while (list_delayed_frees->next != NULL)
+            {
+                latest_object = list_delayed_frees->next;
+            }
+
+            list_delayed_frees->next = latest_object;
+        }
     }
-    printf("333");
+    else
+    {
+
+        while (list_delayed_frees->object_to_free != NULL)
+        {
+
+            delay_t *current_list = list_delayed_frees->next;
+            list_delayed_frees->next = current_list->next;
+
+            free(current_list->object_to_free);
+            free(current_list);
+        }
+    }
+
+    if (check)
+    {
+        cascade_limit--;
+    }
+    else
+    {
+        check = true;
+    }
 
     free(m);
 }
+
+// if (rc(c) == 0)
+// {
+//     m->destructor(c);
+// }
+
+//}
 
 void temp_deallocate(obj **object)
 {
