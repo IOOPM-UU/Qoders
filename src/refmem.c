@@ -9,6 +9,7 @@ delay_t *list_delayed_frees;
 int counter = 0; 
 bool check = true; 
 
+int deallocate_counter = 0; //PRELIMINARY
 
 meta_data_t *get_meta_data(obj *c){
     return c - sizeof(meta_data_t);
@@ -17,13 +18,13 @@ meta_data_t *get_meta_data(obj *c){
 obj *allocate(size_t bytes, function1_t destructor)
 {
     if(counter == 0){
-    list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
-    counter++; 
+        list_delayed_frees = (delay_t *)calloc(1, sizeof(delay_t));
+        counter++; 
     }
     
 
-    if(cascade_limit == 0){
-        cascade_limit = 100; 
+    if(deallocate_counter == cascade_limit){
+        deallocate_counter = 0; 
     }
 
     obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
@@ -33,12 +34,12 @@ obj *allocate(size_t bytes, function1_t destructor)
         meta_data_t *meta_data = (meta_data_t *)new_object;
 
         meta_data->next = NULL;
+        meta_data->adress = &new_object + sizeof(meta_data_t);
         meta_data->reference_counter = 0;
         meta_data->destructor = destructor;
         meta_data->garbage = true;
     }
-
-
+    
     return new_object + sizeof(meta_data_t);
 }
 
@@ -114,11 +115,9 @@ void deallocate(obj **c)
 {
 
     meta_data_t *m = get_meta_data(*c);
-    // delay_t *list_delayed_frees = (delay_t)allocate(sizeof(delay_t), NULL);
+    
+    // delay_t *list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
 
-    //this should keep the objects that are to be freed once we allocate something 
-    //new and reset the cascading list, the linked list is globally available and 
-    // can(should?) be used by cleanup()
     if(cascade_limit == 0) {        
 
         if(list_delayed_frees->object_to_free == NULL) {
@@ -148,14 +147,12 @@ void deallocate(obj **c)
         }
     }
 
-    if(check){
-        cascade_limit--; 
-    } else {
-        check = true; 
-    }
 
-    free(m);
-    }
+    deallocate_counter++;
+    free(m); //don't really know if this really frees the part that actually hold the data object...
+    *c = NULL; 
+}
+
 
     // if (rc(c) == 0)
     // {
