@@ -232,6 +232,6 @@ ioopm_list_t *get_obj_list()
 void shutdown()
 {
     cleanup();
-    ioopm_linked_list_destroy(object_linked);
+    ioopm_linked_list_destroy(&object_linked);
     free(list_delayed_frees);
 }

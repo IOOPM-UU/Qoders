@@ -101,10 +101,8 @@ void test_release()
 
 void test_cleanup()
 {
-    printf("DADSDASD");
     init_list();
     obj *new_object = allocate(10, free);
-    printf("SWAG");
     CU_ASSERT_FALSE(ioopm_linked_list_is_empty(get_obj_list()));
     cleanup();
     CU_ASSERT(ioopm_linked_list_is_empty(get_obj_list()));
