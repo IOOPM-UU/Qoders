@@ -9,8 +9,10 @@
 delay_t *list_delayed_frees;
 int counter = 0;
 bool check = true;
+ioopm_list_t *object_linked;
 
 static size_t cascade_limit = 100;
+size_t current_cascade = 100;
 
 bool meta_data_compare(elem_t elem1, elem_t elem2)
 {
@@ -20,26 +22,23 @@ bool meta_data_compare(elem_t elem1, elem_t elem2)
 void init_list()
 { // temporary
     object_linked = ioopm_linked_list_create(NULL);
+    list_delayed_frees = calloc(1, sizeof(delay_t));
 }
 
 meta_data_t *get_meta_data(obj *c)
 {
-    printf("222");
     return c - sizeof(meta_data_t);
 }
 
 obj *allocate(size_t bytes, function1_t destructor)
 {
-    if (counter == 0)
+    /*if (counter == 0)
     {
         list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
         counter++;
-    }
+    }*/
 
-    if (cascade_limit == 0)
-    {
-        cascade_limit = 100;
-    }
+    current_cascade = cascade_limit;
 
     obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
 
@@ -52,6 +51,7 @@ obj *allocate(size_t bytes, function1_t destructor)
         meta_data->destructor = destructor;
         meta_data->garbage = true;
     }
+
     ioopm_linked_list_append(object_linked, ptr_elem(new_object + sizeof(meta_data_t)));
 
     return new_object + sizeof(meta_data_t);
@@ -132,7 +132,7 @@ void deallocate(obj **c)
     // this should keep the objects that are to be freed once we allocate something
     // new and reset the cascading list, the linked list is globally available and
     //  can(should?) be used by cleanup()
-    if (cascade_limit == 0)
+    if (current_cascade == 0)
     {
 
         if (list_delayed_frees->object_to_free == NULL)
@@ -156,8 +156,8 @@ void deallocate(obj **c)
     }
     else
     {
-
-        while (list_delayed_frees->object_to_free != NULL)
+        obj **test = list_delayed_frees->object_to_free;
+        while (test != NULL)
         {
 
             delay_t *current_list = list_delayed_frees->next;
@@ -170,14 +170,14 @@ void deallocate(obj **c)
 
     if (check)
     {
-        cascade_limit--;
+        current_cascade--;
     }
     else
     {
         check = true;
     }
-
-    free(m);
+    free(*c);
+    // m->destructor(*c);
 }
 
 // if (rc(c) == 0)
@@ -195,7 +195,6 @@ void temp_deallocate(obj **object)
 
 void cleanup()
 {
-    printf("asdasd");
     if (!ioopm_linked_list_is_empty(object_linked))
     {
         ioopm_list_iterator_t *iter = ioopm_list_iterator(object_linked);
@@ -205,11 +204,8 @@ void cleanup()
             void *current = ioopm_iterator_current(iter).p;
             if ((rc(current)) == 0)
             {
-                printf("najajasd");
-                deallocate(get_meta_data(current)->adress);
-                printf("111");
+                deallocate(&get_meta_data(current)->adress);
                 ioopm_linked_list_remove(object_linked, index);
-                printf("222");
                 index--;
             }
             index++;
@@ -225,9 +221,17 @@ void cleanup()
 void set_cascade_limit(size_t lim)
 {
     cascade_limit = lim;
+    current_cascade = cascade_limit;
 }
 
 ioopm_list_t *get_obj_list()
 {
     return object_linked;
+}
+
+void shutdown()
+{
+    cleanup();
+    ioopm_linked_list_destroy(object_linked);
+    free(list_delayed_frees);
 }

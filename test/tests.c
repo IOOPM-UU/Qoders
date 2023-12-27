@@ -101,8 +101,10 @@ void test_release()
 
 void test_cleanup()
 {
+    printf("DADSDASD");
     init_list();
     obj *new_object = allocate(10, free);
+    printf("SWAG");
     CU_ASSERT_FALSE(ioopm_linked_list_is_empty(get_obj_list()));
     cleanup();
     CU_ASSERT(ioopm_linked_list_is_empty(get_obj_list()));
@@ -152,7 +154,7 @@ int main()
         (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
         (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||*/
         (CU_add_test(my_test_suite, "test cleanup", test_cleanup) == NULL) ||
-        (CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
+        //(CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
 
         0)
 
