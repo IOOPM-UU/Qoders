@@ -37,8 +37,7 @@ obj *allocate(size_t bytes, function1_t destructor)
         meta_data->destructor = destructor;
         meta_data->garbage = true;
     }
-
-
+    
     return new_object + sizeof(meta_data_t);
 }
 
@@ -110,47 +109,44 @@ size_t rc(obj *c)
     return meta_data->reference_counter;
 }
 
-void deallocate(obj *c)
+void deallocate(obj **c)
 {
-    meta_data_t *m = get_meta_data(c);
+    meta_data_t *m = get_meta_data(*c);
     
-    // delay_t *list_delayed_frees = (delay_t)allocate(sizeof(delay_t), NULL);
+    // delay_t *list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
 
+    if(cascade_limit == 0) {        
 
-    // if(cascade_limit == 0) {        
+        if(list_delayed_frees->object_to_free == NULL) {
+            list_delayed_frees = (delay_t *)malloc(sizeof(delay_t));
+            list_delayed_frees->object_to_free = NULL; 
+            list_delayed_frees->next = NULL; 
 
-    //     if(list_delayed_frees->object_to_free == NULL) {
-    //         list_delayed_frees = (delay_t *)malloc(sizeof(delay_t));
-    //         list_delayed_frees->object_to_free = NULL; 
-    //         list_delayed_frees->next = NULL; 
+        } else {
+            delay_t *latest_object = (delay_t *)malloc(sizeof(delay_t));
+            latest_object->object_to_free = c;
 
-    //     } else {
-    //         delay_t *latest_object = (delay_t *)malloc(sizeof(delay_t));
-    //         latest_object->object_to_free = c;
+            while(list_delayed_frees->next != NULL) {
+                latest_object = list_delayed_frees->next; 
+            }
 
-    //         while(list_delayed_frees->next != NULL) {
-    //             latest_object = list_delayed_frees->next; 
-    //         }
+            list_delayed_frees->next = latest_object; 
+        }
+    } else {
 
-    //         list_delayed_frees->next = latest_object; 
-    //     }
-    // } else {
+    while(list_delayed_frees->object_to_free != NULL) {
 
-    // while(list_delayed_frees->object_to_free != NULL) {
+        delay_t *current_list = list_delayed_frees->next; 
+        list_delayed_frees->next = current_list->next; 
 
-    //     delay_t *current_list = list_delayed_frees->next; 
-    //     list_delayed_frees->next = current_list->next; 
-
-    //     free(current_list->object_to_free); 
-    //     free(current_list);
-    //     }
-    // }
+        free(current_list->object_to_free); 
+        free(current_list);
+        }
+    }
 
     cascade_limit--;
-    // free(c);
-    // free(m);
-    free(&m);
-    c = NULL; 
+    free(m); //don't really know if this really frees the part that actually hold the data object...
+    *c = NULL; 
 }
 
     // if (rc(c) == 0)
