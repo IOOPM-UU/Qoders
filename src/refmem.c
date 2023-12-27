@@ -8,6 +8,7 @@ size_t cascade_limit = 100;
 delay_t *list_delayed_frees;
 int counter = 0; 
 
+int deallocate_counter = 0; //PRELIMINARY
 
 meta_data_t *get_meta_data(obj *c){
     return c - sizeof(meta_data_t);
@@ -21,8 +22,8 @@ obj *allocate(size_t bytes, function1_t destructor)
     }
     
 
-    if(cascade_limit == 0){
-        cascade_limit = 100; 
+    if(deallocate_counter == cascade_limit){
+        deallocate_counter = 0; 
     }
 
     obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
@@ -144,7 +145,7 @@ void deallocate(obj **c)
         }
     }
 
-    cascade_limit--;
+    deallocate_counter++;
     free(m); //don't really know if this really frees the part that actually hold the data object...
     *c = NULL; 
 }
