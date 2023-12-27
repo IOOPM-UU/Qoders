@@ -7,6 +7,7 @@
 size_t cascade_limit = 100;
 delay_t *list_delayed_frees;
 int counter = 0; 
+bool check = true; 
 
 int deallocate_counter = 0; //PRELIMINARY
 
@@ -112,6 +113,7 @@ size_t rc(obj *c)
 
 void deallocate(obj **c)
 {
+
     meta_data_t *m = get_meta_data(*c);
     
     // delay_t *list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
@@ -145,10 +147,12 @@ void deallocate(obj **c)
         }
     }
 
+
     deallocate_counter++;
     free(m); //don't really know if this really frees the part that actually hold the data object...
     *c = NULL; 
 }
+
 
     // if (rc(c) == 0)
     // {
@@ -165,6 +169,8 @@ void temp_deallocate(obj **object)
 
 void cleanup()
 {
+    
+    check = false; 
 }
 
 

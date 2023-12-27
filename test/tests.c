@@ -25,7 +25,17 @@ void destructor1(obj *object)
         free(object);
     }
 }
+void test_create_object(){
+    obj *new_object = allocate(10, NULL);
+    meta_data_t *meta_data = get_meta_data(new_object);
+    CU_ASSERT_PTR_NOT_NULL(new_object);
+    CU_ASSERT_PTR_NULL(meta_data->next); 
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 0); 
+    CU_ASSERT_PTR_NULL(meta_data->destructor); 
+    CU_ASSERT(meta_data->garbage); 
 
+    release(new_object);
+}
 void test_allocate()
 {
     obj *new_object1 = allocate(10, NULL);
@@ -58,13 +68,16 @@ void test_allocate_array()
 
     meta_data_t *meta_data = get_meta_data(new_object);
 
+
     CU_ASSERT_PTR_NULL(meta_data->destructor);
     CU_ASSERT_EQUAL(meta_data->reference_counter, 0);
 
     retain(new_object);
+
     CU_ASSERT_EQUAL(meta_data->reference_counter, 1);
 
     release(new_object);
+
     CU_ASSERT_EQUAL(meta_data->reference_counter, 0);
 
     deallocate(&new_object);
@@ -84,8 +97,32 @@ void test_release()
     meta_data_t *meta_data = get_meta_data(new_object);
 
     // CU_ASSERT_FALSE(meta_data->garbage);
+
     release(new_object);
     CU_ASSERT_TRUE(meta_data->garbage);
+}
+
+void test_deallocate(){
+    
+    obj *new_object = allocate(10, NULL);
+
+    meta_data_t *meta_data = get_meta_data(new_object);
+
+    CU_ASSERT_PTR_NOT_NULL(new_object);
+
+    deallocate(new_object);
+
+    CU_ASSERT_PTR_NOT_NULL(new_object);
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 0); 
+
+    retain(new_object);
+
+    deallocate(new_object);
+
+    CU_ASSERT_PTR_NOT_NULL(new_object);
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 1); 
+    
+
 }
 
 int main()
@@ -105,10 +142,12 @@ int main()
     }
 
     if (
+        (CU_add_test(my_test_suite, "test create object", test_create_object) == NULL) ||
         (CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
         (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
         (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
         (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||
+        (CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
 
         0)
 
