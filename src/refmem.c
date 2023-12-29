@@ -24,6 +24,7 @@ void init_list()
     object_linked = ioopm_linked_list_create(NULL);
     list_delayed_frees = calloc(1, sizeof(delay_t));
 }
+int deallocate_counter = 0; // PRELIMINARY
 
 meta_data_t *get_meta_data(obj *c)
 {
@@ -32,13 +33,16 @@ meta_data_t *get_meta_data(obj *c)
 
 obj *allocate(size_t bytes, function1_t destructor)
 {
-    /*if (counter == 0)
+    if (counter == 0)
     {
-        list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
+        list_delayed_frees = (delay_t *)calloc(1, sizeof(delay_t));
         counter++;
-    }*/
+    }
 
-    current_cascade = cascade_limit;
+    if (deallocate_counter == cascade_limit)
+    {
+        deallocate_counter = 0;
+    }
 
     obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
 
@@ -47,6 +51,7 @@ obj *allocate(size_t bytes, function1_t destructor)
         meta_data_t *meta_data = (meta_data_t *)new_object;
 
         meta_data->next = NULL;
+        meta_data->adress = &new_object + sizeof(meta_data_t);
         meta_data->reference_counter = 0;
         meta_data->destructor = destructor;
         meta_data->garbage = true;
@@ -168,16 +173,9 @@ void deallocate(obj **c)
         }
     }
 
-    if (check)
-    {
-        current_cascade--;
-    }
-    else
-    {
-        check = true;
-    }
-    free(*c);
-    // m->destructor(*c);
+    deallocate_counter++;
+    free(m); // don't really know if this really frees the part that actually hold the data object...
+    *c = NULL;
 }
 
 // if (rc(c) == 0)
