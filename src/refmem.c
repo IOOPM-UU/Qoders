@@ -148,6 +148,7 @@ void deallocate(obj **c)
         }
 
         free(list_delayed_frees);
+        counter = 0;
     }
 
     // obj *test = m->adress;
