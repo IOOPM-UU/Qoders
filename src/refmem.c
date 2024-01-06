@@ -5,14 +5,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <assert.h>
 
 delay_t *list_delayed_frees;
-int counter = 0;
+size_t counter = 100;
 bool check = true;
-ioopm_list_t *object_linked;
-
+ioopm_list_t *object_list;
 static size_t cascade_limit = 100;
-size_t current_cascade = 100;
+
+int deallocate_counter = 0; // PRELIMINARY
 
 bool meta_data_compare(elem_t elem1, elem_t elem2)
 {
@@ -21,10 +22,30 @@ bool meta_data_compare(elem_t elem1, elem_t elem2)
 
 void init_list()
 { // temporary
-    object_linked = ioopm_linked_list_create(NULL);
+    object_list = ioopm_linked_list_create(NULL);
     list_delayed_frees = calloc(1, sizeof(delay_t));
 }
-int deallocate_counter = 0; // PRELIMINARY
+
+void remove_from_list(obj *obj)
+{
+    assert(!ioopm_linked_list_is_empty(object_list));
+    ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
+    size_t index = 0;
+    do
+    {
+        if (index != 0)
+        {
+            ioopm_iterator_next(iter);
+        }
+        if (ioopm_iterator_current(iter).p == obj)
+        {
+            ioopm_linked_list_remove(object_list, index);
+            ioopm_iterator_destroy(&iter);
+            return;
+        }
+        index++;
+    } while (ioopm_iterator_has_next(iter));
+}
 
 meta_data_t *get_meta_data(obj *c)
 {
@@ -56,8 +77,7 @@ obj *allocate(size_t bytes, function1_t destructor)
         meta_data->destructor = destructor;
         meta_data->garbage = true;
     }
-
-    ioopm_linked_list_append(object_linked, ptr_elem(new_object + sizeof(meta_data_t)));
+    ioopm_linked_list_append(object_list, ptr_elem(new_object + sizeof(meta_data_t)));
 
     return new_object + sizeof(meta_data_t);
 }
@@ -130,14 +150,9 @@ size_t rc(obj *c)
 
 void deallocate(obj **c)
 {
-
     meta_data_t *m = get_meta_data(*c);
-    // delay_t *list_delayed_frees = (delay_t)allocate(sizeof(delay_t), NULL);
-
-    // this should keep the objects that are to be freed once we allocate something
-    // new and reset the cascading list, the linked list is globally available and
-    //  can(should?) be used by cleanup()
-    if (current_cascade == 0)
+    // delay_t *list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
+    if (counter == 0)
     {
 
         if (list_delayed_frees->object_to_free == NULL)
@@ -161,10 +176,8 @@ void deallocate(obj **c)
     }
     else
     {
-        obj **test = list_delayed_frees->object_to_free;
-        while (test != NULL)
+        while (list_delayed_frees->object_to_free != NULL)
         {
-
             delay_t *current_list = list_delayed_frees->next;
             list_delayed_frees->next = current_list->next;
 
@@ -172,7 +185,16 @@ void deallocate(obj **c)
             free(current_list);
         }
     }
+    remove_from_list(*c);
+    /*if (m->destructor != NULL)
+    {
+        m->destructor(*c);
 
+    }
+    else
+    {
+        free(*c);
+    }*/
     deallocate_counter++;
     free(m); // don't really know if this really frees the part that actually hold the data object...
     *c = NULL;
@@ -193,17 +215,16 @@ void temp_deallocate(obj **object)
 
 void cleanup()
 {
-    if (!ioopm_linked_list_is_empty(object_linked))
+    if (!ioopm_linked_list_is_empty(object_list))
     {
-        ioopm_list_iterator_t *iter = ioopm_list_iterator(object_linked);
+        ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
         int index = 0;
         do
         {
-            void *current = ioopm_iterator_current(iter).p;
+            obj *current = (obj *)ioopm_iterator_current(iter).p;
             if ((rc(current)) == 0)
             {
-                deallocate(&get_meta_data(current)->adress);
-                ioopm_linked_list_remove(object_linked, index);
+                deallocate(&current);
                 index--;
             }
             index++;
@@ -219,17 +240,22 @@ void cleanup()
 void set_cascade_limit(size_t lim)
 {
     cascade_limit = lim;
-    current_cascade = cascade_limit;
+    counter = cascade_limit;
 }
 
 ioopm_list_t *get_obj_list()
 {
-    return object_linked;
+    return object_list;
 }
 
 void shutdown()
 {
     cleanup();
-    ioopm_linked_list_destroy(&object_linked);
-    free(list_delayed_frees);
+    ioopm_linked_list_destroy(&object_list);
+    while (list_delayed_frees != NULL)
+    {
+        delay_t *next_delay = list_delayed_frees->next;
+        free(list_delayed_frees);
+        list_delayed_frees = next_delay;
+    }
 }
