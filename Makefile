@@ -44,7 +44,7 @@ unit_tests: $(UNIT_TESTS_EXECUTABLE)
 unit_tests: run_tests
 
 run_tests:
-	valgrind --leak-check=full ./build/tests
+	valgrind --leak-check=full --show-leak-kinds=all ./build/tests
 
 run_main:
 	valgrind --leak-check=full ./build/main

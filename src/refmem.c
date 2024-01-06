@@ -116,18 +116,18 @@ void deallocate(obj **c)
 
     meta_data_t *m = get_meta_data(*c);
     
-    // delay_t *list_delayed_frees = (delay_t *)allocate(sizeof(delay_t), NULL);
-
-    if(cascade_limit == 0) {        
+    if(deallocate_counter == cascade_limit) {        
 
         if(list_delayed_frees->object_to_free == NULL) {
-            list_delayed_frees = (delay_t *)malloc(sizeof(delay_t));
-            list_delayed_frees->object_to_free = NULL; 
+            // free(list_delayed_frees); 
+            // counter = 0; 
+            // list_delayed_frees = (delay_t *)malloc(sizeof(delay_t));
+            list_delayed_frees->object_to_free = *c; //UNSURE
             list_delayed_frees->next = NULL; 
 
         } else {
             delay_t *latest_object = (delay_t *)malloc(sizeof(delay_t));
-            latest_object->object_to_free = c;
+            latest_object->object_to_free = *c; //UNSURE
 
             while(list_delayed_frees->next != NULL) {
                 latest_object = list_delayed_frees->next; 
@@ -144,12 +144,15 @@ void deallocate(obj **c)
 
         free(current_list->object_to_free); 
         free(current_list);
+        deallocate_counter++;
         }
+
+        free(list_delayed_frees);
     }
 
-
-    deallocate_counter++;
+    // obj *test = m->adress;
     free(m); //don't really know if this really frees the part that actually hold the data object...
+    // free(list_delayed_frees);
     *c = NULL; 
 }
 
