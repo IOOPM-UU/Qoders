@@ -1,7 +1,4 @@
 # Code Quality Report Y65
-# Qoders
-==========
-# Code Quality Report
 
 
 ---
