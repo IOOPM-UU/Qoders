@@ -36,16 +36,18 @@ UNIT_TESTS_OBJECTS = $(BUILD_DIR)/unit_tests.o
 all: clean_build
 all: build_directory
 all: $(MAIN_EXECUTABLE)
+all: run_main
 
 unit_tests: clean_build
 unit_tests: build_directory
 unit_tests: $(UNIT_TESTS_EXECUTABLE)
+unit_tests: run_tests
 
 run_tests:
-	./build/tests
+	valgrind --leak-check=full ./build/tests
 
 run_main:
-	./build/main
+	valgrind --leak-check=full ./build/main
 
 clean_build: 
 	make clean
@@ -53,10 +55,10 @@ clean_build:
 build_directory:
 	mkdir build
 
-$(MAIN_EXECUTABLE): $(MAIN_OBJECTS) #$(DEMO_OBJECTS)
+$(MAIN_EXECUTABLE): $(MAIN_OBJECTS) $(DEMO_OBJECTS)
 	$(CC) $(CFLAGS) $(INC_DIR) -o $@ $^
 
-$(UNIT_TESTS_EXECUTABLE): $(UNIT_TESTS_OBJECTS) $(MAIN_OBJECTS)
+$(UNIT_TESTS_EXECUTABLE): $(UNIT_TESTS_OBJECTS) $(MAIN_OBJECTS) $(DEMO_OBJECTS)
 	$(CC) $(CFLAGS) $(INC_DIR) -o $@ $^ -lcunit
 
 $(BUILD_DIR)/%.o: $(MAIN_DIR)/%.c
