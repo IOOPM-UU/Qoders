@@ -1,11 +1,16 @@
-#include "refmem.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <assert.h>
 
-size_t cascade_limit = 100;
-delay_t *list_delayed_frees;
+#include "../demo/hash_table.h"
+#include "../demo/common.h"
+
+#include "refmem.h"
+
+size_t cascade_limit = 0;
+ioopm_list_t *list_delayed_frees;
 int counter = 0; 
 bool check = true; 
 
@@ -18,13 +23,30 @@ meta_data_t *get_meta_data(obj *c){
 obj *allocate(size_t bytes, function1_t destructor)
 {
     if(counter == 0){
-        list_delayed_frees = (delay_t *)calloc(1, sizeof(delay_t));
+        list_delayed_frees = ioopm_linked_list_create(NULL);
         counter++; 
-    }
-    
+    }    
 
-    if(deallocate_counter == cascade_limit){
-        deallocate_counter = 0; 
+    if (deallocate_counter == cascade_limit) {
+        int index = 0; 
+        ioopm_link_t *current = list_delayed_frees->head->next; 
+
+        while(current != NULL) {
+
+            ioopm_link_t *tmp = list_delayed_frees->head->next;
+            free(list_delayed_frees->head->value.p);
+            free(list_delayed_frees->head);
+            list_delayed_frees->head = tmp; 
+            current = current->next; 
+
+            index++;
+
+            //if we hit the limit will clearing the saved objects, send the latest
+            //object back to deallocate  
+            if(index == cascade_limit) {
+                deallocate(&tmp->value.p);
+            }
+        }
     }
 
     obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
@@ -48,15 +70,36 @@ obj *allocate(size_t bytes, function1_t destructor)
 // }
 
 
-// delayed_list_initialize();
-
-
-// we could make a hashtable that's dynamic
-// as we get closer to the threshold of our HT, we'll the double the amount of buckets
-// then resize all of the entries that we previously added
-
 obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
 {
+
+    if(counter == 0){
+        list_delayed_frees = calloc(1, sizeof(delay_t));
+        counter++; 
+    }
+
+    if(deallocate_counter == cascade_limit) {
+        deallocate_counter = 0; //reset the counter once we allocate
+        ioopm_link_t *current = list_delayed_frees->head->next; 
+        
+        while(current != NULL) {
+
+            ioopm_link_t *tmp = current;
+            current = current->next; 
+       
+            free(tmp->value.p); 
+
+            deallocate_counter++; //keep checking how many saved objects that are being freed
+
+            //if we hit the limit while clearing the saved objects, send the latest
+            //object back to deallocate, will be append to the end of the list
+            if(deallocate_counter == cascade_limit) {
+                deallocate(&tmp->value.p);
+            }
+        }
+        ioopm_linked_list_destroy(&list_delayed_frees); 
+    }
+
 
     obj *new_object = (obj *)calloc(elements, elem_size + sizeof(meta_data_t));
 
@@ -65,7 +108,7 @@ obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
         meta_data_t *meta_data = (meta_data_t *)new_object;
 
         meta_data->next = NULL;
-        meta_data->adress = &new_object;
+        meta_data->adress = &new_object + sizeof(meta_data_t);
         meta_data->reference_counter = 0;
         meta_data->destructor = destructor;
         meta_data->garbage = true;
@@ -97,73 +140,32 @@ void release(obj *c)
         meta_data->garbage = true;
     }
 
-    // else {
-    //      temp_deallocate(&c);
-    //  }
-
-    // CLEAN-UP checks if destructor exists or not
 }
 
-size_t rc(obj *c)
-{
+size_t rc(obj *c) {
     meta_data_t *meta_data = get_meta_data(c);
-    // meta_data->reference_counter++;
     return meta_data->reference_counter;
 }
 
-void deallocate(obj **c)
-{
+void deallocate(obj **c) {
 
     meta_data_t *m = get_meta_data(*c);
-    
-    if(deallocate_counter == cascade_limit) {        
 
-        if(list_delayed_frees->object_to_free == NULL) {
-            // free(list_delayed_frees); 
-            // counter = 0; 
-            // list_delayed_frees = (delay_t *)malloc(sizeof(delay_t));
-            list_delayed_frees->object_to_free = *c; //UNSURE
-            list_delayed_frees->next = NULL; 
+    if (m->reference_counter != 0) {
+        printf ("Error: Only non-zero are able to be dealloacted");
+        return; 
+    } 
 
-        } else {
-            delay_t *latest_object = (delay_t *)malloc(sizeof(delay_t));
-            latest_object->object_to_free = *c; //UNSURE
-
-            while(list_delayed_frees->next != NULL) {
-                latest_object = list_delayed_frees->next; 
-            }
-
-            list_delayed_frees->next = latest_object; 
-        }
-    } else {
-
-    while(list_delayed_frees->object_to_free != NULL) {
-
-        delay_t *current_list = list_delayed_frees->next; 
-        list_delayed_frees->next = current_list->next; 
-
-        free(current_list->object_to_free); 
-        free(current_list);
-        deallocate_counter++;
-        }
-
-        free(list_delayed_frees);
-        counter = 0;
+    if (deallocate_counter == cascade_limit) {
+        ioopm_linked_list_append(list_delayed_frees, ptr_elem(*c));
+        return; 
     }
-
-    // obj *test = m->adress;
-    free(m); //don't really know if this really frees the part that actually hold the data object...
-    // free(list_delayed_frees);
+    deallocate_counter++;
+    ioopm_linked_list_destroy(&list_delayed_frees); 
+    free(m);
     *c = NULL; 
 }
 
-
-    // if (rc(c) == 0)
-    // {
-    //     m->destructor(c);
-    // }
-  
-//}
 
 void temp_deallocate(obj **object)
 {
