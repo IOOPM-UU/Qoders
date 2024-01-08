@@ -7,6 +7,9 @@
 #include "iterator.h"
 #include "common.h"
 
+typedef void obj;
+typedef void (*function1_t)(obj *);
+
 /**
  * @file hash_table.h
  * @author Susanna och Alex
@@ -28,7 +31,7 @@ typedef int (*hash_fn)(elem_t elem);
 /// @param key_fn function that operates on key
 /// @param value_fn function that operates on value
 /// @param hash function that returns an integer (used for hashing key)
-ioopm_hash_table_t *ioopm_hash_table_create(ioopm_eq_function key_fun ,ioopm_eq_function value_fun, hash_fn hash);
+ioopm_hash_table_t *ioopm_hash_table_create(ioopm_eq_function key_fun, ioopm_eq_function value_fun, hash_fn hash);
 
 /// @brief Delete a hash table and free its memory
 /// @param ht a hash table to be deleted
@@ -106,31 +109,31 @@ void ioopm_hash_table_apply_to_all(ioopm_hash_table_t *ht, ioopm_apply_function 
 
 struct entry
 {
-  elem_t key;       // holds the key
-  elem_t value;   // holds the value
+  elem_t key;    // holds the key
+  elem_t value;  // holds the value
   entry_t *next; // points to the next entry (possibly NULL)
 };
 
 struct hash_table
 {
-  entry_t *buckets[17]; //array of buckets with linked lists
-  size_t entries; //total amout of entries in hashtable
-  ioopm_eq_function key_function; //function that compares keys 
-  ioopm_eq_function value_function; //function that compares values
-  hash_fn hash_func; //function that returns an integer (used for hashing key)
+  entry_t *buckets[17];             // array of buckets with linked lists
+  size_t entries;                   // total amout of entries in hashtable
+  ioopm_eq_function key_function;   // function that compares keys
+  ioopm_eq_function value_function; // function that compares values
+  hash_fn hash_func;                // function that returns an integer (used for hashing key)
 };
 
 struct option
 {
-  bool success; //represent the success/failure of the function which the option was returned from
-  elem_t value; //holds the value
+  bool success; // represent the success/failure of the function which the option was returned from
+  elem_t value; // holds the value
 };
 
 /// @brief turns values to the string "hej"
 /// @param ht hash table operated upon
 /// @param value value which will change to "hej"
 /// @param x extra argument
-void value_hej (elem_t key, elem_t *value, void *x);
+void value_hej(elem_t key, elem_t *value, void *x);
 
 /// @brief compares two values and returns true if they are the same
 /// @param key the key related to the value
@@ -140,7 +143,7 @@ void value_hej (elem_t key, elem_t *value, void *x);
 bool search_value(elem_t key, elem_t value, void *x);
 
 /// @brief hash function for strings
-/// @param key key to be hashed 
+/// @param key key to be hashed
 /// @return hashed key (integer)
 int string_hash_function(elem_t key);
 
@@ -151,6 +154,8 @@ int string_hash_function(elem_t key);
 int get_hash(ioopm_hash_table_t *ht, elem_t key);
 
 /// @brief hash function for integers
-/// @param key key to be hashed 
+/// @param key key to be hashed
 /// @return hashed key (integer)
 int int_hash_function(elem_t key);
+
+void ioopm_hash_table_apply_to_all_2(ioopm_hash_table_t *ht, function1_t f);

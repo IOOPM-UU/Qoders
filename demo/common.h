@@ -5,13 +5,15 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-
 typedef union elem elem_t;
-typedef bool(*ioopm_eq_function)(elem_t a, elem_t b);
+typedef bool (*ioopm_eq_function)(elem_t a, elem_t b);
 
-#define int_elem(x) (elem_t) { .i=(x) }
-#define ptr_elem(x) (elem_t) { .p=(x) }
-#define str_elem(x) (elem_t) { .s=(x) }
+#define int_elem(x) \
+  (elem_t) { .i = (x) }
+#define ptr_elem(x) \
+  (elem_t) { .p = (x) }
+#define str_elem(x) \
+  (elem_t) { .s = (x) }
 
 /// @brief compares two string elements
 /// @param a string_element to compare
@@ -25,13 +27,12 @@ bool string_compare(elem_t a, elem_t b);
 /// @return true if a and b are the same, else return false
 bool int_compare(elem_t a, elem_t b);
 
-
 union elem
 {
   int i;
-  unsigned int u; //field holding unsigned integer
-  bool b; //field holding boolean
-  float f; //field holding float integer
-  void *p; //field holding pointer
-  char *s; //field holding string
+  unsigned int u; // field holding unsigned integer
+  bool b;         // field holding boolean
+  float f;        // field holding float integer
+  void *p;        // field holding pointer
+  char *s;        // field holding string
 };
