@@ -7,17 +7,20 @@
 
 #define No_buckets 17
 
-int get_hash(ioopm_hash_table_t *ht, elem_t key){
+int get_hash(ioopm_hash_table_t *ht, elem_t key)
+{
   return ht->hash_func(key);
 }
 
-int string_hash_function(elem_t key){
-    char *str =key.s;
-    return atoi(str);
+int string_hash_function(elem_t key)
+{
+  char *str = key.s;
+  return atoi(str);
 }
 
-int int_hash_function(elem_t key){
-  int number =key.i;
+int int_hash_function(elem_t key)
+{
+  int number = key.i;
   return number;
 }
 
@@ -73,8 +76,8 @@ static entry_t *find_previous_entry_for_key(entry_t **bkt, elem_t key, ioopm_eq_
 {
   entry_t *fst_entry = *bkt;
 
-
-  if (fst_entry->next == NULL){
+  if (fst_entry->next == NULL)
+  {
     return fst_entry;
   }
 
@@ -96,13 +99,13 @@ static entry_t *find_previous_entry_for_key(entry_t **bkt, elem_t key, ioopm_eq_
   return prev_curr;
 }
 
-bool ioopm_int_str_ht_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value )
+bool ioopm_int_str_ht_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value)
 {
   ioopm_eq_function F = ht->key_function;
   elem_t hashed_key = int_elem(get_hash(ht, key));
   if (hashed_key.i >= 0)
   {
-    elem_t bucket_index = int_elem(hashed_key.i%17);
+    elem_t bucket_index = int_elem(hashed_key.i % 17);
 
     /// Search for an existing entry for a key
     entry_t *entry = find_previous_entry_for_key(&ht->buckets[bucket_index.i], key, F);
@@ -130,7 +133,7 @@ bool ioopm_int_str_ht_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value )
 option_t ioopm_hash_table_lookup(ioopm_hash_table_t *ht, elem_t key)
 {
   /// Find the previous entry for key
-  int hash = get_hash(ht, key)%17;
+  int hash = get_hash(ht, key) % 17;
   ioopm_eq_function F = ht->key_function;
 
   if (hash >= 0)
@@ -163,7 +166,7 @@ void ioopm_hash_table_entry_remove(ioopm_hash_table_t *ht, elem_t key)
   int hashed_key = get_hash(ht, key);
   if (hashed_key >= 0)
   {
-    int bucket = hashed_key%17;
+    int bucket = hashed_key % 17;
     entry_t *entry = find_previous_entry_for_key(&ht->buckets[bucket], key, F);
     entry_t *next = entry->next;
 
@@ -290,7 +293,7 @@ bool ioopm_hash_table_has_value(ioopm_hash_table_t *ht, elem_t value)
     }
     else
     {
-      curr=ioopm_iterator_next(values_ht);
+      curr = ioopm_iterator_next(values_ht);
     }
   }
 
@@ -311,13 +314,12 @@ void ioopm_hash_table_apply_to_all(ioopm_hash_table_t *ht, ioopm_apply_function 
       f(ptr->key, &ptr->value, x);
       ptr = ptr->next;
     }
-    
   }
 }
 
 bool ioopm_hash_table_any(ioopm_hash_table_t *ht, ioopm_predicate P, void *x)
 {
-  ioopm_list_t *keys = ioopm_hash_table_keys(ht); 
+  ioopm_list_t *keys = ioopm_hash_table_keys(ht);
   ioopm_list_t *ht_values = ioopm_hash_table_values(ht);
 
   ioopm_list_iterator_t *key_iter = ioopm_list_iterator(keys);
@@ -328,12 +330,13 @@ bool ioopm_hash_table_any(ioopm_hash_table_t *ht, ioopm_predicate P, void *x)
 
   bool result = false;
 
-  for (size_t i = 0; i < keys->size && !result; ++i) 
+  for (size_t i = 0; i < keys->size && !result; ++i)
   {
     result = result || P(curr_key, curr_value, x);
-    if (ioopm_iterator_has_next(key_iter) && ioopm_iterator_has_next(val_iter)){
-        curr_key = ioopm_iterator_next(key_iter);
-        curr_value = ioopm_iterator_next(val_iter);  
+    if (ioopm_iterator_has_next(key_iter) && ioopm_iterator_has_next(val_iter))
+    {
+      curr_key = ioopm_iterator_next(key_iter);
+      curr_value = ioopm_iterator_next(val_iter);
     }
   }
   ioopm_iterator_destroy(&key_iter);
@@ -345,7 +348,7 @@ bool ioopm_hash_table_any(ioopm_hash_table_t *ht, ioopm_predicate P, void *x)
 
 bool ioopm_hash_table_all(ioopm_hash_table_t *ht, ioopm_predicate P, void *x)
 {
-  ioopm_list_t *keys = ioopm_hash_table_keys(ht); 
+  ioopm_list_t *keys = ioopm_hash_table_keys(ht);
   ioopm_list_t *ht_values = ioopm_hash_table_values(ht);
 
   ioopm_list_iterator_t *key_iter = ioopm_list_iterator(keys);
@@ -356,12 +359,13 @@ bool ioopm_hash_table_all(ioopm_hash_table_t *ht, ioopm_predicate P, void *x)
 
   bool result = true;
 
-  for (size_t i = 0; i < keys->size && result; ++i) 
+  for (size_t i = 0; i < keys->size && result; ++i)
   {
     result = result && P(curr_key, curr_value, x);
-        if (ioopm_iterator_has_next(key_iter) && ioopm_iterator_has_next(val_iter)){
-        curr_key = ioopm_iterator_next(key_iter);
-        curr_value = ioopm_iterator_next(val_iter);  
+    if (ioopm_iterator_has_next(key_iter) && ioopm_iterator_has_next(val_iter))
+    {
+      curr_key = ioopm_iterator_next(key_iter);
+      curr_value = ioopm_iterator_next(val_iter);
     }
   }
   ioopm_iterator_destroy(&key_iter);
@@ -371,10 +375,12 @@ bool ioopm_hash_table_all(ioopm_hash_table_t *ht, ioopm_predicate P, void *x)
   return result;
 }
 
-void value_hej (elem_t key, elem_t *value, void *x){
+void value_hej(elem_t key, elem_t *value, void *x)
+{
   value->s = "hej";
 }
 
-bool search_value(elem_t key, elem_t value, void *x) {
+bool search_value(elem_t key, elem_t value, void *x)
+{
   return strcmp(value.s, x) == 0;
 }
