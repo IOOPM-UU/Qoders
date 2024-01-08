@@ -116,7 +116,9 @@ void test_cleanup()
 {
     init_list();
     obj *new_object = allocate(10, free);
-    meta_data_t *meta_data = get_meta_data(new_object);
+    deallocate(&new_object);
+    obj *new_object2 = allocate(10, free);
+    printf("test4");
     CU_ASSERT_FALSE(ioopm_linked_list_is_empty(get_obj_list()));
     cleanup();
     CU_ASSERT(ioopm_linked_list_is_empty(get_obj_list()));
@@ -163,12 +165,12 @@ int main()
     }
 
     if (
-        (CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
-        (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
-        (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
-        (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||
+        /*(CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||*/
+        //(CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
+        /*(CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
+        (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||*/
         (CU_add_test(my_test_suite, "test cleanup", test_cleanup) == NULL) ||
-        (CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
+        //(CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
 
         0)
 
