@@ -118,7 +118,6 @@ void test_cleanup()
     obj *new_object = allocate(10, free);
     deallocate(&new_object);
     obj *new_object2 = allocate(10, free);
-    printf("test4");
     CU_ASSERT_FALSE(ioopm_linked_list_is_empty(get_obj_list()));
     cleanup();
     CU_ASSERT(ioopm_linked_list_is_empty(get_obj_list()));
