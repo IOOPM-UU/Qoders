@@ -44,10 +44,10 @@ unit_tests: $(UNIT_TESTS_EXECUTABLE)
 unit_tests: run_tests
 
 run_tests:
-	./build/tests
+	valgrind --leak-check=full ./build/tests
 
 run_main:
-	./build/main
+	valgrind --leak-check=full ./build/main
 
 clean_build: 
 	make clean
