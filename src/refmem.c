@@ -45,7 +45,6 @@ void remove_from_list(obj *obj)
         }
         index++;
     } while (ioopm_iterator_has_next(iter));
-    ioopm_iterator_destroy(&iter);
 }
 
 meta_data_t *get_meta_data(obj *c)
@@ -79,6 +78,7 @@ obj *allocate(size_t bytes, function1_t destructor)
         meta_data->garbage = true;
     }
     ioopm_linked_list_append(object_list, ptr_elem(new_object + sizeof(meta_data_t)));
+
     return new_object + sizeof(meta_data_t);
 }
 
@@ -145,8 +145,7 @@ size_t rc(obj *c)
 {
     meta_data_t *meta_data = get_meta_data(c);
     // meta_data->reference_counter++;
-    size_t ref = meta_data->reference_counter;
-    return ref;
+    return meta_data->reference_counter;
 }
 
 void deallocate(obj **c)
@@ -216,35 +215,24 @@ void temp_deallocate(obj **object)
 
 void cleanup()
 {
-    bool loop = false;
     if (!ioopm_linked_list_is_empty(object_list))
     {
         ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
         int index = 0;
         do
         {
-            printf("loop");
             obj *current = (obj *)ioopm_iterator_current(iter).p;
-            printf("rc");
             if ((rc(current)) == 0)
             {
-                printf("INrc");
                 deallocate(&current);
-                printf("Deallocated");
                 index--;
             }
-            printf("OUTrc");
             index++;
             if (ioopm_iterator_has_next(iter))
             {
-                loop = true;
                 ioopm_iterator_next(iter);
             }
-            else
-            {
-                loop = false;
-            }
-        } while (loop);
+        } while (ioopm_iterator_has_next(iter));
         ioopm_iterator_destroy(&iter);
     }
 }
