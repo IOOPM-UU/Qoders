@@ -9,15 +9,6 @@ typedef struct meta_data meta_data_t;
 typedef struct delay delay_t;
 typedef void (*function1_t)(obj *);
 
-struct meta_data
-{
-    meta_data_t *next;
-    obj *adress;
-    size_t reference_counter;
-    function1_t destructor;
-    bool garbage; // [TRUE] if element is to be removed by cleanup
-};
-
 struct delay
 {
     obj *object_to_free;

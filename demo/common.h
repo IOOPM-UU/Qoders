@@ -7,6 +7,9 @@
 
 typedef union elem elem_t;
 typedef bool (*ioopm_eq_function)(elem_t a, elem_t b);
+typedef struct meta_data meta_data_t;
+typedef void obj;
+typedef void (*function1_t)(obj *);
 
 #define int_elem(x) \
   (elem_t) { .i = (x) }
@@ -35,4 +38,13 @@ union elem
   float f;        // field holding float integer
   void *p;        // field holding pointer
   char *s;        // field holding string
+  meta_data_t *mt;// field holding en fuling   
+};
+struct meta_data
+{
+    meta_data_t *next;
+    obj *adress;
+    size_t reference_counter;
+    function1_t destructor;
+    bool garbage; // [TRUE] if element is to be removed by cleanup
 };

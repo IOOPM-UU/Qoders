@@ -52,23 +52,19 @@ void ioopm_linked_list_append(ioopm_list_t *list, elem_t num)
 {
     assert(list);
     ioopm_link_t *new_link = link_create(num, NULL);
-    printf("test7");
     // if the list is empty
     if (list->head->next == NULL)
     {
-        printf("test8");
         list->head->next = new_link;
         list->last = new_link;
     }
     else
     {
-        printf("test9");
         list->last->next = new_link;
         list->last = new_link;
     }
 
     list->size++;
-    printf("test10");
 }
 
 void ioopm_linked_list_insert(ioopm_list_t *list, size_t index, elem_t value)
