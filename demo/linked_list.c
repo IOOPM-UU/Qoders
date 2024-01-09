@@ -100,7 +100,7 @@ elem_t ioopm_linked_list_remove(ioopm_list_t *list, size_t index)
     ioopm_link_t *nxt = NULL;
     if (index == 0)
     {
-        list->head = curr; // edited by hector, maybe wrong...?
+        list->head->next = curr;
     }
     else if (index == list->size - 1)
     {

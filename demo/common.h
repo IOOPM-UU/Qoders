@@ -7,9 +7,11 @@
 
 typedef union elem elem_t;
 typedef bool (*ioopm_eq_function)(elem_t a, elem_t b);
-typedef struct meta_data meta_data_t;
 typedef void obj;
+typedef struct meta_data meta_data_t;
 typedef void (*function1_t)(obj *);
+
+
 
 #define int_elem(x) \
   (elem_t) { .i = (x) }
@@ -17,6 +19,17 @@ typedef void (*function1_t)(obj *);
   (elem_t) { .p = (x) }
 #define str_elem(x) \
   (elem_t) { .s = (x) }
+#define mt_elem(x) \
+  (elem_t) { .mt = (x) }
+
+struct meta_data
+{
+    meta_data_t *next;
+    obj *adress;
+    size_t reference_counter;
+    function1_t destructor;
+    bool garbage; // [TRUE] if element is to be removed by cleanup
+};
 
 /// @brief compares two string elements
 /// @param a string_element to compare
@@ -37,14 +50,7 @@ union elem
   bool b;         // field holding boolean
   float f;        // field holding float integer
   void *p;        // field holding pointer
-  char *s;        // field holding string
-  meta_data_t *mt;// field holding en fuling   
+  char *s;        // field holding string 
+  meta_data_t *mt;// field holding a fuling
 };
-struct meta_data
-{
-    meta_data_t *next;
-    obj *adress;
-    size_t reference_counter;
-    function1_t destructor;
-    bool garbage; // [TRUE] if element is to be removed by cleanup
-};
+

@@ -8,7 +8,7 @@
 #include <assert.h>
 
 ioopm_list_t *list_delayed_frees;
-size_t counter = 0;
+bool instantiate = true;
 bool check = true;
 ioopm_list_t *object_list;
 static size_t cascade_limit = 100;
@@ -17,11 +17,10 @@ int deallocate_counter = 0; // PRELIMINARY
 
 bool meta_data_compare(elem_t elem1, elem_t elem2)
 {
-    return elem1.p == elem2.p;
+    return elem1.mt->adress == elem2.mt->adress;
 }
 
-
-void remove_from_list(obj *obj)
+void remove_from_list(meta_data_t *md)
 {
     assert(!ioopm_linked_list_is_empty(object_list));
     ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
@@ -32,7 +31,7 @@ void remove_from_list(obj *obj)
         {
             ioopm_iterator_next(iter);
         }
-        if (ioopm_iterator_current(iter).p == obj)
+        if (ioopm_iterator_current(iter).mt->adress == md->adress)
         {
             ioopm_linked_list_remove(object_list, index);
             ioopm_iterator_destroy(&iter);
@@ -40,6 +39,7 @@ void remove_from_list(obj *obj)
         }
         index++;
     } while (ioopm_iterator_has_next(iter));
+    ioopm_iterator_destroy(&iter);
 }
 
 meta_data_t *get_meta_data(obj *c)
@@ -49,11 +49,11 @@ meta_data_t *get_meta_data(obj *c)
 
 obj *allocate(size_t bytes, function1_t destructor)
 {
-    if (counter == 0)
+    if (instantiate)
     {
         list_delayed_frees = ioopm_linked_list_create(NULL);
         object_list = ioopm_linked_list_create(NULL);
-        counter++;
+        instantiate = false;
     }
 
     if (deallocate_counter == cascade_limit)
@@ -63,18 +63,16 @@ obj *allocate(size_t bytes, function1_t destructor)
 
     obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
 
-    if (new_object != NULL)
-    {
-        meta_data_t *meta_data = (meta_data_t *)new_object;
 
-        meta_data->next = NULL;
-        meta_data->adress = &new_object + sizeof(meta_data_t);
-        meta_data->reference_counter = 0;
-        meta_data->destructor = destructor;
-        meta_data->garbage = true;
-    }
+    meta_data_t *meta_data = (meta_data_t *)new_object;
 
-    ioopm_linked_list_append(object_list, ptr_elem(new_object + sizeof(meta_data_t)));
+    meta_data->next = NULL;
+    meta_data->adress = &new_object + sizeof(meta_data_t);
+    meta_data->reference_counter = 0;
+    meta_data->destructor = destructor;
+    meta_data->garbage = true;
+
+    ioopm_linked_list_append(object_list, mt_elem(meta_data));
 
     return new_object + sizeof(meta_data_t);
 }
@@ -89,7 +87,7 @@ obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
         meta_data_t *meta_data = (meta_data_t *)new_object;
 
         meta_data->next = NULL;
-        meta_data->adress = &new_object;
+        meta_data->adress = &new_object + sizeof(meta_data_t); //check allocate
         meta_data->reference_counter = 0;
         meta_data->destructor = destructor;
         meta_data->garbage = true;
@@ -105,17 +103,16 @@ void retain(obj *c)
     m->garbage = false;
 }
 
-void release(obj *c)
+void release(obj **c)
 {
-
-    meta_data_t *meta_data = get_meta_data(c);
-
-    if (c != NULL && meta_data->reference_counter > 0)
-    {
-        meta_data_t *m = get_meta_data(c);
-        m->reference_counter--;
-    } else {
-        deallocate(&c);
+    if(*c != NULL) {
+        meta_data_t *meta_data = get_meta_data(*c);
+   
+        meta_data->reference_counter--;
+        if (meta_data->reference_counter < 1)
+        {
+            deallocate(c);
+        }
     }
 }
 
@@ -130,7 +127,7 @@ void deallocate(obj **c) {
 
     meta_data_t *m = get_meta_data(*c);
 
-    if (m->reference_counter != 0) {
+    if (m->reference_counter > 0) {
         printf ("Error: Only non-zero are able to be dealloacted");
         return; 
     } 
@@ -141,32 +138,35 @@ void deallocate(obj **c) {
     }
 
     deallocate_counter++;
-    ioopm_linked_list_destroy(&list_delayed_frees); 
     free(m);
+    remove_from_list(m);   
     *c = NULL; 
 }
 
 
 void cleanup()
 {
+    
     if (!ioopm_linked_list_is_empty(object_list))
     {
         ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
+        bool first = true;
         int index = 0;
         do
         {
+            if(first){
+                first = false;
+            }else{
+                ioopm_iterator_next(iter);
+            }
             meta_data_t *current = ioopm_iterator_current(iter).mt;
-            obj *object = current->adress;
-            if ((rc(object)) == 0)
+            if (current->reference_counter == 0)
             {
-                deallocate(object);
+                ioopm_linked_list_remove(object_list, index);
+                free(current);
                 index--;
             }
             index++;
-            if (ioopm_iterator_has_next(iter))
-            {
-                ioopm_iterator_next(iter);
-            }
         } while (ioopm_iterator_has_next(iter));
         ioopm_iterator_destroy(&iter);
     }
@@ -176,7 +176,7 @@ void cleanup()
 void set_cascade_limit(size_t lim)
 {
     cascade_limit = lim;
-    counter = cascade_limit;
+    deallocate_counter = 0;
 }
 
 ioopm_list_t *get_obj_list()
@@ -184,15 +184,19 @@ ioopm_list_t *get_obj_list()
     return object_list;
 }
 
+void free_elem(elem_t *element, void* extra) {
+    free(element->mt);
+}  
+
 void shutdown()
 {
-    cleanup();
     if(object_list != NULL){
+        cleanup();
+        ioopm_linked_list_apply_to_all(object_list, free_elem, NULL);
         ioopm_linked_list_destroy(&object_list);
     }
     if(list_delayed_frees != NULL){
         ioopm_linked_list_destroy(&list_delayed_frees);
     }
 }
-    
     
