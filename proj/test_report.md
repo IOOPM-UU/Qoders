@@ -23,8 +23,8 @@ We have performed our regression testing simply by being vigilant in making sure
 <!-- Include a graphical overview of the code coverage. You should make every effort to get 100% code and branch coverage. For every statement or branch that you have not tested, you must include a motivation for why that is and an argument for why the untested code/branch is correct. -->
 
 <!-- List your 6 most nasty bugs by linking to their issue pages on GitHub. -->
-1. 
-2. 
+1. Standard padding 
+2. Man MIA 
 3. 
 4. 
 5. 
