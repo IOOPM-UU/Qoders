@@ -1,11 +1,11 @@
 # Code Quality Report Y65
 
 
----
+<!--
 ####Tankar/frågor/TODO:
 - "Usage of dynamic memory is well-documented, and deallocation is handled appropriately." Ska detta verkligen va med?
 - Prestanda måste va med (varför koden är bra)
----
+-->
 
 
 ## Introduction
