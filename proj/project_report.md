@@ -96,4 +96,22 @@ It is difficult to assess the "size" of tasks that are different in nature and d
 - your thoughts on how does one estimate how much time a task will take
 
 # 7 Reflection
+
+    How confident you are that have actually implemented the right thing (why, how, etc.)
+    We feel confident that what we delivered has been implemented in the correct way as we can achieve the purpose of the task at hand, however 
+
+    On a scale 1–7 (7 is best), rate your satisfaction with your process and provide justification for that number
+    5, we feel that our process has worked well despite us feeling stressed in the last days before the presentation struggling to finish all aspects of the project. We believe the process itself has worked fine but we could improve on being more strict in following the process itself. 
+
+    On a scale 1–7 (7 is best), rate your satisfaction with your delivered product and provide justification for that number
+    5, 
+
+    On a scale 1–7 (7 is best), rate your satisfaction with your quality assurance and provide justification for that number
+    6, our quality assurance worked by having someone that did not write the code(preferably the tech lead) examine the pull requests and then after review push it to the master branch, we believe this was a good system and allowed us to find each others errors efficiently. Other than using a tech lead and pull requests we also worked a lot with unit testing to ensure our quality. 
+
+    what does the team consider its biggest win?
+    Collaboration was a big win for us as we managed to split the project into smaller tasks which were then delegated, spread across the group. This allowed us to efficiently have a good idea of what was supposed to be done and who was supposed to do what. 
+
+    what does the team consider its biggest fail?
+    The biggest fail may have been to not be more strict on when and what would be finished, discovering that parts we believed to be finished was in fact not. 
 <!-- TODO: -->
