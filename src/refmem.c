@@ -141,8 +141,8 @@ void deallocate(obj **c)
     }
 
     deallocate_counter++;
-    free(m);
     remove_from_list(m);
+    free(m);
     *c = NULL;
 }
 
@@ -199,7 +199,8 @@ void shutdown()
     if (object_list != NULL)
     {
         cleanup();
-        ioopm_linked_list_apply_to_all(object_list, free_elem, NULL);
+
+        // ioopm_linked_list_apply_to_all(object_list, free_elem, NULL);
         ioopm_linked_list_destroy(&object_list);
     }
     if (list_delayed_frees != NULL)

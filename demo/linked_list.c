@@ -121,7 +121,7 @@ elem_t ioopm_linked_list_remove(ioopm_list_t *list, size_t index)
     }
     elem_t val = curr->value;
     list->size -= 1;
-    free(curr);
+    // free(curr);
     return val;
 }
 
