@@ -10,40 +10,41 @@ Together with the actual pull request log on GitHub, this file should convince t
 
 ## Introduction
 
-In the development of our project we utilized pull requests as well as using diffrent branches for diffrent part of the project. We also utilized continuous reviewing of code that integrates into the "master" branch. This report aims to provide insights into our code review process, highlighting the use of pull requests, the incorporation of a code review protocol, and the overall impact on the project's quality and collaboration.
+We utilized diffrent branches for diffrent parts of the project and the review the integration of those branches into the "master" branch using pullrequests. This report aims to expalin our process and its overall impact on the project.
 
 ## Code Review Process
 
 ### Branching Strategy
 
-Throughout the project, we have employed a branching strategy, working with branches or forks derived from the "master" branch. Whether using branches in a shared repository or personal forks in private repositories, this strategy allowed us to work on different aspects of the project concurrently,as well as easily switching between working on diffrent parts of the project. This allowed us to easily test, experiement, and work on diffrent parts without having to worry about some other parts of the system.
+We chose to divide the project into smaller "tickets" and divide these tickets amoung the group. This meant diffrent parts of the code were being worked on at the same time. To not cause conflicts we decided to create diffrent branches of each new part of the project and only when complete and functionall was it going to be added into the "master" branch. This allowed us to not have to worry about messing something up or ruining something for each other. It allowed us to easlity test, exeriment and switch bewteen working on diffrent parts of the projct easily.
 
 ### Pull Requests for Formalization
 
-Before any code is committed to the "master" branch, a code review is mandatory. Pull Requests serve as a formalized process to facilitate this review. This involves having another team member, who did not write the code, most often our designated tech lead, thoroughly review it before merging. This process ensures quality assurance, encourages shared responsibility for correctness, promotes better code writing practices, and elevates project knowledge among team members.
+Before the complete and functional code was added into the "master" branch it had to be review and double-check by someone who has not written it to make sure it does not conflict with existing code. Otherwise, we could easily be creating new bugs and errors or overwrite code. It also ensures our code is of the highest quality, not only because someone else has to understand it but also because unnecessary code get pointed out. To do this we utilized pull request which the someone else in the project, most often our designated tech-lead, could review.
 
 ### Tech Lead 
 
-A crucial step in our process and what made this stategy actually reliable and easy, is the designated tech lead responsible for overseeing the technical aspects of the prject. This made collaborating and working on the projects code a lot easier since there was one person having a broader view of the project and allowed the rest to focus more on a smaller part of the project. This created highrer quality code while still makeing sure diffrent parts were compatible with eachother and working with eachother as they should.
-A team member could work on a part of the project in their own branch and then initiate a pull request into the "master" branch when done. The tech lead would then review the code to ensure high-quality standards and prevent any adverse impacts on existing code. If the tech lead was the one to initiate a pull request, another team member would independently reviews the code.
+As meantioned, we had a designated member of the team take on the role as the tech-leach or tech-support. This meant, among other things, being responsible for thouroly reviewing all pull requests. The reason we chose to have a desinated perosn for reviewing pull request is because the whole process simplifies greatly. Instead of having to find another member of the team to review your code, each member could simply open a pull request and be done with it. Then the tech-lead would see that a new pull request has been opened and review it. This made collaborating and working on the project a whole lot easier as well as elevating the overall quality of the code since now the tech-lead has a broad overview of the entire code and is more capable of making sure all parts of the code are working togher as they should and that everyone in the team is working together in the same direction. This ensured our code was of the highest quality and promoted a more smooth and efficient work enviroment. When the tech-lead himself would initiate a pull request another member of the team that had not worked on it would review it.
 
 ### Code Review Protocol
 
-In our code review process, we loosly used a code review protocol to aid in the reviewing procress. We used [this one](https://github.com/IOOPM-UU/ioopm15/blob/master/extramaterial/kodgranskningsprotokoll.pdf).
+During our code review process,we loosly used [this](https://github.com/IOOPM-UU/ioopm15/blob/master/extramaterial/kodgranskningsprotokoll.pdf) code review protocol. We used it in the sense of giving us a good idea of what to look for but we did not use it for every review as a checklist.
 
 ## Reflection on Code Review
 
 ### Consequences of Code Reviews
 
-Implementing code reviews before committing code has proven to be highly beneficial. It served as a crucial step in our development workflow, ensuring code quality, preventing errors, and incentivizes a collaborative environment.
+Implementing this stategy of review all code going into the "master" branch proved to be suårisingly benefisial. It helped us working as a lager group on diffrent parts of the code without having to step on each others toes, while still being able to write on the latest version of ours projects code. This ensured an efficient and collaborative work enviroment as well as ensuring the highest quality code.
 
-### GitHub Diffs Support
+### GitHub
 
 GitHub's colorful differentials have been invaluable in visually understanding code changes. The visual representation aids in quickly understanding the modifications made, making the review process more efficient and reducing the chances of overseeing something.
 
+GitHub simple and straightforward UI have been crucial in this process, greatly simplifing the entire process. Without it this whole prcoess of initiating pull request would most likely be worth the effort. Furthermore, GitHubs diffrentials viewer was equally crucial since it easily allowed us to view and understand what changes and modifications have been made. This all made the review process a smooth and efficent way to work.
+
 ### Pull Request Iterations
 
-The frequency of pushing back pull requests for changes has been minimal. This is a testament to the effectiveness of our code review process, where issues are identified and addressed before code is merged into the "master" branch.
+The frequency of pushing back pull request or changing them has been minimal. This is a testament to how effective this stategy has been. The reason for this is that it promotes higher quality code as well as only adding code into the "master" branch when fully complete.
 
 ### Project Statistics
 
@@ -54,6 +55,6 @@ The frequency of pushing back pull requests for changes has been minimal. This i
 
 ## Project Reflection
 
-If we were to restart the project tomorrow, the aspects we would use agian include the use of branches for different components of the project and the double-check process by the tech lead with pull requests. These elements have significantly contributed to maintaining code quality and preventing errors and bugs. However, we would maybe consider refining the code review protocol since we did not consistently use it. We could have made it more closely align with our project's specific needs. 
+If we would restart the project again tomorrow, not much of our work process would change. The stategy of branches, pull request, and a tech-lead were in our opinion greatly benefitial to our workflow and promoted a collaborative and efficent enviroment within the team. The only thing we might would want to look at refining is the code review protocol since we feel like we did not utilize it to its fullest potensial. We would look into modifing it to better fit our project, code, and team.
 
-In conclusion, our code review process has played a vital role in ensuring the quality of our project codebase. The lessons learned from this experience will undoubtedly influence our future development practices, emphasizing the importance of disciplined code reviews in real-world scenarios.
+In conclusion, our code review process of branches, pull request, and a tech-lead has played a vital part of our project and is certently going to influence our future project practices.
