@@ -14,6 +14,7 @@ In the development of our project, we have prioritized writing code of high qual
 ## Code Quality Criteria
 To adhere to the Y65 standard, we have considered various criteria of code quality:
 <!-- FIXME: Måste lägga till prestanda-->
+<!-- FIXME: vilken coding style -->
 1. **Readability:**
    - We have followed a consistent coding style throughout the project, promoting readability.
    - Meaningful variable and function names have been chosen to enhance understanding.
