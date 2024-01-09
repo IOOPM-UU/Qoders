@@ -5,17 +5,13 @@
 #include "../demo/common.h"
 
 
-typedef struct delay delay_t;
+// typedef struct delay delay_t;
 
-
-
-
-
-struct delay
-{
-    obj *object_to_free;
-    delay_t *next;
-};
+// struct delay
+// {
+//     obj *object_to_free;
+//     delay_t *next;
+// };
 
 // TODO: Function Specifications
 

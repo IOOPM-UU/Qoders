@@ -41,7 +41,7 @@ void remove_from_list(meta_data_t *md)
     } 
     while (ioopm_iterator_has_next(iter));
     
-    // ioopm_linked_list_destroy(&iter);
+    ioopm_iterator_destroy(&iter);
 }
 
 meta_data_t *get_meta_data(obj *c)
