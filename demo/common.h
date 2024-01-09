@@ -26,7 +26,7 @@ struct meta_data
 {
     meta_data_t *next;
     obj *adress;
-    size_t reference_counter;
+    int reference_counter;
     function1_t destructor;
     bool garbage; // [TRUE] if element is to be removed by cleanup
 };

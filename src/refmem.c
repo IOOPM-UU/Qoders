@@ -38,8 +38,10 @@ void remove_from_list(meta_data_t *md)
             return;
         }
         index++;
-    } while (ioopm_iterator_has_next(iter));
-    ioopm_iterator_destroy(&iter);
+    } 
+    while (ioopm_iterator_has_next(iter));
+    
+    // ioopm_linked_list_destroy(&iter);
 }
 
 meta_data_t *get_meta_data(obj *c)
@@ -63,11 +65,10 @@ obj *allocate(size_t bytes, function1_t destructor)
 
     obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
 
-
     meta_data_t *meta_data = (meta_data_t *)new_object;
 
     meta_data->next = NULL;
-    meta_data->adress = &new_object + sizeof(meta_data_t);
+    meta_data->adress = new_object + sizeof(meta_data_t);
     meta_data->reference_counter = 0;
     meta_data->destructor = destructor;
     meta_data->garbage = true;
@@ -87,7 +88,7 @@ obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
         meta_data_t *meta_data = (meta_data_t *)new_object;
 
         meta_data->next = NULL;
-        meta_data->adress = &new_object + sizeof(meta_data_t); //check allocate
+        meta_data->adress = new_object + sizeof(meta_data_t); //check allocate
         meta_data->reference_counter = 0;
         meta_data->destructor = destructor;
         meta_data->garbage = true;
@@ -138,15 +139,14 @@ void deallocate(obj **c) {
     }
 
     deallocate_counter++;
-    free(m);
     remove_from_list(m);   
+    free(m);
     *c = NULL; 
 }
 
 
 void cleanup()
 {
-    
     if (!ioopm_linked_list_is_empty(object_list))
     {
         ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
@@ -163,7 +163,7 @@ void cleanup()
             if (current->reference_counter == 0)
             {
                 ioopm_linked_list_remove(object_list, index);
-                free(current);
+                // free(current);
                 index--;
             }
             index++;

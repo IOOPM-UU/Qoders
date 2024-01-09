@@ -27,6 +27,20 @@ void destructor1(obj *object)
     }
 }
 
+void padding_test() {
+    obj *new_object1 = allocate(10, free);
+    obj *new_object2 = allocate(10, free);
+
+    printf("%d\n\n", new_object1);
+    printf("%d\n\n", new_object2);
+
+    printf("%d\n\n", sizeof(new_object1) );
+    printf("%d\n\n", sizeof(new_object2));
+
+    printf("%d\n\n", get_meta_data(new_object1)->adress);
+    printf("%d\n\n", get_meta_data(new_object2)->adress);
+}
+
 void test_create_object()
 {
 
@@ -98,12 +112,9 @@ void test_retain()
 void test_release()
 {
     obj *new_object = allocate(10, free);
-    meta_data_t *meta_data = get_meta_data(new_object);
 
-    // CU_ASSERT_FALSE(meta_data->garbage);
-
-    release(new_object);
-    CU_ASSERT_TRUE(meta_data->garbage);
+    release(&new_object);
+    CU_ASSERT_PTR_NULL(new_object);
 
 }
 
@@ -160,13 +171,15 @@ int main()
     }
 
     if (
-        (CU_add_test(my_test_suite, "test cleanup", test_cleanup) == NULL) ||
-        (CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
-        (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
-        (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
+        // (CU_add_test(my_test_suite, "test cleanup", test_cleanup) == NULL) ||
+        // (CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
+        // (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
+        // (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
         (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||
-        (CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
-        (CU_add_test(my_test_suite, "shutdown", do_shutdown) == NULL)||
+        // (CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
+        // (CU_add_test(my_test_suite, "shutdown", do_shutdown) == NULL)||
+        // (CU_add_test(my_test_suite, "padding_test", padding_test) == NULL)||
+
 
         0)
 

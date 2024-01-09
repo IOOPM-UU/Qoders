@@ -12,6 +12,7 @@
         "unordered_map": "c",
         "vector": "c",
         "stdint.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "linked_list.h": "c"
     }
 }
