@@ -22,3 +22,9 @@ Overall, it's a project that tackles the common issues in manual memory manageme
 <!-- ## TODO: You must also describe all deviations from the full specification. --> 
 Retain deallocate double pointers
 get_metadata
+
+
+30-50h total amount of wor
+
+
+

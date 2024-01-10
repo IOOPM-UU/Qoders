@@ -23,12 +23,19 @@ We have performed our regression testing simply by being vigilant in making sure
 <!-- Include a graphical overview of the code coverage. You should make every effort to get 100% code and branch coverage. For every statement or branch that you have not tested, you must include a motivation for why that is and an argument for why the untested code/branch is correct. -->
 
 <!-- List your 6 most nasty bugs by linking to their issue pages on GitHub. -->
-1. Standard padding 
-2. Man MIA 
-3. 
-4. 
-5. 
-6. 
+Our 6 most nast bugs(with links to their issue page on GitHub):
+1. [Stack padding issue](https://github.com/IOOPM-UU/Qoders/issues/13)
+We got complex problems with pointers not pointing to the correct memory adress having to do with the built in stack padding in the C-language. Still unsure if this is the true underlying problem but non the less it took a very long time to figure out a solution and was a real headache to solve which is why it is at number 1.
+2. [Wrong start point to memory](https://github.com/IOOPM-UU/Qoders/issues/12)
+The way we returned newly allocated memory made it so that when something was writen into the memory it would overwrite the meta data. This bug should be number 1 but is only at number 2 because we caught it before it cause to many problems.
+3. [Deallocate: Destructors not in use, do not work. Objects possibly not freed](https://github.com/IOOPM-UU/Qoders/issues/7)
+The deallocate did not work as expected. It did not utilize the objects destructers, leaving the objects to become a source of memory leaks. 
+4. [remove_from_list() invalid reads](https://github.com/IOOPM-UU/Qoders/issues/16)
+We were getting a lot of invalid read originating from the function `remove_from_list` 
+5. [cleanup() iter used after free](https://github.com/IOOPM-UU/Qoders/issues/15)
+The `cleanup` function somehow removed a link from a list while the iterator still was in use, resulting in invalid reads.
+6. [Memory leak](https://github.com/IOOPM-UU/Qoders/issues/9)
+Due to problems posibly originating from the way we either store or deallocate the objects, resulting in memory not being freed.
 <!-- This file, together with the GitHub issue log, should convince the examiner that you pass Y69.
 
 Viktiga saker:

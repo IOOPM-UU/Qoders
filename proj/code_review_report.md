@@ -49,10 +49,3 @@ If we would restart the project again tomorrow, not much of our work process wou
 
 In conclusion, our code review process of branches, pull request, and a tech-lead has played a vital part in our project and is certainly going to influence our future project practices.
 
-
-
-fel:
-- planering (integation och demo trodde skuklle ta kortare)
-- integration för sent
-- jobbat för länge indepentant
-    borde integrerat allas kod tidifgare

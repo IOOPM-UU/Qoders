@@ -60,11 +60,12 @@ meta_data_t *get_meta_data(obj *c)
     return c - sizeof(meta_data_t);
 }
 ```
-- The `get_meta_data` function is just a simple return statement but help a tremendous amount with readibilty and understanding of the code. 
-- The logic used in the system becomes alot clearer and easier to work with, aiding ongoing development and maintenance.
-
 - Even though the function does in and of itself it has been added to enhance the readability and ease understanding of other parts of the code.
 - It aids in readability, maintainability, correctness, and testability since it simplifys the rest of the code as well as tests.
+
+## Exmaple 3: Header file
+- The header file is fully documented aiding in understanding the code.
+- Ensures maintainability, readability as well as testability.
 
 
 ## Tools and Additional points
