@@ -20,3 +20,5 @@ We've also been really focused on keeping the memory overhead low. The goal is t
 Overall, it's a project that tackles the common issues in manual memory management, like leaks and segmentation faults, and provides a more structured and less error-prone method for C programmers. 
 
 <!-- ## TODO: You must also describe all deviations from the full specification. --> 
+Retain deallocate double pointers
+get_metadata
