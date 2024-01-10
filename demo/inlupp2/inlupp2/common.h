@@ -90,7 +90,7 @@ struct warehouse
 };
 
 typedef struct merch merch_t;
-struct merch 
+struct merch
 {
   char *name;
   char *description;

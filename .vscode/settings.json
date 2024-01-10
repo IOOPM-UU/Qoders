@@ -13,6 +13,7 @@
         "vector": "c",
         "stdint.h": "c",
         "stdlib.h": "c",
-        "linked_list.h": "c"
+        "linked_list.h": "c",
+        "utils.h": "c"
     }
 }

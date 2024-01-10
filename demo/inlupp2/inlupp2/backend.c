@@ -8,6 +8,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <assert.h>
+#include "../../../src/refmem.h"
 #define No_Buckets 17
 
 static bool linked_list_compare_func(elem_t key, elem_t compare)
@@ -17,54 +18,54 @@ static bool linked_list_compare_func(elem_t key, elem_t compare)
 
 int string_sum_hash(elem_t e)
 {
-  char *str = e.p;
-  int result = 0;
-  do
-  {
-    result += *str;
-  } while (*++str != '\0');
-  return result;
+    char *str = e.p;
+    int result = 0;
+    do
+    {
+        result += *str;
+    } while (*++str != '\0');
+    return result;
 }
 
 static bool string_key_eq(elem_t key, elem_t ignore_value, void *arg)
 {
-  elem_t *other_string_elem_ptr = arg;
-  elem_t other_string = *other_string_elem_ptr;
+    elem_t *other_string_elem_ptr = arg;
+    elem_t other_string = *other_string_elem_ptr;
 
-  int comp = strcmp(key.p, other_string.p);
-  if (comp == 0)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+    int comp = strcmp(key.p, other_string.p);
+    if (comp == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 static bool int_value_eq(elem_t key_ignore, elem_t value, void *arg)
 {
-  int *other_value_ptr = arg;
-  int other_key = *other_value_ptr;
-  return (value.i - other_key) == 0;
+    int *other_value_ptr = arg;
+    int other_key = *other_value_ptr;
+    return (value.i - other_key) == 0;
 }
 
 static bool compare_string_function(elem_t element1, elem_t element2)
 {
-  return (strcmp((char *)element1.p, (char *)element2.p) == 0);
+    return (strcmp((char *)element1.p, (char *)element2.p) == 0);
 }
 
 static bool compare_int_function(elem_t element1, elem_t element2)
 {
-  return (element1.i == element2.i);
+    return (element1.i == element2.i);
 }
 
 warehouse_t *create_warehouse()
 {
-    warehouse_t *wh = calloc(1, sizeof(warehouse_t));
+    warehouse_t *wh = allocate_array(1, sizeof(warehouse_t));
     wh->ht_storage_names = ioopm_hash_table_create(string_sum_hash, int_value_eq, string_key_eq, compare_string_function, compare_int_function);
     wh->ht_storage_locations = ioopm_hash_table_create(string_sum_hash, int_value_eq, string_key_eq, compare_string_function, compare_int_function);
-    wh->ht_cart_location = ioopm_hash_table_create(NULL, int_value_eq, string_key_eq, compare_int_function, compare_int_function); 
+    wh->ht_cart_location = ioopm_hash_table_create(NULL, int_value_eq, string_key_eq, compare_int_function, compare_int_function);
 
     return wh;
 }
@@ -84,7 +85,7 @@ void destroy_warehouse_name_help_function(elem_t dummy, elem_t item, void *dummy
     merch_t *merch = item.p;
     free(merch->name);
     free(merch->description);
-    //ioopm_linked_list_apply_to_all(merch->shelf_loc, linked_list_help_func, dummy2);
+    // ioopm_linked_list_apply_to_all(merch->shelf_loc, linked_list_help_func, dummy2);
     ioopm_linked_list_destroy(merch->shelf_loc);
     free(merch);
 }
@@ -110,7 +111,7 @@ void insert_name_to_warehouse(warehouse_t *wh, merch_t *item_to_insert)
 
 bool is_warehouse_empty(warehouse_t *wh)
 {
-    if(is_warehouse_merch_empty(wh) && is_warehouse_location_empty(wh) && is_warehouse_carts_empty(wh))
+    if (is_warehouse_merch_empty(wh) && is_warehouse_location_empty(wh) && is_warehouse_carts_empty(wh))
     {
         return true;
     }
@@ -127,11 +128,11 @@ bool is_warehouse_location_empty(warehouse_t *wh)
     return ioopm_hash_table_is_empty(wh->ht_storage_locations);
 }
 
-bool is_warehouse_carts_empty(warehouse_t *wh) 
+bool is_warehouse_carts_empty(warehouse_t *wh)
 {
     return ioopm_hash_table_is_empty(wh->ht_cart_location);
 }
-//Test the function and report possible bugs
+// Test the function and report possible bugs
 void insert_location_to_warehouse(warehouse_t *wh, char *shelf_ID, char *merch_name)
 {
     elem_t key = {.p = shelf_ID};
@@ -177,12 +178,12 @@ void destroy_merch(merch_t *item)
 
 void remove_merch(warehouse_t *wh, elem_t item_to_remove, char *confirmation)
 {
-    if(toupper(*confirmation) == 'Y')
+    if (toupper(*confirmation) == 'Y')
     {
         merch_t *merch_to_remove = ioopm_hash_table_remove(wh->ht_storage_names, item_to_remove).value.p;
         ioopm_list_t *shelf_list = merch_to_remove->shelf_loc;
 
-        while(shelf_list->size != 0)
+        while (shelf_list->size != 0)
         {
             shelf_t *shelf = ioopm_linked_list_remove(shelf_list, 0).p;
             elem_t shelf_name_elem = {.p = shelf->shelf_name};
@@ -203,7 +204,7 @@ void remove_merch(warehouse_t *wh, elem_t item_to_remove, char *confirmation)
 
 void edit_merch(warehouse_t *wh, elem_t merch_to_edit, elem_t new_name, char *description, int price, char *confirmation)
 {
-    if(toupper(*confirmation) != 'Y')
+    if (toupper(*confirmation) != 'Y')
     {
         free(description);
         free(new_name.p);
@@ -214,7 +215,7 @@ void edit_merch(warehouse_t *wh, elem_t merch_to_edit, elem_t new_name, char *de
         merch_t *merch_to_remove = ioopm_hash_table_remove(wh->ht_storage_names, merch_to_edit).value.p;
         link_t *shelf_loc_entry = merch_to_remove->shelf_loc->first->next;
 
-        if(shelf_loc_entry == NULL)
+        if (shelf_loc_entry == NULL)
         {
             destroy_merch(merch_to_remove);
             merch_t *edited_merch = create_merch(new_name.p, description, price);
@@ -230,7 +231,7 @@ void edit_merch(warehouse_t *wh, elem_t merch_to_edit, elem_t new_name, char *de
             {
                 shelf_exists.value.p = new_name.p;
                 shelf_loc_entry = shelf_loc_entry->next;
-            } while(shelf_exists.success && shelf_loc_entry != NULL);
+            } while (shelf_exists.success && shelf_loc_entry != NULL);
 
             ioopm_list_t *locations_list = merch_to_remove->shelf_loc;
             destroy_merch(merch_to_remove);
@@ -242,12 +243,11 @@ void edit_merch(warehouse_t *wh, elem_t merch_to_edit, elem_t new_name, char *de
     }
     free(confirmation);
     free(merch_to_edit.p);
-    
 }
 
 void show_stock(warehouse_t *wh, elem_t merch_name)
 {
-    if(is_warehouse_location_empty(wh))
+    if (is_warehouse_location_empty(wh))
     {
         printf("No stock of this merchandise to show. please replenish this merch first.\n");
         return;
@@ -258,10 +258,11 @@ void show_stock(warehouse_t *wh, elem_t merch_name)
 
     link_t *current = merch->shelf_loc->first;
 
-    while(current != NULL)
+    while (current != NULL)
     {
         shelf_t *shelf = current->value.p;
-        if (current->value.p != NULL) {
+        if (current->value.p != NULL)
+        {
             printf("%s: %d\n", shelf->shelf_name, shelf->quantity);
         }
         current = current->next;
@@ -275,21 +276,20 @@ void replenish(warehouse_t *wh, char *shelf_ID, char *merch_name, int amount_to_
     option_t shelf_exists = ioopm_hash_table_lookup(wh->ht_storage_locations, shelf_name);
     merch_t *merch = ioopm_hash_table_lookup(wh->ht_storage_names, name_of_merch).value.p;
 
-    if(shelf_exists.success)
+    if (shelf_exists.success)
     {
         ioopm_list_t *merch_list = merch->shelf_loc;
         link_t *current_link = merch_list->first->next;
 
-        while(current_link != NULL)
+        while (current_link != NULL)
         {
             shelf_t *current_shelf = current_link->value.p;
-            if(!strcmp(current_shelf->shelf_name, shelf_ID))
+            if (!strcmp(current_shelf->shelf_name, shelf_ID))
             {
                 current_shelf->quantity += amount_to_replenish;
                 merch->amount_in_stock += current_shelf->quantity;
             }
             current_link = current_link->next;
-            
         }
     }
     else if (!shelf_exists.success)
@@ -307,7 +307,7 @@ void add_shelf(warehouse_t *wh, char *shelf_ID, char *merch_name, int amount_to_
     merch_t *full_merch = ioopm_hash_table_lookup(wh->ht_storage_names, merch).value.p;
 
     ioopm_linked_list_append(full_merch->shelf_loc, shelf);
-    insert_location_to_warehouse(wh, shelf_ID, merch_name); //HÄR
+    insert_location_to_warehouse(wh, shelf_ID, merch_name); // HÄR
 }
 
 int cart_ID = 0;
@@ -334,7 +334,7 @@ void create_cart(warehouse_t *wh)
 void print_carts(warehouse_t *wh)
 {
     printf("The available cartID's are: ");
-    for(int i = 0; i < No_Buckets; i++)
+    for (int i = 0; i < No_Buckets; i++)
     {
 
         entry_t *entry = wh->ht_cart_location->buckets[i].next;
@@ -348,7 +348,7 @@ void print_carts(warehouse_t *wh)
 
 void remove_cart(warehouse_t *wh, elem_t target_cart_id_key, char *confirmation)
 {
-    if(toupper(*confirmation) == 'Y')
+    if (toupper(*confirmation) == 'Y')
     {
         elem_t dummy;
         void *dummy2 = NULL;
@@ -371,19 +371,19 @@ void add_to_cart(warehouse_t *wh, elem_t cart_ID, elem_t selected_merchandise, i
 
     cart_t *chosen_cart = ioopm_hash_table_lookup(wh->ht_cart_location, cart_ID).value.p;
     elem_t selected_merch_value = {.i = quantity};
-    
+
     ioopm_hash_table_insert(chosen_cart->carts, selected_merchandise, selected_merch_value);
 
-    merchandise->reserved += quantity; //this so that we know how much is being reserved for checkout
+    merchandise->reserved += quantity; // this so that we know how much is being reserved for checkout
     merchandise->amount_in_stock -= quantity;
 }
 
 void remove_from_cart(warehouse_t *wh, elem_t cart_ID, elem_t selected_merchandise, int quantity)
 {
-    option_t merch_exist = ioopm_hash_table_lookup(wh->ht_storage_names, selected_merchandise); 
+    option_t merch_exist = ioopm_hash_table_lookup(wh->ht_storage_names, selected_merchandise);
     merch_t *merchandise = merch_exist.value.p;
 
-    merchandise->reserved -= quantity; //this so that we know how much is being reserved for checkout
+    merchandise->reserved -= quantity; // this so that we know how much is being reserved for checkout
     merchandise->amount_in_stock += quantity;
 
     cart_t *chosen_cart = ioopm_hash_table_lookup(wh->ht_cart_location, cart_ID).value.p;
@@ -397,11 +397,11 @@ void calculate_cost(warehouse_t *wh, elem_t cart_ID)
     option_t cart_exist = ioopm_hash_table_lookup(wh->ht_cart_location, cart_ID);
     cart_t *cart = cart_exist.value.p;
 
-    for(int i = 0; i < No_Buckets; i++)
+    for (int i = 0; i < No_Buckets; i++)
     {
         entry_t *current = cart->carts->buckets[i].next;
 
-        while(current != NULL)
+        while (current != NULL)
         {
             int quant_of_merch = current->value.i;
             merch_t *check_merch_price = ioopm_hash_table_lookup(wh->ht_storage_names, current->key).value.p;
@@ -414,15 +414,13 @@ void calculate_cost(warehouse_t *wh, elem_t cart_ID)
     printf("The total cost for cart %d is: %d kr", cart_ID.i, cart->total_cost);
 }
 
-
-
 void check_out(warehouse_t *wh, int cart_id)
 {
     elem_t cartID_to_remove = {.i = cart_id};
     option_t cart_exists = ioopm_hash_table_lookup(wh->ht_cart_location, cartID_to_remove);
     cart_t *cart_to_remove = cart_exists.value.p;
 
-    if(!cart_exists.success)
+    if (!cart_exists.success)
     {
         printf("Please choose a valid cartID");
         return;

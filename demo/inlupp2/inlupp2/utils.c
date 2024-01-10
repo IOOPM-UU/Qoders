@@ -10,7 +10,7 @@ extern char *strdup(const char *);
 bool is_number(char *str)
 {
   int length = strlen(str);
- 
+
   for (int i = 0; i < length; i++) {
 
     int check_char = str[i];
@@ -18,10 +18,10 @@ bool is_number(char *str)
     if(check_char == 45 && i == 0 && length >= 2) {
       continue;
     }
-    
+
     if(check_char < 48 || 57 < check_char) {
         return false;
-    } 
+    }
   }
    return true;
 }

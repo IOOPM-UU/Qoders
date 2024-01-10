@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <assert.h>
+#include "../../../src/refmem.h"
 
 #define int_elem(x) \
     (elem_t) { .i = (x) }
@@ -14,7 +15,7 @@
 
 static link_t *link_create(elem_t value, link_t *next)
 {
-    link_t *new_link = calloc(1, sizeof(link_t));
+    link_t *new_link = allocate_array(1, sizeof(link_t), NULL);
     new_link->value = value;
     new_link->next = next;
     return new_link;
@@ -23,7 +24,7 @@ static link_t *link_create(elem_t value, link_t *next)
 ioopm_list_t *ioopm_linked_list_create(ioopm_eq_function eq_fun)
 {
     // Create and allocate space for a linked list with dummy nodes as the first link
-    ioopm_list_t *l = calloc(1, sizeof(ioopm_list_t));
+    ioopm_list_t *l = allocate_array(1, sizeof(ioopm_list_t), NULL);
     link_t *sentinel = link_create(int_elem(0), NULL);
     l->first = sentinel;
     l->last = sentinel;
@@ -35,13 +36,15 @@ void ioopm_linked_list_destroy(ioopm_list_t *list)
 {
     assert(list);
     link_t *current_link = list->first;
+    retain(current_link);
 
     // Loop through all existing links and free the space they occupied
     while (current_link != NULL)
     {
         link_t *to_be_freed = current_link;
+        retain(to_be_freed);
         current_link = current_link->next;
-        free(to_be_freed);
+        release(&to_be_freed);
         // if(to_be_freed->value.p == NULL)
         // {
         //     current_link = current_link->next;
@@ -54,8 +57,8 @@ void ioopm_linked_list_destroy(ioopm_list_t *list)
         //     free(to_be_freed->value.p);
         // }
     }
-    free(current_link);
-    free(list);
+    release(&current_link);
+    deallocate(&list);
     // Free the space the list occupied
 }
 
@@ -75,6 +78,7 @@ bool ioopm_linked_list_is_empty(ioopm_list_t *list)
 static link_t *list_find_previous_link(link_t *previous_link, elem_t value, ioopm_eq_function eq_fun)
 {
     link_t *current_link = previous_link->next;
+    retain(current_link);
     while (current_link != NULL)
     {
         if (eq_fun(current_link->value, value)) // Check if value exists
@@ -84,6 +88,7 @@ static link_t *list_find_previous_link(link_t *previous_link, elem_t value, ioop
         previous_link = current_link;
         current_link = current_link->next; // Go to next link
     }
+    release(&current_link);
     return previous_link;
 }
 
@@ -91,10 +96,12 @@ void ioopm_linked_list_append(ioopm_list_t *l, elem_t value)
 {
     assert(l);
     link_t *before_last = list_find_previous_link(l->last, l->last->value, l->eq_fun);
+    retain(before_last);
     l->last->next = link_create(value, NULL); // Create a link last in the list
     before_last->next = l->last->next;
     l->last = l->last->next; // move pointer to last link's "next" link
     l->size++;
+    release(&before_last);
 }
 
 void ioopm_linked_list_prepend(ioopm_list_t *l, elem_t value)
@@ -121,14 +128,18 @@ elem_t ioopm_linked_list_remove(ioopm_list_t *list, size_t index)
     if (index == 0)
     {
         link_t *previous = list->first;
+        retain(previous);
         link_t *to_remove = previous->next;
+        retain(to_remove);
         elem_t value_to_remove = to_remove->value;
         previous->next = to_remove->next;
         if (ioopm_linked_list_size(list) == 1)
         {
             list->last = list->first;
         }
-        free(to_remove);
+        release(&to_remove);
+        deallocate(&to_remove);
+        release(&previous);
         list->size--;
         return value_to_remove;
     }
@@ -140,14 +151,16 @@ elem_t ioopm_linked_list_remove(ioopm_list_t *list, size_t index)
         previous = previous->next;
     }
 
-    link_t *to_remove = previous->next;        // Find current link to remove
+    link_t *to_remove = previous->next;
+    retain(to_remove);                         // Find current link to remove
     elem_t value_to_remove = to_remove->value; // Find value to remove
     previous->next = to_remove->next;          // Move current pointer to next link
     if (to_remove == list->last)
     {
         list->last = previous; // If value to be moved is in last link, move pointer to second to last link
     }
-    free(to_remove);
+    release(&to_remove);
+    deallocate(&to_remove);
     list->size--; // decrease size of list
 
     return value_to_remove;
@@ -172,13 +185,17 @@ void ioopm_linked_list_insert(ioopm_list_t *list, size_t index, elem_t value)
     {
 
         link_t *previous = list->first->next;
+        retain(previous);
         for (int i = 1; i < index; i++) // move pointer to current link
         {
             previous = previous->next;
         }
         link_t *link_to_insert = link_create(value, previous->next); // Insert new link after current
-        previous->next = link_to_insert;                             // move pointer to newly created link
+        retain(link_to_insert);
+        previous->next = link_to_insert; // move pointer to newly created link
         list->size++;
+        release(&previous);
+        release(&link_to_insert);
     }
 }
 
@@ -203,10 +220,12 @@ elem_t ioopm_linked_list_get(ioopm_list_t *list, size_t index)
 
     // Get value of current link
     link_t *current_link = list->first->next;
+    retain(current_link);
     for (int i = 1; i < size - 1; i++)
     {
         current_link = current_link->next;
     }
+    release(&current_link);
     return current_link->value;
 }
 
@@ -214,6 +233,7 @@ bool ioopm_linked_list_contains(ioopm_list_t *list, elem_t element)
 {
     assert(list);
     link_t *current_link = list->first->next;
+    retain(current_link);
 
     // Check if element exists in list
     for (int i = 0; i < list->size; i++)
@@ -224,7 +244,7 @@ bool ioopm_linked_list_contains(ioopm_list_t *list, elem_t element)
         }
         current_link = current_link->next;
     }
-
+    release(&current_link);
     return false;
 }
 
@@ -278,6 +298,7 @@ void ioopm_linked_list_apply_to_all(ioopm_list_t *list, ioopm_apply_int_function
 
     size_t size = list->size;
     link_t *current_link = list->first->next;
+    retain(current_link);
 
     // Apply function for all values and argument extra
     for (int i = 1; i < size; i++)
@@ -285,11 +306,12 @@ void ioopm_linked_list_apply_to_all(ioopm_list_t *list, ioopm_apply_int_function
         fun(current_link->value, extra);
         current_link = current_link->next;
     }
+    release(&current_link);
 }
 
 ioopm_list_iterator_t *ioopm_list_iterator(ioopm_list_t *list)
 {
-    ioopm_list_iterator_t *iter = calloc(1, sizeof(struct iter)); // Allocate space for iterator
+    ioopm_list_iterator_t *iter = allocate_array(1, sizeof(struct iter), NULL); // Allocate space for iterator
     iter->current = list->first;
     iter->list = list;
 
@@ -319,5 +341,5 @@ elem_t ioopm_iterator_current(ioopm_list_iterator_t *iter)
 
 void ioopm_iterator_destroy(ioopm_list_iterator_t *iter)
 {
-    free(iter);
+    deallocate(iter);
 }
