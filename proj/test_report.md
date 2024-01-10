@@ -36,8 +36,7 @@ We were getting a lot of invalid read originating from the function `remove_from
 The `cleanup` function somehow removed a link from a list while the iterator still was in use, resulting in invalid reads.
 6. [Memory leak](https://github.com/IOOPM-UU/Qoders/issues/9)
 Due to problems posibly originating from the way we either store or deallocate the objects, resulting in memory not being freed.
-<!-- This file, together with the GitHub issue log, should convince the examiner that you pass Y69.
 
-Viktiga saker:
+<!-- Viktiga saker:
     gcov
         "You should make every effort to get 100% code and branch coverage. For every statement or branch that you have not tested, you must include a motivation for why that is and an argument for why the untested code/branch is correct." -->
