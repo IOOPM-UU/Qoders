@@ -159,15 +159,16 @@ void cleanup_helper(elem_t *element, void *extra)
     {
         free(element->mt);
     }
-    remove_from_list(element->mt);
 }
 
 void cleanup()
 {
     if (!ioopm_linked_list_is_empty(object_list))
     {
-        // void *not_used = NULL;
+        void *not_used = NULL;
         // ioopm_linked_list_apply_to_all(object_list, cleanup_helper, not_used);
+
+        ioopm_list_t *delete_list = ioopm_linked_list_create(NULL);
         ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
         bool first = true;
         int index = 0;
@@ -184,12 +185,15 @@ void cleanup()
             meta_data_t *current = ioopm_iterator_current(iter).mt;
             if (current->reference_counter == 0)
             {
-                free(current);
+                // free(current);
+                ioopm_linked_list_append(delete_list, mt_elem(current));
                 ioopm_linked_list_remove(object_list, index);
                 index--;
             }
             index++;
         } while (ioopm_iterator_has_next(iter));
+        ioopm_linked_list_apply_to_all(delete_list, free_elem, not_used);
+        ioopm_linked_list_destroy(&delete_list);
         ioopm_iterator_destroy(&iter);
     }
     ioopm_linked_list_clear(list_delayed_frees);

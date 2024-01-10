@@ -1,5 +1,5 @@
 CC = gcc -g
-CFLAGS = -Wall 
+CFLAGS = -Wall -fprofile-arcs -ftest-coverag
 LDFLAGS = -lgvoc -lcunit
 
 # Directories
