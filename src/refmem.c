@@ -15,15 +15,15 @@ static size_t cascade_limit = 100;
 
 int deallocate_counter = 0; // PRELIMINARY
 
-void free_elem(elem_t *element, void *extra)
-{
-    free(element->mt);
-}
+// void free_elem(elem_t *element, void *extra)
+// {
+//     free(element->mt);
+// }
 
-static bool meta_data_compare(elem_t elem1, elem_t elem2)
-{
-    return elem1.mt->adress == elem2.mt->adress;
-}
+// static bool meta_data_compare(elem_t elem1, elem_t elem2)
+// {
+//     return elem1.mt->adress == elem2.mt->adress;
+// }
 
 void remove_from_list(meta_data_t *md)
 {
@@ -135,14 +135,14 @@ void deallocate(obj **c)
 
     if (m->reference_counter > 0)
     {
-        printf("\nError: Only non-zero are able to be deallocated\n");
-        assert(false);
-        return;
+        printf("\nError: Objects with non-zero reference counters can not be deallocated\n");
+        return NULL;
     }
 
     if (deallocate_counter == cascade_limit)
     {
         ioopm_linked_list_append(list_delayed_frees, ptr_elem(*c));
+        assert(false);
         return;
     }
 
@@ -213,7 +213,7 @@ void shutdown()
     {
         cleanup();
 
-        ioopm_linked_list_apply_to_all(object_list, free_elem, NULL);
+        // ioopm_linked_list_apply_to_all(object_list, free_elem, NULL);
         ioopm_linked_list_destroy(&object_list);
     }
     if (list_delayed_frees != NULL)

@@ -142,6 +142,13 @@ void test_deallocate()
 
     deallocate(&new_object);
 
+    // obj *new_object2 = allocate(10, free);
+
+    // retain(new_object2);
+    // retain(new_object2);
+
+    // CU_ASSERT(deallocate(&new_object2));
+
     // All of this is gonna return some sort of error/invalid read, since it's already freed..
 
     // CU_ASSERT_PTR_NOT_NULL(new_object);
