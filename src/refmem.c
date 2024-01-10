@@ -121,7 +121,7 @@ void release(obj **c)
     }
 }
 
-size_t rc(obj *c)
+int rc(obj *c)
 {
     meta_data_t *meta_data = get_meta_data(c);
     // meta_data->reference_counter++;
