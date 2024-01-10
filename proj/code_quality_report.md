@@ -5,35 +5,42 @@
 ####Tankar/frågor/TODO:
 - "Usage of dynamic memory is well-documented, and deallocation is handled appropriately." Ska detta verkligen va med?
 - Prestanda måste va med (varför koden är bra)
+- code example up to date?
+- ett till code example?
 -->
 
 
 ## Introduction
-In the development of our project, we have prioritized writing code of high quality, focusing on aspects such as readability, maintainability, correctness, and testability. In this report, we will delve into the reasons behind our confidence in the quality of the code as well as elaborating on how these principles have been incorporated into our system. This report provides insights into the key implementaions made and how these align with the Y65 standards.
+
+In the development of our project a key pioint we focused on was writing high quality code with focus on readability, maintainability, correctness, performance, and testability. This report aims to delve deeper into these aspects and explain how it affected the project as a whole.
 
 ## Code Quality Criteria
-To adhere to the Y65 standard, we have considered various criteria of code quality:
+With the standrad for high quality code set by achievment Y65 these are the criteria we have followed:
 <!-- FIXME: Måste lägga till prestanda-->
 <!-- FIXME: vilken coding style -->
 1. **Readability:**
-   - We have followed a consistent coding style throughout the project, promoting readability.
-   - Meaningful variable and function names have been chosen to enhance understanding.
-   - Code comments are utilized to explain more complex sections and highlight important considerations.
+   - We followed the **GNU coding standard** throughout the project to ensure consistensy and readabilty.
+   - **Clear variable and function names** have been chosen to enhance reaability.
+   - **Code comments** were also utilized to explain more complex section of the code.
 
 2. **Maintainability:**
-   - The codebase is structured in a modular manner, with clear separation of functions.
-   - Functions have been designed to be concise and focused, contributing to easier maintenance, as well as further implementations and modifications.
-   - Usage of dynamic memory is well-documented, and deallocation is handled appropriately.
+   - We structured the code in a modular manner to simplify understanding the code as well as modifying and maintaining.
+   - We used clear seperation between functions to make the code easier to understand not only to enhance maintainability but also to simplify our work process during the project implementation.
+   - The code is also thoroughly review and well documentated.
 
 3. **Correctness:**
-   - Careful attention has been paid to edge cases and potential errors in memory allocation and deallocation.
-   - Functionality has been thoroughly tested, ensuring that the code behaves as expected in various scenarios.
+   - All functions have been thoroughly tested to ensure to code behaves as expected.
+   - Edge cases and memory leaks have also been thoroughly tested.
 
-4. **Testability:**
-   - Test cases have been written to cover different usage scenarios, aiding in ongoing development and future modifications.
+4. **Performance**
+   - TODO:
+
+5. **Testability:**
+   - Test cases have been implemented to ensure code works as expected.
+   - Helper functions have been implemented to aid in testing.
+
 
 ## Examples of Good Code Practices
-To illustrate the application of these principles, let's examine some snippets from our code:
 
 ### Example 1: Memory Allocation (`allocate` function)
 ```c
@@ -44,26 +51,12 @@ obj *allocate(size_t bytes, function1_t destructor)
     return new_object + sizeof(meta_data_t);
 }
 ```
-- The `allocate` function is well-structured, providing a clear interface for memory allocation.
-- Proper initialization of metadata ensures correct tracking of references and garbage status.
-- Clear variable and function name have been used to enhance understanding of the code.
 
-### Example 2: Memory Deallocation (`deallocate` function)
-```c
-void deallocate(obj **c)
-{
-    // Implementation details...
+- The function is well structured as to help the readability and maintainability of the code.
+- Proper initialization of the memory sturcture in the return statement is made to simplify the usability of the code.
+- Clear names for varibles have been chosen to ensure readability, maintainability, and correctness.
 
-    deallocate_counter++;
-    free(m); // Ensure proper cleanup
-    *c = NULL;
-}
-```
-- The `deallocate` function handles memory deallocation based on reference counts and destructor availability as well as delayed frees and cascade limit conditions.
-- It ensures correct cleanup only when the reference count drops to zero.
-- Memory management contributes to a more robust and error-resistant design.
-
-### Example 3: Helper function (`get_meta_data` function)
+### Example 2: Helper function (`get_meta_data` function)
 ```c
 meta_data_t *get_meta_data(obj *c)
 {
@@ -73,16 +66,19 @@ meta_data_t *get_meta_data(obj *c)
 - The `get_meta_data` function is just a simple return statement but help a tremendous amount with readibilty and understanding of the code. 
 - The logic used in the system becomes alot clearer and easier to work with, aiding ongoing development and maintenance.
 
+- Even though the function does in and of itself it has been added to enhance the readability and ease understanding of other parts of the code.
+- It aids in readability, maintainability, correctness, and testability since it simplifys the rest of the code as well as tests.
+
 
 
 ## Additional Considerations
-<!-- FIXME: fråga till gruppen, Varför behövde vi global variables?-->
+<!-- FIXME: behövs dessa två?-->
 - The global variables `cascade_limit`, `list_delayed_frees`, `counter`, and `check` are used to ...
 - The `cleanup` function provides an explicit way to change the global variable `check` for specific cleanup purposes.
 
 
 ## Code Standards and Tools
-We have adhered to the **GNU coding standard**, which provides a set of guidelines for writing robust and maintainable code. We have utilized the **astyle** tool to automatically format our code uniformly.This has helped us during the project to understand new code more quickly and thoroughly, since we all would write code in the same style.
+We have when writing our code adhered to the **GNU coding standard** using the **astyle** tool. This helps to automatically format our code correctly and uniformaly. This has helped us during the project to keep the code readabile and easy to understand, making our work process more efficient.
 
 ## Conclusion
-In summary, our code quality is a result of a concerted effort to align with the Y65 standards. The provided examples showcase our efforts to achieve readability, maintainability, correctness, and testability. Through consistent application of coding standards and thoughtful design choices, we believe our codebase meets the high-quality criteria, achievement Y65, set for this project.
+In conclusion, we belive our code adheres to the Y65 standards. We have explain our process, design choices, and provided example to showcase our code is of the highest quality.
