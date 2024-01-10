@@ -65,7 +65,7 @@ void test_allocate()
     meta_data_t *meta_data = get_meta_data(new_object2);
     CU_ASSERT_PTR_NOT_NULL(new_object2);
     CU_ASSERT_PTR_NULL(meta_data->destructor);
-    CU_ASSERT_EQUAL(meta_data->reference_counter, 0);
+    CU_ASSERT_EQUAL(rc(new_object2), 0);
     meta_data->destructor = destructor1;
     CU_ASSERT_PTR_NOT_NULL(meta_data->destructor);
     retain(new_object2);
@@ -136,11 +136,21 @@ void test_deallocate()
 {
     obj *new_object = allocate(10, free);
 
-    meta_data_t *meta_data = get_meta_data(new_object);
-
     CU_ASSERT_PTR_NOT_NULL(new_object);
 
     deallocate(&new_object);
+
+    obj *new_object2 = allocate(10, free);
+    obj *new_object3 = allocate(10, free);
+    obj *new_object4 = allocate(10, free);
+    obj *new_object5 = allocate(10, free);
+
+    deallocate(&new_object5);
+    deallocate(&new_object4);
+    deallocate(&new_object3);
+    deallocate(&new_object2);
+    // The intent here is to test that the assert from deallocate should be handled by the test
+    // but we don't know how to do that...
 
     // obj *new_object2 = allocate(10, free);
 
@@ -160,6 +170,14 @@ void test_deallocate()
 
     // CU_ASSERT_PTR_NOT_NULL(new_object);
     // CU_ASSERT_EQUAL(meta_data->reference_counter, 1);
+}
+
+void test_set_cascade_limit()
+{
+    CU_ASSERT_EQUAL(get_cascade_limit(), 100);
+    set_cascade_limit(1000);
+    CU_ASSERT_EQUAL(get_cascade_limit(), 1000);
+    set_cascade_limit(100);
 }
 
 void do_shutdown()
@@ -191,6 +209,7 @@ int main()
         (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
         (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||
         (CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
+        (CU_add_test(my_test_suite, "test set cascade limit", test_set_cascade_limit) == NULL) ||
         //(CU_add_test(my_test_suite, "padding_test", padding_test) == NULL) ||
 
         // KOMMENTERA INTE UT!!!

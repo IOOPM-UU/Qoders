@@ -136,13 +136,13 @@ void deallocate(obj **c)
     if (m->reference_counter > 0)
     {
         printf("\nError: Objects with non-zero reference counters can not be deallocated\n");
-        return NULL;
+        assert(false);
+        return;
     }
 
     if (deallocate_counter == cascade_limit)
     {
         ioopm_linked_list_append(list_delayed_frees, ptr_elem(*c));
-        assert(false);
         return;
     }
 
@@ -205,6 +205,11 @@ void set_cascade_limit(size_t lim)
 ioopm_list_t *get_obj_list()
 {
     return object_list;
+}
+
+size_t get_cascade_limit()
+{
+    return cascade_limit;
 }
 
 void shutdown()
