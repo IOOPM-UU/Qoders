@@ -24,7 +24,7 @@ FIXME:
 **Total number of new lines of C code written excluding tests and preexisting code:**
 **Total number of lines of test code:** 
 **Total number of lines of “script code” (e.g., make files, Python scripts for generating test data, etc.):**
-**Total number of hours worked by the team.:** 
+**Total number of hours worked by the team.:** (hector 42h,Simon 52h, Alex , Martin , Josias 41h)
 **Total number of git commits:**
 **Total number of pull requests:**
 **Total number of GitHub issues:**
@@ -40,7 +40,6 @@ that had to be done and who did what, the process of Trello and Github ensured t
 
 If we were to redo the project tomorrow we would apply the same process but with more contingency plans, we would consider the possibility of worst-case scenarios and reflect on how we would solve an issue that could potentially arise. We would repeat the method of using previously stated tools as well as using a Tech lead in charge of version control and pull requests as we consider this to have been a success. We would continue using the system of tickets and an early delegation of tasks as this proved successful. It was also a success to have plans that were adjustable and not completely rigid, it allowed us to work in a dynamic way which improved the possibility of receiving help from other group members; It allowed us to adapt our plan as we went along when we discovered our initial plan may have been unfounded or based off misinterpretation. 
 
-We attacked the Christmas "break" problem by simply removing the break aspect of it creating "The Christmas Problem". We planned in regards to the break but we found no realistic path we could take in order to actually give ourselves a real Christmas break. We essentially concluded that we'd have to work over the break even having one Coach meeting and one just to catch up. 
 # 4 Use of Tools
 
 #### What tools you used in the project and how were they used?
