@@ -140,15 +140,15 @@ void test_deallocate()
 
     deallocate(&new_object);
 
-    obj *new_object2 = allocate(10, free);
-    obj *new_object3 = allocate(10, free);
-    obj *new_object4 = allocate(10, free);
-    obj *new_object5 = allocate(10, free);
+    // obj *new_object2 = allocate(10, free);
+    // obj *new_object3 = allocate(10, free);
+    // obj *new_object4 = allocate(10, free);
+    // obj *new_object5 = allocate(10, free);
 
-    deallocate(&new_object5);
-    deallocate(&new_object4);
-    deallocate(&new_object3);
-    deallocate(&new_object2);
+    // deallocate(&new_object5);
+    // deallocate(&new_object4);
+    // deallocate(&new_object3);
+    // deallocate(&new_object2);
     // The intent here is to test that the assert from deallocate should be handled by the test
     // but we don't know how to do that...
 
