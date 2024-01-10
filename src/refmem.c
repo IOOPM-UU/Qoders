@@ -152,10 +152,10 @@ void deallocate(obj **c)
     *c = NULL;
 }
 
-
 void cleanup_helper(elem_t *element, void *extra)
 {
-    if(element->mt->reference_counter == 0){
+    if (element->mt->reference_counter == 0)
+    {
         free(element->mt);
     }
     remove_from_list(element->mt);
@@ -165,35 +165,34 @@ void cleanup()
 {
     if (!ioopm_linked_list_is_empty(object_list))
     {
-        void *not_used = NULL;
-        ioopm_linked_list_apply_to_all(object_list, cleanup_helper, not_used);
-        // ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
-        // bool first = true;
-        // int index = 0;
-        // do
-        // {
-        //     if (first)
-        //     {
-        //         first = false;
-        //     }
-        //     else
-        //     {
-        //         ioopm_iterator_next(iter);
-        //     }
-        //     meta_data_t *current = ioopm_iterator_current(iter).mt;
-        //     if (current->reference_counter == 0)
-        //     {
-        //         free(current);
-        //         ioopm_linked_list_remove(object_list, index); 
-        //         index--;
-        //     }
-        //     index++;
-        // } while (ioopm_iterator_has_next(iter));
-        // ioopm_iterator_destroy(&iter);
+        // void *not_used = NULL;
+        // ioopm_linked_list_apply_to_all(object_list, cleanup_helper, not_used);
+        ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
+        bool first = true;
+        int index = 0;
+        do
+        {
+            if (first)
+            {
+                first = false;
+            }
+            else
+            {
+                ioopm_iterator_next(iter);
+            }
+            meta_data_t *current = ioopm_iterator_current(iter).mt;
+            if (current->reference_counter == 0)
+            {
+                free(current);
+                ioopm_linked_list_remove(object_list, index);
+                index--;
+            }
+            index++;
+        } while (ioopm_iterator_has_next(iter));
+        ioopm_iterator_destroy(&iter);
     }
-    ioopm_linked_list_clear(list_delayed_frees); 
+    ioopm_linked_list_clear(list_delayed_frees);
 }
-
 
 void set_cascade_limit(size_t lim)
 {
@@ -205,7 +204,6 @@ ioopm_list_t *get_obj_list()
 {
     return object_list;
 }
-
 
 void shutdown()
 {
