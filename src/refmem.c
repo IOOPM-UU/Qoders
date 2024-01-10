@@ -88,11 +88,7 @@ obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
         meta_data_t *meta_data = (meta_data_t *)new_object;
 
         meta_data->next = NULL;
-<<<<<<< HEAD
-        meta_data->adress = new_object + sizeof(meta_data_t); //check allocate
-=======
         meta_data->adress = &new_object + sizeof(meta_data_t); // check allocate
->>>>>>> 3fe09b7cdcd93401a9eafdb0dbb71fb0f983795d
         meta_data->reference_counter = 0;
         meta_data->destructor = destructor;
         meta_data->garbage = true;
@@ -147,23 +143,15 @@ void deallocate(obj **c)
     }
 
     deallocate_counter++;
-<<<<<<< HEAD
-    remove_from_list(m);   
-    free(m);
-    *c = NULL; 
-=======
+
     remove_from_list(m);
     free(m);
     *c = NULL;
->>>>>>> 3fe09b7cdcd93401a9eafdb0dbb71fb0f983795d
+
 }
 
 void cleanup()
 {
-<<<<<<< HEAD
-=======
-
->>>>>>> 3fe09b7cdcd93401a9eafdb0dbb71fb0f983795d
     if (!ioopm_linked_list_is_empty(object_list))
     {
         ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
