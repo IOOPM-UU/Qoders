@@ -1,3 +1,3 @@
 # Qoders
 
-This README file should contain something more useful than this sentence...
+In the project for the IOOPM course, we've developed a memory management library that fundamentally changes how we handle memory in C. It is a system that helps programmers manage memory in C applications using a manuall _reference counting scheme_. This project involves (among other things) wrapping malloc() to install an object header in each memory allocation, which is hidden from users, which stores a reference count for that object, and possibly other things.
