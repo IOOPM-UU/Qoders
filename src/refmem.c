@@ -178,7 +178,7 @@ void cleanup()
         } while (ioopm_iterator_has_next(iter));
         ioopm_iterator_destroy(&iter);
     }
-    ioopm_linked_list_clear(list_delayed_frees);
+    ioopm_linked_list_clear(object_list); // was list_delayed_frees changed to object_list
 }
 
 void set_cascade_limit(size_t lim)
