@@ -3,10 +3,9 @@
 
 <!--
 ####Tankar/frågor/TODO:
-- "Usage of dynamic memory is well-documented, and deallocation is handled appropriately." Ska detta verkligen va med?
-- Prestanda måste va med (varför koden är bra)
 - code example up to date?
 - ett till code example?
+- prestanda
 -->
 
 
@@ -16,8 +15,6 @@ In the development of our project a key pioint we focused on was writing high qu
 
 ## Code Quality Criteria
 With the standrad for high quality code set by achievment Y65 these are the criteria we have followed:
-<!-- FIXME: Måste lägga till prestanda-->
-<!-- FIXME: vilken coding style -->
 1. **Readability:**
    - We followed the **GNU coding standard** throughout the project to ensure consistensy and readabilty.
    - **Clear variable and function names** have been chosen to enhance reaability.
@@ -72,12 +69,6 @@ meta_data_t *get_meta_data(obj *c)
 
 ## Tools and Additional points
 We have when writing our code adhered to the **GNU coding standard** using the **astyle** tool. This helps to automatically format our code correctly and uniformaly. This has helped us during the project to keep the code readabile and easy to understand, making our work process more efficient.
-
-<!-- FIXME: behövs dessa två?-->
-- The global variables `cascade_limit`, `list_delayed_frees`, `counter`, and `check` are used to ...
-- The `cleanup` function provides an explicit way to change the global variable `check` for specific cleanup purposes.
-
-
 
 ## Conclusion
 In conclusion, we belive our code adheres to the Y65 standards. We have explain our process, design choices, and provided example to showcase our code is of the highest quality.

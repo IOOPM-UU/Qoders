@@ -31,7 +31,7 @@ Implementing this stategy of review all code going into the "master" branch prov
 
 ### GitHub
 
-GitHub's simple and straightforward UI have been crucial in this process, greatly simplifying the entire process. Without it this whole process of initiating pull request would most likely not be worth the effort. Furthermore, GitHubs differentials viewer was equally crucial since it easily allowed us to view and understand what changes and modifications have been made. This all made the review process a smooth and efficent way to work.
+GitHub's simple and straightforward UI have been crucial in this process, greatly simplifying the entire process. Without it this whole process of initiating pull request would most likely not be worth the effort. Furthermore, GitHubs colorful differentials viewer was equally crucial since it easily allowed us to view and understand what changes and modifications have been made. This all made the review process a smooth and efficent way to work.
 
 ### Pull Request Iterations
 
@@ -42,10 +42,17 @@ The frequency of pushing back pull request or changing them has been minimal. Th
 <!-- FIXME -->
 - **Number of Pull Requests Made:** ...
 - **Average Time Pull Requests Were Open:** ...
-- **Consistency in Code Review Process:** ... <!--Explain if there was uniformity in the team's adherence to the PR and code review process --> <!--tvek om detta ska fortfarande vara med-->
 
 ## Project Reflection And Conclusion
 
 If we would restart the project again tomorrow, not much of our work process would change. The stategy of branches, pull request, and a tech-lead were in our opinion greatly benefitial to our workflow and promoted a collaborative and efficent environment within the team. The only thing we might want to look at is refining is the code review protocol since we feel like we did not utilize it to its fullest potential. We would look into modifing it to better fit our project, code, and team.
 
 In conclusion, our code review process of branches, pull request, and a tech-lead has played a vital part in our project and is certainly going to influence our future project practices.
+
+
+
+fel:
+- planering (integation och demo trodde skuklle ta kortare)
+- integration för sent
+- jobbat för länge indepentant
+    borde integrerat allas kod tidifgare
