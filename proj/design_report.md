@@ -19,21 +19,30 @@ We implemented the function get_metadata() because an issue we stumbled upon was
 
 ### Features Missing
 <!-- ## TODO: For every feature X that you do not deliver, explain why you do not deliver it, how the feature could be integrated in the future in your system, and sketch the high-level design. --> 
-One feature we are missing with this project is the Destructor() function, this feature was not delivered because of issues regarding time resources and miscalculations regarding difficulty of integration and said function. One way of integration would be the following: 
+One feature we are missing with this project is the default destructor() function, this feature was not delivered because of issues regarding time resources and miscalculations regarding difficulty of integration and said function. One way of integration would be the following, though note that due to us not having time to even attempt a start to this function our understanding is severely limited:
 
-1. Define the struct and its representation 
-- We need to define the struct and what it contains.
-- We do this by creating a function that generates a string representation of this struct. 
-2. Generating the Struct representation
-- This function will iterate through each element of the struct and keep a count of consecutives elements of the same type. 
-- When the type changes, it appends the count and type symbol to the string.
-3. Parsing the string representation
-- Create a function that parse the generated string.
-- Each digit tells the function the count, each type symbol tells it what type to expect. 
-- When a pointer type is encountered the function keeps track of how many and where in the iteration the pointers are. 
-4. Freeing memory of pointers.
-- When the parsing function identifies pointer types it translates the information to actual pointers in the struct using a mechanism to access the pointers inside the struct. Using for example a parallel array or similar data structure that stores references to these pointers. 
-- When a pointer is identified we use deallocate() to free its memory. 
-5. Integration with the project.
-- We integrate it by making sure its called whenever a struct is no longer needed.
-- It is important to ensure that the function is only called once per pointer in order to avoid double frees. 
+1. First the function would have to understand what exactly it is destroying. One suggestion that may work is to have the user submit a sort of code in the form of a string that the destructor will parse. So for example, in a struct that looks like this:
+{
+    char *name;
+    char *desc;
+    int price;
+    ioopm_list_t *locations;
+}
+You would have to turn this into a string with information telling the destructor what type of object appears in what order. In this case, we could for example feed in a string that's something along the lines of "2si*" to say "2 strings, 1 int, and 1 pointer". Alternatively if it was for example 3 strings, then a pointer, then another string then an int like so:
+
+{
+    char *string;
+    char *string2;
+    char *string3;
+    ioopm_list_t *pointer;
+    char *string4;
+    int integer;
+}
+The resulting string would be "3s*si". Of course you would design a parser to parse information like this, and the user would have to understand the formatting.
+
+Alternatively, if we could figure out some way to find out exactly what each field holds for type of information, if it is even possible to do so, we could skip the whole parsing step and just jump straight into destroying our object.
+
+2. Destroying the object
+Once you've located all pointers for the memory, if you've used the former method to find the pointers, you would be able to enter those pointers through the destructor and for each pointer locate each of their pointers and then repeat until you reach the end and deallocate everything going backwards. 
+
+If you used the latter method, we believe it might be possible to reach subsequent objects through the meta_data of each pointer, although this is something we would have to find out when implementing the default destructor.
