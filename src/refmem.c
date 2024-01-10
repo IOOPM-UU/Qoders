@@ -155,10 +155,7 @@ void deallocate(obj **c)
 
 void cleanup_helper(elem_t *element, void *extra)
 {
-    if (element->mt->reference_counter == 0)
-    {
-        free(element->mt);
-    }
+    ioopm_linked_list_remove(object_list, element->i);
 }
 
 void cleanup()
@@ -171,6 +168,7 @@ void cleanup()
         ioopm_list_t *delete_list = ioopm_linked_list_create(NULL);
         ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
         bool first = true;
+        int index2 = 0;
         int index = 0;
         do
         {
@@ -185,14 +183,13 @@ void cleanup()
             meta_data_t *current = ioopm_iterator_current(iter).mt;
             if (current->reference_counter == 0)
             {
-                // free(current);
-                ioopm_linked_list_append(delete_list, mt_elem(current));
-                ioopm_linked_list_remove(object_list, index);
-                index--;
+                free(current);
+                ioopm_linked_list_append(delete_list, int_elem(index - index2));
+                index2++;
             }
             index++;
         } while (ioopm_iterator_has_next(iter));
-        ioopm_linked_list_apply_to_all(delete_list, free_elem, not_used);
+        ioopm_linked_list_apply_to_all(delete_list, cleanup_helper, not_used);
         ioopm_linked_list_destroy(&delete_list);
         ioopm_iterator_destroy(&iter);
     }
