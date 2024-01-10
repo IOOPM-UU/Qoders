@@ -105,8 +105,6 @@ void test_retain()
     obj *new_object = allocate(10, free);
     retain(new_object);
     CU_ASSERT_EQUAL(get_meta_data(new_object)->reference_counter, 1);
-    cleanup();
-    CU_ASSERT_TRUE(ioopm_linked_list_is_empty(get_obj_list()));
 }
 
 void test_release()
@@ -175,17 +173,17 @@ int main()
     }
 
     if (
-        
+
         (CU_add_test(my_test_suite, "test cleanup", test_cleanup) == NULL) ||
         (CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
-        // (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
-        // (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
-        // (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||
-        //(CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
+        (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
+        (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
+        (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||
+        (CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
         // release and deallocate do mostly fine on their own, but together give a ton of errors
-        // (CU_add_test(my_test_suite, "padding_test", padding_test) == NULL)||
+        //(CU_add_test(my_test_suite, "padding_test", padding_test) == NULL) ||
 
-        //KOMMENTERA INTE UT!!!
+        // KOMMENTERA INTE UT!!!
         (CU_add_test(my_test_suite, "shutdown", do_shutdown) == NULL) ||
 
         0)

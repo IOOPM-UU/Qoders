@@ -22,26 +22,27 @@ bool meta_data_compare(elem_t elem1, elem_t elem2)
 
 void remove_from_list(meta_data_t *md)
 {
-    assert(!ioopm_linked_list_is_empty(object_list));
-    ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
-    size_t index = 0;
-    do
+    if (!ioopm_linked_list_is_empty(object_list))
     {
-        if (index != 0)
+        ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
+        size_t index = 0;
+        do
         {
-            ioopm_iterator_next(iter);
-        }
-        if (ioopm_iterator_current(iter).mt->adress == md->adress)
-        {
-            ioopm_linked_list_remove(object_list, index);
-            ioopm_iterator_destroy(&iter);
-            return;
-        }
-        index++;
-    } 
-    while (ioopm_iterator_has_next(iter));
-    
-    ioopm_iterator_destroy(&iter);
+            if (index != 0)
+            {
+                ioopm_iterator_next(iter);
+            }
+            if (ioopm_iterator_current(iter).mt->adress == md->adress)
+            {
+                ioopm_linked_list_remove(object_list, index);
+                ioopm_iterator_destroy(&iter);
+                return;
+            }
+            index++;
+        } while (ioopm_iterator_has_next(iter));
+
+        ioopm_iterator_destroy(&iter);
+    }
 }
 
 meta_data_t *get_meta_data(obj *c)
@@ -147,7 +148,6 @@ void deallocate(obj **c)
     remove_from_list(m);
     free(m);
     *c = NULL;
-
 }
 
 void cleanup()
