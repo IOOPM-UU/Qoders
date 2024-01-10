@@ -91,7 +91,7 @@ void test_allocate_array()
 
     // CU_ASSERT_EQUAL(meta_data->reference_counter, 1);
 
-    release(new_object);
+    release(&new_object);
 
     // CU_ASSERT_EQUAL(meta_data->reference_counter, 0);
 
@@ -116,7 +116,7 @@ void test_release()
 
     // CU_ASSERT_FALSE(meta_data->garbage);
 
-    release(new_object); // kompilatorn säger att det här är en obj **...? borde ju vara en obj *
+    release(&new_object); // kompilatorn säger att det här är en obj **...? borde ju vara en obj *
     // påstår också att detta är oinitializerat
     CU_ASSERT_TRUE(meta_data->garbage);
 }
