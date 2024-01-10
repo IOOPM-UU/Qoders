@@ -30,13 +30,9 @@ The way we returned newly allocated memory made it so that when something was wr
 3. [Deallocate: Destructors not in use, do not work. Objects possibly not freed](https://github.com/IOOPM-UU/Qoders/issues/7)
 The deallocate did not work as expected. It did not utilize the objects destructers, leaving the objects to become a source of memory leaks. 
 <!-- FIXME: -->
-4. [remove_from_list() invalid reads](https://github.com/IOOPM-UU/Qoders/issues/16)
+4. [remove_from_list() leaks memory when deallocating memory out of order](https://github.com/IOOPM-UU/Qoders/issues/18)
 We were getting a lot of invalid read originating from the function `remove_from_list` 
 5. [cleanup() iter used after free](https://github.com/IOOPM-UU/Qoders/issues/15)
 The `cleanup` function somehow removed a link from a list while the iterator still was in use, resulting in invalid reads.
 6. [Memory leak](https://github.com/IOOPM-UU/Qoders/issues/9)
 Due to problems posibly originating from the way we either store or deallocate the objects, resulting in memory not being freed.
-
-<!-- Viktiga saker:
-    gcov
-        "You should make every effort to get 100% code and branch coverage. For every statement or branch that you have not tested, you must include a motivation for why that is and an argument for why the untested code/branch is correct." -->

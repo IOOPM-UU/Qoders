@@ -2,10 +2,8 @@
 
 
 <!--
-####Tankar/frågor/TODO:
-- code example up to date?
-- ett till code example?
-- prestanda
+TODO:
+prestanda
 -->
 
 
