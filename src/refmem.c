@@ -135,7 +135,8 @@ void deallocate(obj **c)
 
     if (m->reference_counter > 0)
     {
-        printf("Error: Only non-zero are able to be deallocated");
+        printf("\nError: Only non-zero are able to be deallocated\n");
+        assert(false);
         return;
     }
 

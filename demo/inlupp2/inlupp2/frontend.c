@@ -49,7 +49,8 @@ char ask_question_menu()
     {
         free(ans);
         ans = ask_question_string("Please enter one of the characters above: ");
-    } while ((strlen(ans) > 1) || !ans_character(*ans));
+    }
+    while ((strlen(ans) > 1) || !ans_character(*ans));
     char answer = toupper(*ans);
     free(ans);
     return answer;

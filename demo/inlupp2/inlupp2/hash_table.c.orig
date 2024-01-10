@@ -87,13 +87,13 @@ static entry_t *entry_create(elem_t key, elem_t value, entry_t *next_entry)
 void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value)
 {
     size_t bucket = 0;
-    if(ht->hash_fn == NULL)
+    if(ht->hash_fn == NULL) 
     {
         bucket = key.i % No_Buckets; // .i reads the integer part of the elem_t
     }
-    else
+    else 
     {
-        /// Calculate the bucket for this entry
+    /// Calculate the bucket for this entry
         bucket = ht->hash_fn(key) % No_Buckets;
     }
     entry_t *entry = find_previous_entry_for_key(&ht->buckets[bucket], key, ht->compare_key_fun);
@@ -113,14 +113,13 @@ void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value)
 option_t ioopm_hash_table_lookup(ioopm_hash_table_t *ht, elem_t key)
 {
     size_t bucket = 0;
-    if(ht->hash_fn == NULL)
+    if(ht->hash_fn == NULL) 
     {
         bucket = key.i % No_Buckets; // .i reads the integer part of the elem_t
-    }
-    else
+    } else 
     {
-        /// Find the previous entry for key
-        bucket = ht->hash_fn(key) % No_Buckets;
+    /// Find the previous entry for key
+    bucket = ht->hash_fn(key) % No_Buckets;
     }
     entry_t *previous = find_previous_entry_for_key(&ht->buckets[bucket], key, ht->compare_key_fun);
     entry_t *current = previous->next;
@@ -140,13 +139,12 @@ option_t ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t key)
 {
 
     size_t bucket = 0;
-    if(ht->hash_fn == NULL)
+    if(ht->hash_fn == NULL) 
     {
         bucket = key.i % No_Buckets; // .i reads the integer part of the elem_t
-    }
-    else
+    } else 
     {
-        // Calculate bucket for this entry
+    // Calculate bucket for this entry
         bucket = ht->hash_fn(key) % No_Buckets;
     }
 

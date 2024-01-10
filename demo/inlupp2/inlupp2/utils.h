@@ -4,14 +4,15 @@ extern char *strdup(const char *);
 #include <stdbool.h>
 
 //Union som representerar olika datatyper
-typedef union { 
-  int   int_value;
-  float float_value;
-  char *string_value;
+typedef union
+{
+    int   int_value;
+    float float_value;
+    char *string_value;
 } answer_t;
 
 //Typen på kontrollfunktionen
-typedef bool(*check_func )(char *); 
+typedef bool(*check_func )(char *);
 
 //Typen på konverteringsfunktionen
 typedef answer_t(*convert_func)(char *);
@@ -26,12 +27,12 @@ bool is_number(char *str);
 char *ask_question_shelf(char *question);
 
 
-#endif 
+#endif
 
 
 
 // char *ask_question_string(char *question, char *buf, int buf_siz);
-// bool is_float(char *str); 
+// bool is_float(char *str);
 // answer_t make_float(char *str);
 // bool not_empty(char *str);
 // double ask_question_float(char *question);

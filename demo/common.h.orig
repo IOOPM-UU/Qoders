@@ -45,12 +45,12 @@ bool int_compare(elem_t a, elem_t b);
 
 union elem
 {
-    int i;
-    unsigned int u; // field holding unsigned integer
-    bool b;         // field holding boolean
-    float f;        // field holding float integer
-    void *p;        // field holding pointer
-    char *s;        // field holding string
-    meta_data_t *mt;// field holding a fuling
+  int i;
+  unsigned int u; // field holding unsigned integer
+  bool b;         // field holding boolean
+  float f;        // field holding float integer
+  void *p;        // field holding pointer
+  char *s;        // field holding string 
+  meta_data_t *mt;// field holding a fuling
 };
 
