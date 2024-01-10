@@ -9,7 +9,7 @@
 /// @return
 int read_string(char *buf, int buf_siz);
 
-/// @brief
+/// @brief 
 /// @param
 /// @param
 /// @return

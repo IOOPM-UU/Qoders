@@ -1,5 +1,5 @@
-CC = gcc
-CFLAGS = -Wall 
+CC = gcc -g
+CFLAGS = -Wall -fprofile-arcs -ftest-coverage
 LDFLAGS = -lgvoc -lcunit
 
 # Directories
@@ -44,10 +44,10 @@ unit_tests: $(UNIT_TESTS_EXECUTABLE)
 unit_tests: run_tests
 
 run_tests:
-	valgrind --leak-check=full ./build/tests
+	valgrind --leak-check=full --show-leak-kinds=all ./build/tests
 
 run_main:
-	valgrind --leak-check=full ./build/main
+	valgrind --leak-check=full --show-leak-kinds=all ./build/main
 
 clean_build: 
 	make clean
