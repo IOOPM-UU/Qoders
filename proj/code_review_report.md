@@ -38,8 +38,6 @@ Implementing this stategy of review all code going into the "master" branch prov
 
 ### GitHub
 
-GitHub's colorful differentials have been invaluable in visually understanding code changes. The visual representation aids in quickly understanding the modifications made, making the review process more efficient and reducing the chances of overseeing something.
-
 GitHub simple and straightforward UI have been crucial in this process, greatly simplifing the entire process. Without it this whole prcoess of initiating pull request would most likely be worth the effort. Furthermore, GitHubs diffrentials viewer was equally crucial since it easily allowed us to view and understand what changes and modifications have been made. This all made the review process a smooth and efficent way to work.
 
 ### Pull Request Iterations
