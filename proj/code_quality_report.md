@@ -40,7 +40,7 @@ With the standrad for high quality code set by achievment Y65 these are the crit
    - Helper functions have been implemented to aid in testing.
 
 
-## Examples of Good Code Practices
+## Examples of Good Code Practices in our Code
 
 ### Example 1: Memory Allocation (`allocate` function)
 ```c
@@ -70,15 +70,14 @@ meta_data_t *get_meta_data(obj *c)
 - It aids in readability, maintainability, correctness, and testability since it simplifys the rest of the code as well as tests.
 
 
+## Tools and Additional points
+We have when writing our code adhered to the **GNU coding standard** using the **astyle** tool. This helps to automatically format our code correctly and uniformaly. This has helped us during the project to keep the code readabile and easy to understand, making our work process more efficient.
 
-## Additional Considerations
 <!-- FIXME: behövs dessa två?-->
 - The global variables `cascade_limit`, `list_delayed_frees`, `counter`, and `check` are used to ...
 - The `cleanup` function provides an explicit way to change the global variable `check` for specific cleanup purposes.
 
 
-## Code Standards and Tools
-We have when writing our code adhered to the **GNU coding standard** using the **astyle** tool. This helps to automatically format our code correctly and uniformaly. This has helped us during the project to keep the code readabile and easy to understand, making our work process more efficient.
 
 ## Conclusion
 In conclusion, we belive our code adheres to the Y65 standards. We have explain our process, design choices, and provided example to showcase our code is of the highest quality.
