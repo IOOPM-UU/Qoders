@@ -63,13 +63,6 @@ void cleanup();
 ///        a session.
 void shutdown();
 
-/// @brief
-/// @param object
-void temp_deallocate(obj **object);
-
-unsigned int obj_address_hash_function(elem_t key);
-bool meta_data_compare(elem_t elem1, elem_t elem2);
-
 /// @brief Returns a list of all objects in the program (intended for tests only)
 /// @return A list of all objects
 ioopm_list_t *get_obj_list();

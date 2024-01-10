@@ -20,7 +20,7 @@ void free_elem(elem_t *element, void *extra)
     free(element->mt);
 }
 
-bool meta_data_compare(elem_t elem1, elem_t elem2)
+static bool meta_data_compare(elem_t elem1, elem_t elem2)
 {
     return elem1.mt->adress == elem2.mt->adress;
 }
