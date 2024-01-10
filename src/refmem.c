@@ -68,7 +68,7 @@ obj *allocate(size_t bytes, function1_t destructor)
     meta_data_t *meta_data = (meta_data_t *)new_object;
 
     meta_data->next = NULL;
-    meta_data->adress = new_object + sizeof(meta_data_t);
+    meta_data->adress = &new_object + sizeof(meta_data_t);
     meta_data->reference_counter = 0;
     meta_data->destructor = destructor;
     meta_data->garbage = true;
@@ -88,7 +88,7 @@ obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
         meta_data_t *meta_data = (meta_data_t *)new_object;
 
         meta_data->next = NULL;
-        meta_data->adress = &new_object + sizeof(meta_data_t); // check allocate
+        meta_data->adress = &new_object; //+ sizeof(meta_data_t); // check allocate
         meta_data->reference_counter = 0;
         meta_data->destructor = destructor;
         meta_data->garbage = true;
@@ -170,15 +170,15 @@ void cleanup()
             meta_data_t *current = ioopm_iterator_current(iter).mt;
             if (current->reference_counter == 0)
             {
+                free(current);
                 ioopm_linked_list_remove(object_list, index);
-                // free(current);
                 index--;
             }
             index++;
         } while (ioopm_iterator_has_next(iter));
         ioopm_iterator_destroy(&iter);
     }
-    ioopm_linked_list_clear(object_list); // was list_delayed_frees changed to object_list
+    ioopm_linked_list_clear(list_delayed_frees); // was list_delayed_frees changed to object_list
 }
 
 void set_cascade_limit(size_t lim)
