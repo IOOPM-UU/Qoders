@@ -29,19 +29,19 @@
 
 # 3 Process   
 ## 3.1 Inception
-<!-- Hur många gånger drömde du att du gjort massa jobb när du egentligen inte gjort något alls?:O -->
 <!-- TODO: -->
-In this section, discuss choice of process, how you went about learning the process, how you went about implementing the process.
+We chose to pick a process very similar to the one lined out in the "Process Requirements" section of the course project module. We used Trello to keep track of tasks and delegation of said tasks, Github for version control, issue tracking, and pull requests, and makefile containing tools like 'valgrind' to control for memory leaks. We begun by dividing all parts of the project into smaller tickets, when these tickets were decided we added all of them and any other smaller tasks to Trello. This then allowed us to delegate these tickets out amongst the group which quickly meant we could begin working on our separate parts of the project parallell to each other and also keeping track of how far along we were in the process of completion. 
+
 
 ## 3.2 Implementation
-<!-- TODO: -->
-- what you actually implemented of the process
-- strengths and weaknesses with your implementation of your chosen process
+<!-- TODO: --> 
+We believe we implemented our process thoroughly and succeeded in the initial idea of how we wanted the process to unfold. The strengths of our process was that we were acutely aware of things
+that had to be done and who did what, the process of Trello and Github ensured that no individual in the group was lacking information regarding the project, this was because everything was managed through tools everyone had access to. Weaknesess however presented themselves when we realized some parts were much harder than others, one ticket could be finished in hours while others took days, this created a discrepency of time management and initially we had no contingency plan for this scenario which proved to be a problem. 
+
 - what you would do differently if you were to start over tomorrow
-- what successes you would attempt to repeat if you were to start over tomorrow
-- how plans were made, key plans, and to what extent your plans were followed
-- how decision making happened, key decisions, and whether they were followed
-- how did you attack the Christmas break problem with planning?
+If we were to redo the project tomorrow we would apply the same process but with more contingency plans, we would consider the possibility of worst case scenarios and reflect on how we would solve an issue that could potentially arise. We would repeat the method of using previously stated tools as well as using a Tech lead in charge of version control and pull requests as we consider this to have been a success. We would continue using the system of tickets and an early delegation of tasks as this proved successful. It was also a success to have plans that were adjustable and not completely rigid, it allowed us to work in a dynamic way which improved possibility of receiving help from other group members; It allowed us to adapt our plan as we went along when we discovered our initial plan may have been unfounded or based off misinterpretation. 
+
+We attacked the Christmas break problem by simply removing the break aspect of it creating "The Christmas Problem". We planned in regards to the break but we found no realistic path we could take in order to actually give ourselves a real Christmas break. 
 # 4 Use of Tools
 
 #### What tools you used in the project and how were they used?
@@ -59,7 +59,6 @@ For this project our main tools has been:
 No.
 #### What tools would you rather not use in the future?
 We do not believe in discontinued usage of specific tools as it shows of poor character. 
-
 
 # 5 Communication, Cooperation and Coordination   
 
@@ -113,5 +112,5 @@ It is difficult to assess the "size" of tasks that are different in nature and d
     Collaboration was a big win for us as we managed to split the project into smaller tasks which were then delegated, spread across the group. This allowed us to efficiently have a good idea of what was supposed to be done and who was supposed to do what. 
 
     what does the team consider its biggest fail?
-    The biggest fail may have been to not be more strict on when and what would be finished, discovering that parts we believed to be finished was in fact not. 
+    The biggest fail may have been to not be more strict on when and what would be finished, discovering that parts we believed to be finished was in fact not.
 <!-- TODO: -->

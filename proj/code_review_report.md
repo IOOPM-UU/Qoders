@@ -31,7 +31,7 @@ Implementing this stategy of review all code going into the "master" branch prov
 
 ### GitHub
 
-GitHub's simple and straightforward UI have been crucial in this process, greatly simplifying the entire process. Without it this whole prcoess of initiating pull request would most likely be //TODOworth the effort. Furthermore, GitHubs differentials viewer was equally crucial since it easily allowed us to view and understand what changes and modifications have been made. This all made the review process a smooth and efficent way to work.
+GitHub's simple and straightforward UI have been crucial in this process, greatly simplifying the entire process. Without it this whole process of initiating pull request would most likely not be worth the effort. Furthermore, GitHubs differentials viewer was equally crucial since it easily allowed us to view and understand what changes and modifications have been made. This all made the review process a smooth and efficent way to work.
 
 ### Pull Request Iterations
 
