@@ -11,14 +11,14 @@ We've also been really focused on keeping the memory overhead low. The goal is t
 
 Overall, it's a project that tackles the common issues in manual memory management, like leaks and segmentation faults, and provides a more structured and less error-prone method for C programmers. 
 
+
+### Design Deviations
 - Double pointers in release() & deallocate()
-kort sagt tillåter det oss att använda CU_ASSERT_PTR_NULL(c);
 We used double pointers in deallocate() and release() so that when we test we can see if the pointer becomes NULL as well, in that way we ensure ourselves that the original pointer is set to NULL when we free the memory. This helps us remove dangling pointers. What this does essentially is that it allows us to use CU_ASSERT_PTR_NULL(c); in our test cases. 
 - get_metadata()
 We implemented the function get_metadata() because an issue we stumbled upon was that the way we returned newly allocated memory made it so that when something was writen into the memory it would overwrite the meta data. Because of this we had to create this helper function.
 
 ### Features Missing
-<!-- ## TODO: For every feature X that you do not deliver, explain why you do not deliver it, how the feature could be integrated in the future in your system, and sketch the high-level design. --> 
 One feature we are missing with this project is the default destructor() function, this feature was not delivered because of issues regarding time resources and miscalculations regarding difficulty of integration and said function. One way of integration would be the following, though note that due to us not having time to even attempt a start to this function our understanding is severely limited:
 
 1. First the function would have to understand what exactly it is destroying. One suggestion that may work is to have the user submit a sort of code in the form of a string that the destructor will parse. So for example, in a struct that looks like this:
