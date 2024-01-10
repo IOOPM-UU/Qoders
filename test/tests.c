@@ -176,11 +176,11 @@ int main()
     if (
 
         (CU_add_test(my_test_suite, "test cleanup", test_cleanup) == NULL) ||
-        // (CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
-        // (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
-        // (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
-        // (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||
-        // (CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
+        (CU_add_test(my_test_suite, "test allocate", test_allocate) == NULL) ||
+        (CU_add_test(my_test_suite, "test allocate array", test_allocate_array) == NULL) ||
+        (CU_add_test(my_test_suite, "test retain", test_retain) == NULL) ||
+        (CU_add_test(my_test_suite, "test release", test_release) == NULL) ||
+        (CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
         //release and deallocate do mostly fine on their own, but together give a ton of errors
         //(CU_add_test(my_test_suite, "padding_test", padding_test) == NULL) ||
 
