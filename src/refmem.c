@@ -155,11 +155,11 @@ void deallocate(obj **c)
     meta_data_t *m = get_meta_data(*c);
 
     if (m->reference_counter > 0)
-        {
-            printf("\nError: Objects with non-zero reference counters can not be deallocated\n");
-            assert(false);
-            return NULL;
-        }
+    {
+        printf("\nError: Objects with non-zero reference counters can not be deallocated\n");
+        assert(false);
+        return;
+    }
 
     if (deallocate_counter == cascade_limit)
         {
