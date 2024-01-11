@@ -9,12 +9,12 @@ With the standrad for high quality code set by achievment Y65 these are the crit
 1. **Readability:**
    - We followed the **GNU coding standard** throughout the project to ensure consistensy and readabilty.
    - **Clear variable and function names** have been chosen to enhance reability.
-   - **Code comments** were also utilized to explain more complex section of the code.
+   - **Code comments** were also utilized to explain more complex sections of the code.
 
 2. **Maintainability:**
-   - We structured the code in a modular manner to simplify understanding the code as well as modifying and maintaining.
-   - We used clear seperation between functions to make the code easier to understand not only to enhance maintainability but also to simplify our work process during the project implementation.
-   - The code is also thoroughly reviewed and well documentated.
+   - We structured the code in a modular manner to simplify understanding of the code as well as modifying and maintaining the code.
+   - We used clear seperation between functions to make the code easier to understand and not only to enhance maintainability but also to simplify our work process during the project implementation.
+   - The code is also thoroughly reviewed and well-documentated.
 
 3. **Correctness:**
    - All functions have been thoroughly tested to ensure to code behaves as expected.
