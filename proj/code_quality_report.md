@@ -5,15 +5,15 @@
 In the development of our project a key point we focused on was writing high quality code with focus on readability, maintainability, correctness, and testability. This report aims to dive deeper into these aspects and explain how it affected the project as a whole.
 
 ## Code Quality Criteria
-With the standrad for high quality code set by achievment Y65 these are the criteria we have followed:
+With the standard for high quality code set by achievment Y65 these are the criteria we have followed:
 1. **Readability:**
-   - We followed the **GNU coding standard** throughout the project to ensure consistensy and readabilty.
-   - **Clear variable and function names** have been chosen to enhance reability.
+   - We followed the **GNU coding standard** throughout the project to ensure consistency and readabilty.
+   - **Clear variable and function names** have been chosen to enhance readability.
    - **Code comments** were also utilized to explain more complex sections of the code.
 
 2. **Maintainability:**
    - We structured the code in a modular manner to simplify understanding of the code as well as modifying and maintaining the code.
-   - We used clear seperation between functions to make the code easier to understand and not only to enhance maintainability but also to simplify our work process during the project implementation.
+   - We used clear separation between functions to make the code easier to understand and not only to enhance maintainability but also to simplify our work process during the project implementation.
    - The code is also thoroughly reviewed and well-documentated.
 
 3. **Correctness:**
@@ -37,8 +37,8 @@ obj *allocate(size_t bytes, function1_t destructor)
 }
 ```
 
-- The function is well structured as to help the readability and maintainability of the code.
-- Proper initialization of the memory structure in the return statement is made to simplify the usability of the code.
+- The function is well-structured as to help the readability and maintainability of the code.
+- Proper initialization of the memory structure in the return statement is made to simplify the use of the code.
 - Clear names for variables have been chosen to ensure readability, maintainability, and correctness.
 
 ### Example 2: Helper function (`get_meta_data` function)
@@ -60,4 +60,4 @@ meta_data_t *get_meta_data(obj *c)
 We have when writing our code adhered to the **GNU coding standard** using the **astyle** tool. This helps to automatically format our code correctly and uniformaly. This has helped us during the project to keep the code readabile and easy to understand, making our work process more efficient.
 
 ## Conclusion
-In conclusion, we belive our code adheres to the Y65 standards. We have explained our process, design choices, and provided examples to showcase our code is of the highest quality.
+In conclusion, we believe our code adheres to the Y65 standards. We have explained our process, design choices, and provided examples to showcase our code is of the highest quality.
