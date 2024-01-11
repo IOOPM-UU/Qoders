@@ -19,6 +19,7 @@ We used double pointers in deallocate() and release() so that when we test we ca
 We implemented the function get_metadata() because an issue we stumbled upon was that the way we returned newly allocated memory made it so that when something was writen into the memory it would overwrite the meta data. Because of this we had to create this helper function.
 
 ### Features Missing
+#### Destructor 
 One feature we are missing with this project is the default destructor() function, this feature was not delivered because of issues regarding time resources and miscalculations regarding difficulty of integration and said function. One way of integration would be the following, though note that due to us not having time to even attempt a start to this function our understanding is severely limited:
 
 1. First the function would have to understand what exactly it is destroying. One suggestion that may work is to have the user submit a sort of code in the form of a string that the destructor will parse. So for example, in a struct that looks like this:
@@ -46,3 +47,6 @@ Alternatively, if we could figure out some way to find out exactly what each fie
 Once you've located all pointers for the memory, if you've used the former method to find the pointers, you would be able to enter those pointers through the destructor and for each pointer locate each of their pointers and then repeat until you reach the end and deallocate everything going backwards. 
 
 If you used the latter method, we believe it might be possible to reach subsequent objects through the meta_data of each pointer, although this is something we would have to find out when implementing the default destructor.
+
+#### Cascade_limit()
+Another feature missing is the cascade_limit() function, its purpose is to ensure that when we are freeing memory there will be a limit that stops the deallocate() from cascading, I.e. it trying to free a million data points for example. With a cascade limit function we can feel confident that the program will not run for an exorbitant period of time. This will be achieved primarily by saving memory we want to free in another list, that will free once we have reset the cascade limit. This is done when we are allocating something new, because its important to know whether the object we want to allocate has fewer bytes than the total amount of bytes we have delayed.
