@@ -4,16 +4,6 @@
 #include "../demo/hash_table.h"
 #include "../demo/common.h"
 
-// typedef struct delay delay_t;
-
-// struct delay
-// {
-//     obj *object_to_free;
-//     delay_t *next;
-// };
-
-// TODO: Function Specifications
-
 meta_data_t *get_meta_data(obj *);
 
 /// @brief Increases the field reference_counter of an object's metadata by 1

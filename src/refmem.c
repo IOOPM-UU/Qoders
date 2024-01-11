@@ -64,9 +64,20 @@ obj *allocate(size_t bytes, function1_t destructor)
         instantiate = false;
     }
 
-    if (deallocate_counter == cascade_limit)
-    {
-        deallocate_counter = 0;
+   if (deallocate_counter == cascade_limit) {
+        int index = 0; 
+        ioopm_link_t *current = list_delayed_frees->head->next; 
+
+        while(current != NULL) {
+
+            ioopm_link_t *tmp = list_delayed_frees->head->next;
+            free(list_delayed_frees->head->value.p);
+            free(list_delayed_frees->head);
+            list_delayed_frees->head = tmp; 
+            current = current->next; 
+
+            index++;
+        }
     }
 
     obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
@@ -107,6 +118,13 @@ void retain(obj *c)
     m->reference_counter++;
 }
 
+size_t get_cascade_limit()
+{
+    return cascade_limit;
+}
+
+
+
 void release(obj **c)
 {
     if (*c != NULL)
@@ -136,13 +154,13 @@ void deallocate(obj **c)
     if (m->reference_counter > 0)
     {
         printf("\nError: Objects with non-zero reference counters can not be deallocated\n");
+        assert(false);
         return;
     }
 
     if (deallocate_counter == cascade_limit)
     {
         ioopm_linked_list_append(list_delayed_frees, ptr_elem(*c));
-        assert(false);
         return;
     }
 

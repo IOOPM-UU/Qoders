@@ -19,209 +19,227 @@
         -:   15:
         -:   16:int deallocate_counter = 0; // PRELIMINARY
         -:   17:
-    #####:   18:void free_elem(elem_t *element, void *extra)
-        -:   19:{
-    #####:   20:    free(element->mt);
-    #####:   21:}
+        -:   18:// void free_elem(elem_t *element, void *extra)
+        -:   19:// {
+        -:   20://     free(element->mt);
+        -:   21:// }
         -:   22:
-    #####:   23:static bool meta_data_compare(elem_t elem1, elem_t elem2)
-        -:   24:{
-    #####:   25:    return elem1.mt->adress == elem2.mt->adress;
-        -:   26:}
+        -:   23:// static bool meta_data_compare(elem_t elem1, elem_t elem2)
+        -:   24:// {
+        -:   25://     return elem1.mt->adress == elem2.mt->adress;
+        -:   26:// }
         -:   27:
-        7:   28:void remove_from_list(meta_data_t *md)
+        4:   28:void remove_from_list(meta_data_t *md)
         -:   29:{
-        7:   30:    if (!ioopm_linked_list_is_empty(object_list))
+        4:   30:    if (!ioopm_linked_list_is_empty(object_list))
         -:   31:    {
-        6:   32:        ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
-        6:   33:        size_t index = 0;
+        4:   32:        ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
+        4:   33:        size_t index = 0;
         -:   34:        do
         -:   35:        {
-        6:   36:            if (index != 0)
+       17:   36:            if (index != 0)
         -:   37:            {
-    #####:   38:                ioopm_iterator_next(iter);
+       13:   38:                ioopm_iterator_next(iter);
         -:   39:            }
-        6:   40:            if (ioopm_iterator_current(iter).mt->adress == md->adress)
+       17:   40:            if (ioopm_iterator_current(iter).mt->adress == md->adress)
         -:   41:            {
-        6:   42:                ioopm_linked_list_remove(object_list, index);
-        6:   43:                ioopm_iterator_destroy(&iter);
-        6:   44:                return;
+        1:   42:                ioopm_linked_list_remove(object_list, index);
+        1:   43:                ioopm_iterator_destroy(&iter);
+        1:   44:                return;
         -:   45:            }
-    #####:   46:            index++;
-    #####:   47:        } while (ioopm_iterator_has_next(iter));
+       16:   46:            index++;
+       16:   47:        } while (ioopm_iterator_has_next(iter));
         -:   48:
-    #####:   49:        ioopm_iterator_destroy(&iter);
+        3:   49:        ioopm_iterator_destroy(&iter);
         -:   50:    }
         -:   51:}
         -:   52:
-       19:   53:meta_data_t *get_meta_data(obj *c)
+       23:   53:meta_data_t *get_meta_data(obj *c)
         -:   54:{
-       19:   55:    return c - sizeof(meta_data_t);
+       23:   55:    return c - sizeof(meta_data_t);
         -:   56:}
         -:   57:
-        6:   58:obj *allocate(size_t bytes, function1_t destructor)
+       11:   58:obj *allocate(size_t bytes, function1_t destructor)
         -:   59:{
-        6:   60:    if (instantiate)
+       11:   60:    if (instantiate)
         -:   61:    {
         1:   62:        list_delayed_frees = ioopm_linked_list_create(NULL);
         1:   63:        object_list = ioopm_linked_list_create(NULL);
         1:   64:        instantiate = false;
         -:   65:    }
         -:   66:
-        6:   67:    if (deallocate_counter == cascade_limit)
-        -:   68:    {
-    #####:   69:        deallocate_counter = 0;
-        -:   70:    }
-        -:   71:
-        6:   72:    obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
-        -:   73:
-        6:   74:    meta_data_t *meta_data = (meta_data_t *)new_object;
-        -:   75:
-        6:   76:    meta_data->next = NULL;
-        6:   77:    meta_data->adress = &new_object; // + sizeof(meta_data_t);
-        6:   78:    meta_data->reference_counter = 0;
-        6:   79:    meta_data->destructor = destructor;
-        -:   80:
-        6:   81:    ioopm_linked_list_append(object_list, mt_elem(meta_data));
+       11:   67:   if (deallocate_counter == cascade_limit) {
+        4:   68:        int index = 0; 
+        4:   69:        ioopm_link_t *current = list_delayed_frees->head->next; 
+        -:   70:
+        7:   71:        while(current != NULL) {
+        -:   72:
+        3:   73:            ioopm_link_t *tmp = list_delayed_frees->head->next;
+        3:   74:            free(list_delayed_frees->head->value.p);
+        3:   75:            free(list_delayed_frees->head);
+        3:   76:            list_delayed_frees->head = tmp; 
+        3:   77:            current = current->next; 
+        -:   78:
+        3:   79:            index++;
+        -:   80:        }
+        -:   81:    }
         -:   82:
-        6:   83:    return new_object + sizeof(meta_data_t);
-        -:   84:}
-        -:   85:
-        1:   86:obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
-        -:   87:{
-        -:   88:
-        1:   89:    obj *new_object = (obj *)calloc(elements, elem_size + sizeof(meta_data_t));
-        -:   90:
-        1:   91:    if (new_object != NULL)
-        -:   92:    {
-        1:   93:        meta_data_t *meta_data = (meta_data_t *)new_object;
-        -:   94:
-        1:   95:        meta_data->next = NULL;
-        1:   96:        meta_data->adress = &new_object; //+ sizeof(meta_data_t); // check allocate
-        1:   97:        meta_data->reference_counter = 0;
-        1:   98:        meta_data->destructor = destructor;
-        -:   99:    }
-        -:  100:
-        1:  101:    return new_object + sizeof(meta_data_t);
-        -:  102:}
-        -:  103:
-        3:  104:void retain(obj *c)
-        -:  105:{
-        3:  106:    meta_data_t *m = get_meta_data(c);
-        3:  107:    m->reference_counter++;
-        3:  108:}
-        -:  109:
-        5:  110:void release(obj **c)
-        -:  111:{
-        5:  112:    if (*c != NULL)
-        -:  113:    {
-        5:  114:        meta_data_t *meta_data = get_meta_data(*c);
-        -:  115:
-        5:  116:        meta_data->reference_counter--;
-        5:  117:        if (meta_data->reference_counter < 1)
-        -:  118:        {
-        5:  119:            deallocate(c);
-        -:  120:        }
-        -:  121:    }
-        5:  122:}
-        -:  123:
-    #####:  124:int rc(obj *c)
-        -:  125:{
-    #####:  126:    meta_data_t *meta_data = get_meta_data(c);
-        -:  127:    // meta_data->reference_counter++;
-    #####:  128:    return meta_data->reference_counter;
-        -:  129:}
-        -:  130:
-        7:  131:void deallocate(obj **c)
-        -:  132:{
+       11:   83:    obj *new_object = (obj *)malloc(sizeof(meta_data_t) + bytes);
+        -:   84:
+       11:   85:    meta_data_t *meta_data = (meta_data_t *)new_object;
+        -:   86:
+       11:   87:    meta_data->next = NULL;
+       11:   88:    meta_data->adress = &new_object; // + sizeof(meta_data_t);
+       11:   89:    meta_data->reference_counter = 0;
+       11:   90:    meta_data->destructor = destructor;
+        -:   91:
+       11:   92:    ioopm_linked_list_append(object_list, mt_elem(meta_data));
+        -:   93:
+       11:   94:    return new_object + sizeof(meta_data_t);
+        -:   95:}
+        -:   96:
+        1:   97:obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
+        -:   98:{
+        -:   99:
+        1:  100:    obj *new_object = (obj *)calloc(elements, elem_size + sizeof(meta_data_t));
+        -:  101:
+        1:  102:    if (new_object != NULL)
+        -:  103:    {
+        1:  104:        meta_data_t *meta_data = (meta_data_t *)new_object;
+        -:  105:
+        1:  106:        meta_data->next = NULL;
+        1:  107:        meta_data->adress = &new_object; //+ sizeof(meta_data_t); // check allocate
+        1:  108:        meta_data->reference_counter = 0;
+        1:  109:        meta_data->destructor = destructor;
+        -:  110:    }
+        -:  111:
+        1:  112:    return new_object + sizeof(meta_data_t);
+        -:  113:}
+        -:  114:
+        4:  115:void retain(obj *c)
+        -:  116:{
+        4:  117:    meta_data_t *m = get_meta_data(c);
+        4:  118:    m->reference_counter++;
+        4:  119:}
+        -:  120:
+        2:  121:size_t get_cascade_limit()
+        -:  122:{
+        2:  123:    return cascade_limit;
+        -:  124:}
+        -:  125:
+        -:  126:
+        -:  127:
+        5:  128:void release(obj **c)
+        -:  129:{
+        5:  130:    if (*c != NULL)
+        -:  131:    {
+        5:  132:        meta_data_t *meta_data = get_meta_data(*c);
         -:  133:
-        7:  134:    meta_data_t *m = get_meta_data(*c);
-        -:  135:
-        7:  136:    if (m->reference_counter > 0)
-        -:  137:    {
-    #####:  138:        printf("\nError: Only non-zero are able to be deallocated\n");
-    #####:  139:        assert(false);
-        -:  140:        return;
-        -:  141:    }
-        -:  142:
-        7:  143:    if (deallocate_counter == cascade_limit)
-        -:  144:    {
-    #####:  145:        ioopm_linked_list_append(list_delayed_frees, ptr_elem(*c));
-    #####:  146:        return;
-        -:  147:    }
+        5:  134:        meta_data->reference_counter--;
+        5:  135:        if (meta_data->reference_counter < 1)
+        -:  136:        {
+        5:  137:            deallocate(c);
+        -:  138:        }
+        -:  139:    }
+        5:  140:}
+        -:  141:
+        2:  142:int rc(obj *c)
+        -:  143:{
+        2:  144:    meta_data_t *meta_data = get_meta_data(c);
+        -:  145:    // meta_data->reference_counter++;
+        2:  146:    return meta_data->reference_counter;
+        -:  147:}
         -:  148:
-        7:  149:    deallocate_counter++;
-        -:  150:
-        7:  151:    remove_from_list(m);
-        7:  152:    free(m);
-        7:  153:    *c = NULL;
-        -:  154:}
-        -:  155:
-    #####:  156:void cleanup_helper(elem_t *element, void *extra)
-        -:  157:{
-    #####:  158:    ioopm_linked_list_remove(object_list, element->i);
-    #####:  159:}
+        8:  149:void deallocate(obj **c)
+        -:  150:{
+        -:  151:
+        8:  152:    meta_data_t *m = get_meta_data(*c);
+        -:  153:
+        8:  154:    if (m->reference_counter > 0)
+        -:  155:    {
+    #####:  156:        printf("\nError: Objects with non-zero reference counters can not be deallocated\n");
+    #####:  157:        assert(false);
+        -:  158:        return NULL;
+        -:  159:    }
         -:  160:
-        1:  161:void cleanup()
-        -:  162:{
-        1:  163:    if (!ioopm_linked_list_is_empty(object_list))
-        -:  164:    {
-    #####:  165:        void *not_used = NULL;
-        -:  166:        // ioopm_linked_list_apply_to_all(object_list, cleanup_helper, not_used);
-        -:  167:
-    #####:  168:        ioopm_list_t *delete_list = ioopm_linked_list_create(NULL);
-    #####:  169:        ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
-    #####:  170:        bool first = true;
-    #####:  171:        int index2 = 0;
-    #####:  172:        int index = 0;
-        -:  173:        do
-        -:  174:        {
-    #####:  175:            if (first)
-        -:  176:            {
-    #####:  177:                first = false;
-        -:  178:            }
-        -:  179:            else
-        -:  180:            {
-    #####:  181:                ioopm_iterator_next(iter);
-        -:  182:            }
-    #####:  183:            meta_data_t *current = ioopm_iterator_current(iter).mt;
-    #####:  184:            if (current->reference_counter == 0)
-        -:  185:            {
-    #####:  186:                free(current);
-    #####:  187:                ioopm_linked_list_append(delete_list, int_elem(index - index2));
-    #####:  188:                index2++;
-        -:  189:            }
-    #####:  190:            index++;
-    #####:  191:        } while (ioopm_iterator_has_next(iter));
-    #####:  192:        ioopm_linked_list_apply_to_all(delete_list, cleanup_helper, not_used);
-    #####:  193:        ioopm_linked_list_destroy(&delete_list);
-    #####:  194:        ioopm_iterator_destroy(&iter);
-        -:  195:    }
-        1:  196:    ioopm_linked_list_clear(list_delayed_frees);
-        1:  197:}
-        -:  198:
-    #####:  199:void set_cascade_limit(size_t lim)
-        -:  200:{
-    #####:  201:    cascade_limit = lim;
-    #####:  202:    deallocate_counter = 0;
-    #####:  203:}
-        -:  204:
-    #####:  205:ioopm_list_t *get_obj_list()
-        -:  206:{
-    #####:  207:    return object_list;
-        -:  208:}
-        -:  209:
-        1:  210:void shutdown()
-        -:  211:{
-        1:  212:    if (object_list != NULL)
-        -:  213:    {
-        1:  214:        cleanup();
-        -:  215:
-        -:  216:        // ioopm_linked_list_apply_to_all(object_list, free_elem, NULL);
-        1:  217:        ioopm_linked_list_destroy(&object_list);
-        -:  218:    }
-        1:  219:    if (list_delayed_frees != NULL)
-        -:  220:    {
-        1:  221:        ioopm_linked_list_destroy(&list_delayed_frees);
-        -:  222:    }
-        1:  223:}
+        8:  161:    if (deallocate_counter == cascade_limit)
+        -:  162:    {
+        4:  163:        ioopm_linked_list_append(list_delayed_frees, ptr_elem(*c));
+        4:  164:        return;
+        -:  165:    }
+        -:  166:
+        4:  167:    deallocate_counter++;
+        -:  168:
+        4:  169:    remove_from_list(m);
+        4:  170:    free(m);
+        4:  171:    *c = NULL;
+        -:  172:}
+        -:  173:
+        8:  174:void cleanup_helper(elem_t *element, void *extra)
+        -:  175:{
+        8:  176:    ioopm_linked_list_remove(object_list, element->i);
+        8:  177:}
+        -:  178:
+        2:  179:void cleanup()
+        -:  180:{
+        2:  181:    if (!ioopm_linked_list_is_empty(object_list))
+        -:  182:    {
+        2:  183:        void *not_used = NULL;
+        -:  184:        // ioopm_linked_list_apply_to_all(object_list, cleanup_helper, not_used);
+        -:  185:
+        2:  186:        ioopm_list_t *delete_list = ioopm_linked_list_create(NULL);
+        2:  187:        ioopm_list_iterator_t *iter = ioopm_list_iterator(object_list);
+        2:  188:        bool first = true;
+        2:  189:        int index2 = 0;
+        2:  190:        int index = 0;
+        -:  191:        do
+        -:  192:        {
+        8:  193:            if (first)
+        -:  194:            {
+        2:  195:                first = false;
+        -:  196:            }
+        -:  197:            else
+        -:  198:            {
+        6:  199:                ioopm_iterator_next(iter);
+        -:  200:            }
+        8:  201:            meta_data_t *current = ioopm_iterator_current(iter).mt;
+        8:  202:            if (current->reference_counter == 0)
+        -:  203:            {
+        8:  204:                free(current);
+        8:  205:                ioopm_linked_list_append(delete_list, int_elem(index - index2));
+        8:  206:                index2++;
+        -:  207:            }
+        8:  208:            index++;
+        8:  209:        } while (ioopm_iterator_has_next(iter));
+        2:  210:        ioopm_linked_list_apply_to_all(delete_list, cleanup_helper, not_used);
+        2:  211:        ioopm_linked_list_destroy(&delete_list);
+        2:  212:        ioopm_iterator_destroy(&iter);
+        -:  213:    }
+        2:  214:    ioopm_linked_list_clear(list_delayed_frees);
+        2:  215:}
+        -:  216:
+        3:  217:void set_cascade_limit(size_t lim)
+        -:  218:{
+        3:  219:    cascade_limit = lim;
+        3:  220:    deallocate_counter = 0;
+        3:  221:}
+        -:  222:
+        2:  223:ioopm_list_t *get_obj_list()
+        -:  224:{
+        2:  225:    return object_list;
+        -:  226:}
+        -:  227:
+        1:  228:void shutdown()
+        -:  229:{
+        1:  230:    if (object_list != NULL)
+        -:  231:    {
+        1:  232:        cleanup();
+        -:  233:
+        -:  234:        // ioopm_linked_list_apply_to_all(object_list, free_elem, NULL);
+        1:  235:        ioopm_linked_list_destroy(&object_list);
+        -:  236:    }
+        1:  237:    if (list_delayed_frees != NULL)
+        -:  238:    {
+        1:  239:        ioopm_linked_list_destroy(&list_delayed_frees);
+        -:  240:    }
+        1:  241:}
