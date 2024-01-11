@@ -24,7 +24,7 @@
 **Total number of lines of test code:** 246
 **Total number of lines of “script code” (e.g., make files, Python scripts for generating test data, etc.):** 78
 **Total number of hours worked by the team:** 231 hours
-**Total number of git commits:** 164 commits
+**Total number of git commits:** 168 commits
 **Total number of pull requests:** 13 pull requests
 **Total number of GitHub issues:** 7 issues
 
