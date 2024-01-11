@@ -39,6 +39,7 @@ all: $(MAIN_EXECUTABLE)
 all: run_main
 
 unit_tests: clean_build
+unit_tests: CFLAGS += -D UNIT_TESTS
 unit_tests: build_directory
 unit_tests: $(UNIT_TESTS_EXECUTABLE)
 unit_tests: run_tests

@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "utils.h"
+#include "../src/refmem.h"
 
 char *strduplicate(char *src)
 {
@@ -14,7 +15,7 @@ char *strduplicate(char *src)
 
     while (src[len])
         len++;
-    str = allocate(len + 1);
+    str = allocate(len + 1, NULL);
     p = str;
     while (*src)
         *p++ = *src++;

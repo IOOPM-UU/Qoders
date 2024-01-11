@@ -196,7 +196,7 @@ void do_shutdown()
 {
     shutdown();
 }
-
+#ifdef UNIT_TESTS
 int main()
 {
     // First we try to set up CUnit, and exit if we fail
@@ -244,3 +244,4 @@ int main()
     CU_cleanup_registry();
     return CU_get_error();
 }
+#endif
