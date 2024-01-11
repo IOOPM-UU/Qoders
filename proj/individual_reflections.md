@@ -191,5 +191,6 @@ I definitely prefer to work as a group, I feel like most "lifehacks" I know in c
 It has worked but I can become better at remembering to do it after every session, now it feels like it has been done more sporadically than what one would hope. For example times when one starts working on the project without planning it before hand, you kind of forget that you are doing the work. 
 
 - “Biggest fail” och “biggest win”, dvs. det största problem som du stötte på och det smartaste eller bästa du gjorde.
+
 Biggest fail: I believe the execution of the planning became a fail in terms of coordination. 
 Biggest win: I put in great effort into the reports and coordinated what was needed for many aspects in terms of what data and information was needed.
