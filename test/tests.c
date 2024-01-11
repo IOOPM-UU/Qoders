@@ -22,9 +22,9 @@ int clean_suite(void)
 void destructor1(obj *object)
 {
     if (object != NULL)
-    {
-        free(object);
-    }
+        {
+            free(object);
+        }
 }
 
 // void padding_test() {
@@ -207,11 +207,11 @@ int main()
     // the init and cleanup functions
     CU_pSuite my_test_suite = CU_add_suite("My awesome test suite", init_suite, clean_suite);
     if (my_test_suite == NULL)
-    {
-        // If the test suite could not be added, tear down CUnit and exit
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
+        {
+            // If the test suite could not be added, tear down CUnit and exit
+            CU_cleanup_registry();
+            return CU_get_error();
+        }
 
     if (
 
@@ -231,11 +231,11 @@ int main()
 
         0)
 
-    {
-        // If adding any of the tests fails, we tear down CUnit and exit
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
+        {
+            // If adding any of the tests fails, we tear down CUnit and exit
+            CU_cleanup_registry();
+            return CU_get_error();
+        }
 
     // Set the running mode. Use CU_BRM_VERBOSE for maximum output.
     // Use CU_BRM_NORMAL to only print errors and a summary
