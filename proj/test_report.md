@@ -14,12 +14,12 @@ Since we misjudged the amount of time the integration part of the project would 
 We have performed our regression testing simply by being vigilant in making sure to test all the functions we modify, i.e. if we optimize a function or do any form of change to it then we will re-run tests in order to quickly catch new possible bugs. If we have made changes to a part of the code that is used in many places then all of those new test cases will be selected for regression testing. 
 
 ### Code Coverage
-<!-- TODO: -->
 Code coverage of tests:
-X% out of Y lines.
-This means our tests cover X% of all code we have implemented. We can not by this metric alone conclude that our tests are near perfect but we can feel confident they serve their purpose.
+98.25% of 114 lines.
 
-<!-- Include a graphical overview of the code coverage. You should make every effort to get 100% code and branch coverage. For every statement or branch that you have not tested, you must include a motivation for why that is and an argument for why the untested code/branch is correct. -->
+This means our tests cover 98.25% of all code we have implemented. Only 2 out of 114 lines of code are not reach which are two lines it should not reach. Those two lines are for a check in the code in the form of an if-statement which if enters prints a message and crashes the program. This means if we have it in our tests to go into this if-statement our tests would crash. This would means we could not continue testing which is why we can not have it in our tests.
+
+We can not by this metric alone conclude that our tests are near perfect but we can feel confident they serve their purpose.
 
 ### 6 Most Nasty Bugs
 Our 6 most nasty bugs (with links to their issue page on GitHub):

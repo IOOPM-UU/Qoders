@@ -35,8 +35,7 @@ FIXME:
 We chose to pick a process very similar to the one lined out in the "Process Requirements" section of the course project module. We used Trello to keep track of tasks and delegation of said tasks, GitHub for version control, issue tracking, and pull requests. We used makefile containing tools like 'valgrind' to control memory leaks and to automate testing and building. We began by dividing all parts of the project into smaller tickets, when these tickets were decided we added all of them and any other smaller tasks to Trello. This then allowed us to delegate these tickets out amongst the group which quickly meant we could begin working on our separate parts of the project parallel to each other and also keeping track of how far along we were in the process of completion.
 
 ## 3.2 Implementation
-<!-- FIXME: första meningen? did we actualy succeed? -->
-We believe we implemented our process thoroughly and succeeded in the initial idea of how we wanted the process to unfold. The strengths of our process were that we were acutely aware of things that had to be done and who did what. The process of Trello and Github ensured that no individual in the group lacked information regarding the project, this was because everything was managed through tools everyone had access to. Weaknesses however presented themselves when we realized some parts were much harder than others, one ticket could be finished in hours while others took days, this created a discrepency in time management and, initially, we had no contingency plan for this scenario which proved to be a problem. 
+We believe we implemented our process thoroughly and succeeded in the initial idea of how we wanted the work process to unfold. The strengths of our process were that we were acutely aware of things that had to be done and who did what. The process of Trello and Github ensured that no individual in the group lacked information regarding the project, this was because everything was managed through tools everyone had access to. Weaknesses however presented themselves when we realized some parts were much harder than others, one ticket could be finished in hours while others took days, this created a discrepency in time management and, initially, we had no contingency plan for this scenario which proved to be a problem. 
 
 If we were to redo the project tomorrow we would apply the same process but with more contingency plans, we would consider the possibility of worst-case scenarios and reflect on how we would solve an issue that could potentially arise. We would repeat the method of using previously stated tools as well as using a Tech lead in charge of version control and pull requests as we consider this to have been a success. We would continue using the system of tickets and an early delegation of tasks as this proved successful. It was also a success to have plans that were adjustable and not completely rigid, it allowed us to work in a dynamic way which improved the possibility of receiving help from other group members; It allowed us to adapt our plan as we went along when we discovered our initial plan may have been unfounded or based off misinterpretation. 
 
@@ -64,8 +63,7 @@ Communication during this project has worked very well, we started by creating a
 
 In regards to cooperation and coordination; we decided on our first group meeting that we would split the project into smaller tickets, some of these tickets would then be spread out amongst smaller groups of two within the project group. By doing this we could isolate problems to specific people and allow everyone to feel responsible for specific aspects of this project. Using Trello it also allowed us to send more people to places of the code where it was needed. We also assigned one member to be "_Tech lead_", he was responsible for accepting pull requests and was also the one managing the makefile and github in general. Giving this task to one specific person also ensured that we had both a chain of command and a structure which allowed for help to be given and received. 
 
-<!-- FIXME: "break"? -->
-During the "break" we all knew the tasks we had and so we singled out two days on which all communication, cooperation and coordination were to happen. This allowed us to work independently and yet confirm progress or stalling in a relevant way. 
+During the break we all knew the tasks we had and so we singled out two days on which all communication, cooperation and coordination were to happen. This allowed us to work independently and yet confirm progress or stalling in a relevant way. 
 
 One essential issue that caused great damage to the progress of the project was that it took us almost a fortnight to get into contact with the final member, only to realize that he was no longer part of the course. This meant the workload structure we initially decided upon now was no longer feasible and each member and the project as a whole suffered as a consequence. 
 
@@ -91,15 +89,19 @@ We decided after the first group meeting that the best thing to do would be to g
 
 We also used pair programming and made our best to divide the project into smaller tickets and subtasks using Trello. This allowed us to keep track of progress and ensuring that if someone was falling behind with others finishing early we could easily intervene and provide needed support. However because we could not properly assess the difficulty of some of the given tasks the workload was not proportionally distributed. This lead to the process of assessing just how much time and effort was needed becoming an unforseen issue which cascaded into thinking we were close to a solution while having a long way to go. 
 
-It is difficult to assess the "size" of tasks that are different in nature compared to what one previously has dabbled with. Difference in skill and capability leads to a relevant difference in what is "equal". Because of this Trello was frequently used to track progress but mostly we relied on each other to give everyone a heads up if one was falling behind or quickly succeeding with given task. We also came to realize that whatever time we think we will need, realistically we found that it would take probably <!--  -->5-10x the amount. It could be a combination of lacking proper knowledge in creating a coding project and overestimation of skill but looking back we still believed it would be difficult but did not understand how difficult. 
+It is difficult to assess the "size" of tasks that are different in nature compared to what one previously has dabbled with. Difference in skill and capability leads to a relevant difference in what is "equal". Because of this Trello was frequently used to track progress but mostly we relied on each other to give everyone a heads up if one was falling behind or quickly succeeding with given task. We also came to realize that whatever time we think we will need, realistically we found that it would take many times the amount. It could be a combination of lacking proper knowledge in creating a coding project and overestimation of skill but looking back we still believed it would be difficult but did not understand how difficult. 
 
-####Work Breakdown Insights
+#### Work Breakdown Insights
 - Planning for the integration
+
 We did not have proper understanding for how the implementation would practically be done as we saw it as "a future problem", we believed integration and the demo would be easier to solve and in doing that we ended up hitting a wall where our performance did not match the sprints expectation, this in turn created a bottle neck which stopped us from integrating because we simply did not have the proper code to do so. 
+
 - Merging tickets and work 
+
 We have also realized that we should have merged some tickets when they were starting to get finished, it would have been easier to start working together earlier in order to ensure that different pieces of code had compatibility. Because we had this approach we created code that worked independently and passed tests but once merged suddenly failed tests and stopped functioning. 
 
 - Insight conclusion 
+
 In a project consisting of different parts that all must be compatible, it can be beneficial to establish task distribution where certain tasks have earlier deadlines than others. If some tasks are essential to further progress of the project then they must be finished quicker than a task that is not as essential for things like integration. This way, one can detect problems earlier or if someone hasn't managed to complete a task that is of an essential nature. What happened during the execution of this project was that regular meetings and offers of help proving not to be sufficient. A task was not completed within the specified time, making it impossible to assemble all the parts satisfactorily in order to successfully complete the task on time
 
 # 7 Reflection
@@ -115,8 +117,8 @@ We feel confident that what we delivered has been implemented in the correct way
 -__On a scale 1–7 (7 is best), rate your satisfaction with your quality assurance and provide justification for that number__
 5, our quality assurance worked by having someone that did not write the code(preferably the tech lead) examine the pull requests and then after review push it to the master branch, we believe this was a good system and allowed us to find each others errors efficiently. Other than using a tech lead and pull requests we also worked a lot with unit testing to ensure our quality. 
 
--__what does the team consider its biggest win?__
+-__What does the team consider its biggest win?__
 Collaboration was a big win for us as we managed to split the project into smaller tasks which were then delegated, spread across the group. This allowed us to efficiently have a good idea of what was supposed to be done and who was supposed to do what. 
 
--__what does the team consider its biggest fail?__
+-__What does the team consider its biggest fail?__
 The biggest fail was that we underestimated the workload required to complete the integration and what would be needed for it. This was a result of not being strict enough on when and what should be finished.

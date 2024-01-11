@@ -92,7 +92,7 @@ It has gone suprisingly well. I usually struggle with remebering to write anythi
 
 - “Biggest fail” och “biggest win”, dvs. det största problem som du stötte på och det smartaste eller bästa du gjorde.
 
-Biggest Fail: Our planning. Our planning was what eventually lead to us not being able to compeletly finsish the project.
+Biggest Fail: Our coordination. Our coordination was what eventually lead to us not being able to compeletly finsish the project.
 
 Biggest Win: I was able to solve the issue of our pointer to allocated memory pointing to the wrong part. It was a problem I am proud of understanding and solving. I was also able to catch it before it became a really nasty problem which probably saves a lot of time.
 
@@ -112,3 +112,84 @@ The cleanup() function overall was just a pain through and through and caused ma
 
 Biggest Win:
 I don't have a specific 'Biggest Win' but I think towards the end I called a lot of shots for the group that steered us on the correct path instead of being stuck on things that might have ended up being unnecessary
+
+
+### Alexander Liberman
+
+- How do I function in a team? Where are my strengths and weaknesses?
+
+I would say that I function pretty well in a team by taking more of a supportive role where I can float between tasks and help out where I'm needed, while still having my own tasks. I would say my strengths are that I can adapt to new situations, allowing me to get situated with issues and new obstacles quickly by setting up a plan of action on the fly. My weaknesses is that I struggle with focusing on one thing, which is why I would say the 'floating' role suits me. 
+
+- How should I try to adapt the way I work to work better in a team?
+
+I think what I can do to work better in a team is be more proactive, instead of waiting for people to ask me for help, i should sit down with each member of the group and go over their parts of the project together, that way we can clear up issues and misunderstandings earlier.
+
+- What motivates me? What demotivates me? How do I stay motivated in a project?
+
+I am motivated when there is a clear structure. Knowing what to do, when to do it and in what order to do things makes it alot easier for me to be motivated, since the line from start to finish is clear and I get a sense of accomplishment when finishing a task. I get demotivated by lack of communication and serial procastrination. I love helping out, helping others motivates me, and if a member were to not do their part or not communicate a need for help, I would be demotivated instead. 
+
+- How good am I at estimating how long a task will take? What is the process that produce my estimations?
+
+I usually estimate how long a task will take by trying to figure out how much I know and how much I don't know in it. Then i break the task down into research and execution. The research part is usually faster than the exectuion, but is still worth taking into account. Thereafter I usually factor in what needs to be done, what could go wrong and how long it would take me to fix it. If certain parts of the task are remenisent of past tasks, I can usually get through them quickly, while brand new tasks require me to come up with a plan of action in my head before I can execute it. 
+
+- What role do I want to play in a team?
+
+I would say I play either a leading or supporting role in a team, either by making decisions on when and how things should be done or helping other group members with their parts. 
+
+- Hur fungerar du i ett team? Faller du in i ett särskilt mönster, eller tar du återkommande en särskild roll?
+
+While I prefer the leading/supporting role I am flexible with what I do, if I'm not in one of those roles I usually work on tasks I find challenging or interesting. 
+
+- Får du ut något av att jobba i en grupp, eller jobbar du helst ensam?
+
+I learn best by first reading or doing something and then explaining it to someone. I would say working in a group helps me understand and learn more than if I were to work alone. Working in a group also gives me insentive to put in the time I need, as I feel like I'm letting the team down if I don't get my part done. 
+
+- Jämför hur mycket du lärt dig under projektarbetet kontra kursens övriga delar, och fundera över hur du bäst lär dig saker.
+
+I would say I have learned more during the lab sessions when it comes to programming itself and the project has been a way of putting what I learned into practice. I would say I have gotten experience in working with a larger team which is something I haven't done before in a programming environment.
+
+- Hur har det gått att logga arbetstid?
+
+There haven't been any issues with my logging of time, other than it being tricky to estimate how much time I've put into helping people with their respective problems.
+
+- “Biggest fail” och “biggest win”, dvs. det största problem som du stötte på och det smartaste eller bästa du gjorde.
+
+Biggest fail - Not realizing that we would have to create new datastructures (or rename old ones) in the integration of the project into inlupp 2 as we would need to redefine how hash_tables and linked_lists are allocated using our version rather than malloc/calloc and free. 
+
+Biggest win - 
+
+### Martin Cavallin
+
+- How do I function in a team? Where are my strengths and weaknesses?
+
+I think personally that I am good at working together with people and generally social. I think my strengths are that I can be straightforward and solution oriented 
+while not being too bitterly serious at solving the task. Seriousness and pleasantness must co-exist during processes that are over a course of a longer period. I believe my weaknesses are that I can be ambitious in regards to time and sometimes I can derail into topics that may not be relevant if respons is given to said topic. 
+
+- How should I try to adapt the way I work to work better in a team?
+
+I believe I can attempt to seek more problems and always check if someone needs to be off-loaded with tasks they are struggling with. 
+
+- What motivates me? What demotivates me? How do I stay motivated in a project?
+
+I am motivated by progress and learning new things but demotivated by things I have a hard time justifying. I stay motivated in a project by finding angles where I can 
+see interesting aspects of it and by reminding me its for a long-term cause I do it. 
+
+- How good am I at estimating how long a task will take? What is the process that produces my estimations?
+
+I have not yet gotten to a level where I can accurately estimate tasks, it feels like I mostly "eye-ball" it without actually having a set process to concretely evaluate what a realistic time line will be, this is a skill I wish to improve. 
+
+- Hur fungerar du i ett team? Faller du in i ett särskilt mönster, eller tar du återkommande en särskild roll? What role do I want to play in a team?
+
+I want to play a role where I can motivate my members and keep the spirit high while also contributing where I see best fit. I believe I can have rational ideas as to how something can be solved in the most efficient way. I wish to play a role where I can perform and help teammates as much as possible. 
+
+- Får du ut något av att jobba i en grupp, eller jobbar du helst ensam? Jämför hur mycket du lärt dig under projektarbetet kontra kursens övriga delar, och fundera över hur du bäst lär dig saker.
+
+I definitely prefer to work as a group, I feel like most "lifehacks" I know in coding comes from working with other people. Other perspectives is just good no matter what field of life we are talking, especially true for coding as there are so many ways to do different things which leads to people having different solutions and thoughts about the same things.  
+
+- Hur har det gått att logga arbetstid?
+
+It has worked but I can become better at remembering to do it after every session, now it feels like it has been done more sporadically than what one would hope. For example times when one starts working on the project without planning it before hand, you kind of forget that you are doing the work. 
+
+- “Biggest fail” och “biggest win”, dvs. det största problem som du stötte på och det smartaste eller bästa du gjorde.
+Biggest fail: I believe the execution of the planning became a fail in terms of coordination. 
+Biggest win: I put in great effort into the reports and coordinated what was needed for many aspects in terms of what data and information was needed.
