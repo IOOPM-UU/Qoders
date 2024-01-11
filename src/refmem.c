@@ -20,10 +20,11 @@ int deallocate_counter = 0; // PRELIMINARY
 //     free(element->mt);
 // }
 
-// static bool meta_data_compare(elem_t elem1, elem_t elem2)
-// {
-//     return elem1.mt->adress == elem2.mt->adress;
-// }
+static bool meta_data_compare(elem_t elem1, elem_t elem2)
+{
+    return (elem1.mt->adress == elem2.mt->adress && elem1.mt->destructor == elem2.mt->adress &&
+            elem1.mt->next == elem2.mt->next && elem1.mt->reference_counter == elem2.mt->reference_counter);
+}
 
 void remove_from_list(meta_data_t *md)
 {
@@ -37,7 +38,7 @@ void remove_from_list(meta_data_t *md)
             {
                 ioopm_iterator_next(iter);
             }
-            if (ioopm_iterator_current(iter).mt->adress == md->adress)
+            if (meta_data_compare(mt_elem(md), ioopm_iterator_current(iter)))
             {
                 ioopm_linked_list_remove(object_list, index);
                 ioopm_iterator_destroy(&iter);
