@@ -24,11 +24,10 @@ FIXME:
 **Total number of new lines of C code written excluding tests and preexisting code:**
 **Total number of lines of test code:** 
 **Total number of lines of “script code” (e.g., make files, Python scripts for generating test data, etc.):**
-**Total number of hours worked by the team.:** Xh
-(hector 42h,Simon 52h, Alex 52h, Martin , Josias 42h)
-**Total number of git commits:**
+**Total number of hours worked by the team:** 231 hours
+**Total number of git commits:** 
 **Total number of pull requests:**
-**Total number of GitHub issues:**
+**Total number of GitHub issues:** 7 issues
 
 # 3 Process   
 ## 3.1 Inception
@@ -36,6 +35,7 @@ FIXME:
 We chose to pick a process very similar to the one lined out in the "Process Requirements" section of the course project module. We used Trello to keep track of tasks and delegation of said tasks, GitHub for version control, issue tracking, and pull requests. We used makefile containing tools like 'valgrind' to control memory leaks and to automate testing and building. We began by dividing all parts of the project into smaller tickets, when these tickets were decided we added all of them and any other smaller tasks to Trello. This then allowed us to delegate these tickets out amongst the group which quickly meant we could begin working on our separate parts of the project parallel to each other and also keeping track of how far along we were in the process of completion.
 
 ## 3.2 Implementation
+<!-- FIXME: första meningen? did we actualy succeed? -->
 We believe we implemented our process thoroughly and succeeded in the initial idea of how we wanted the process to unfold. The strengths of our process were that we were acutely aware of things that had to be done and who did what. The process of Trello and Github ensured that no individual in the group lacked information regarding the project, this was because everything was managed through tools everyone had access to. Weaknesses however presented themselves when we realized some parts were much harder than others, one ticket could be finished in hours while others took days, this created a discrepency in time management and, initially, we had no contingency plan for this scenario which proved to be a problem. 
 
 If we were to redo the project tomorrow we would apply the same process but with more contingency plans, we would consider the possibility of worst-case scenarios and reflect on how we would solve an issue that could potentially arise. We would repeat the method of using previously stated tools as well as using a Tech lead in charge of version control and pull requests as we consider this to have been a success. We would continue using the system of tickets and an early delegation of tasks as this proved successful. It was also a success to have plans that were adjustable and not completely rigid, it allowed us to work in a dynamic way which improved the possibility of receiving help from other group members; It allowed us to adapt our plan as we went along when we discovered our initial plan may have been unfounded or based off misinterpretation. 
@@ -64,6 +64,7 @@ Communication during this project has worked very well, we started by creating a
 
 In regards to cooperation and coordination; we decided on our first group meeting that we would split the project into smaller tickets, some of these tickets would then be spread out amongst smaller groups of two within the project group. By doing this we could isolate problems to specific people and allow everyone to feel responsible for specific aspects of this project. Using Trello it also allowed us to send more people to places of the code where it was needed. We also assigned one member to be "_Tech lead_", he was responsible for accepting pull requests and was also the one managing the makefile and github in general. Giving this task to one specific person also ensured that we had both a chain of command and a structure which allowed for help to be given and received. 
 
+<!-- FIXME: "break"? -->
 During the "break" we all knew the tasks we had and so we singled out two days on which all communication, cooperation and coordination were to happen. This allowed us to work independently and yet confirm progress or stalling in a relevant way. 
 
 One essential issue that caused great damage to the progress of the project was that it took us almost a fortnight to get into contact with the final member, only to realize that he was no longer part of the course. This meant the workload structure we initially decided upon now was no longer feasible and each member and the project as a whole suffered as a consequence. 
@@ -90,7 +91,7 @@ We decided after the first group meeting that the best thing to do would be to g
 
 We also used pair programming and made our best to divide the project into smaller tickets and subtasks using Trello. This allowed us to keep track of progress and ensuring that if someone was falling behind with others finishing early we could easily intervene and provide needed support. However because we could not properly assess the difficulty of some of the given tasks the workload was not proportionally distributed. This lead to the process of assessing just how much time and effort was needed becoming an unforseen issue which cascaded into thinking we were close to a solution while having a long way to go. 
 
-It is difficult to assess the "size" of tasks that are different in nature compared to what one previously has dabbled with. Difference in skill and capability leads to a relevant difference in what is "equal". Because of this Trello was frequently used to track progress but mostly we relied on each other to give everyone a heads up if one was falling behind or quickly succeeding with given task. We also came to realize that whatever time we think we will need, realistically we found that it would take probably 5-10x the amount. It could be a combination of lacking proper knowledge in creating a coding project and overestimation of skill but looking back we still believed it would be difficult but did not understand how difficult. 
+It is difficult to assess the "size" of tasks that are different in nature compared to what one previously has dabbled with. Difference in skill and capability leads to a relevant difference in what is "equal". Because of this Trello was frequently used to track progress but mostly we relied on each other to give everyone a heads up if one was falling behind or quickly succeeding with given task. We also came to realize that whatever time we think we will need, realistically we found that it would take probably <!--  -->5-10x the amount. It could be a combination of lacking proper knowledge in creating a coding project and overestimation of skill but looking back we still believed it would be difficult but did not understand how difficult. 
 
 ####Work Breakdown Insights
 - Planning for the integration
