@@ -74,7 +74,15 @@ void test_allocate()
     release(&new_object2);
 
     CU_ASSERT_EQUAL(new_object2, NULL);
+    obj *new_object3 = allocate(10, free);
+    set_cascade_limit(2);
+
+    // Perform the deallocate operation
+    deallocate(&new_object3);
+
 }
+
+
 
 void test_allocate_array()
 {
@@ -82,21 +90,21 @@ void test_allocate_array()
     obj *new_object = allocate_array(10, sizeof(int), free);
     CU_ASSERT_PTR_NOT_NULL(new_object);
 
-    // meta_data_t *meta_data = get_meta_data(new_object);
+    meta_data_t *meta_data = get_meta_data(new_object);
 
     // CU_ASSERT_PTR_NULL(meta_data->destructor);
-    // CU_ASSERT_EQUAL(meta_data->reference_counter, 0);
+    CU_ASSERT_EQUAL(rc(new_object), 0);
 
-    // retain(new_object);
+    retain(new_object);
 
-    // CU_ASSERT_EQUAL(meta_data->reference_counter, 1);
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 1);
 
     release(&new_object);
 
-    // CU_ASSERT_EQUAL(meta_data->reference_counter, 0);
+    CU_ASSERT_EQUAL(meta_data->reference_counter, 0);
 
     // deallocate(&new_object);
-    // CU_ASSERT_PTR_NULL(new_object); // FIXME: Double free because no destructor
+    CU_ASSERT_PTR_NULL(new_object); // FIXME: Double free because no destructor
 }
 
 void test_retain()
@@ -131,6 +139,7 @@ void test_cleanup()
     cleanup();
     CU_ASSERT_TRUE(ioopm_linked_list_is_empty(get_obj_list()));
 }
+
 
 void test_deallocate()
 {
@@ -180,6 +189,9 @@ void test_set_cascade_limit()
     set_cascade_limit(100);
 }
 
+
+
+
 void do_shutdown()
 {
     shutdown();
@@ -211,6 +223,8 @@ int main()
         (CU_add_test(my_test_suite, "test deallocate", test_deallocate) == NULL) ||
         (CU_add_test(my_test_suite, "test set cascade limit", test_set_cascade_limit) == NULL) ||
         //(CU_add_test(my_test_suite, "padding_test", padding_test) == NULL) ||
+
+
 
         // KOMMENTERA INTE UT!!!
         (CU_add_test(my_test_suite, "shutdown", do_shutdown) == NULL) ||

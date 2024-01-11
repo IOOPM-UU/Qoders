@@ -72,52 +72,52 @@ int clean_suite(void)
 //     destroy_warehouse(wh);
 // }
 
-// void test_list_merch()
-// {
-//     directs what would normally be displayed on the terminal to a txt.file that can later be compared
-//     freopen("stdout.txt", "w", stdout);
+void test_list_merch()
+{
+    directs what would normally be displayed on the terminal to a txt.file that can later be compared
+    freopen("stdout.txt", "w", stdout);
 
-//     warehouse_t *wh = create_warehouse();
-//     list_merch_frontend(wh);
+    warehouse_t *wh = create_warehouse();
+    list_merch_frontend(wh);
 
-//     fclose(stdout);
+    fclose(stdout);
 
-//     close the file so that text is properly entered to the txt.file
-//     FILE *text_file = fopen("stdout.txt", "r");
+    close the file so that text is properly entered to the txt.file
+    FILE *text_file = fopen("stdout.txt", "r");
 
-//     Check if the file was opened successfully
-//     CU_ASSERT_PTR_NOT_NULL(text_file);
+    Check if the file was opened successfully
+    CU_ASSERT_PTR_NOT_NULL(text_file);
 
-//     inserts contents of text_file to an array where they'll be stored
-//     char buffer[100];
-//     fgets(buffer, sizeof(buffer), text_file);
+    inserts contents of text_file to an array where they'll be stored
+    char buffer[100];
+    fgets(buffer, sizeof(buffer), text_file);
 
-//     CU_ASSERT_STRING_EQUAL(buffer, "No list is available at the moment. Please add merchandise to the warehouse first.\n")
-
-
-//     merch_t *test1 = create_merch(strdup("Linjär algebra"), strdup("inte särskilt kul"), 1);
-//     insert_name_to_warehouse(wh, test1);
-
-//     freopen("stdout_new.txt", "w", stdout);
-
-//     list_merch_frontend(wh);
-
-//     fclose(stdout);
-
-//     FILE *text_file_new = fopen("stdout_new.txt", "r");
-//     char buffer_line1[100];
-//     fgets(buffer_line1, sizeof(buffer), text_file_new);
-//     char buffer_line2[100];
-//     fgets(buffer_line2, sizeof(buffer), text_file_new);
-
-//     CU_ASSERT_STRING_EQUAL(buffer_line1, "List of merchandise: \n");
-//     CU_ASSERT_STRING_EQUAL(buffer_line2, "Name: Linjär algebra\n");
+    CU_ASSERT_STRING_EQUAL(buffer, "No list is available at the moment. Please add merchandise to the warehouse first.\n")
 
 
-//     destroy_warehouse(wh);
-//     redirects the output back to the console so that the output is shown in the terminal
-//     freopen("/dev/tty", "w", stdout);
-// }
+    merch_t *test1 = create_merch(strdup("Linjär algebra"), strdup("inte särskilt kul"), 1);
+    insert_name_to_warehouse(wh, test1);
+
+    freopen("stdout_new.txt", "w", stdout);
+
+    list_merch_frontend(wh);
+
+    fclose(stdout);
+
+    FILE *text_file_new = fopen("stdout_new.txt", "r");
+    char buffer_line1[100];
+    fgets(buffer_line1, sizeof(buffer), text_file_new);
+    char buffer_line2[100];
+    fgets(buffer_line2, sizeof(buffer), text_file_new);
+
+    CU_ASSERT_STRING_EQUAL(buffer_line1, "List of merchandise: \n");
+    CU_ASSERT_STRING_EQUAL(buffer_line2, "Name: Linjär algebra\n");
+
+
+    destroy_warehouse(wh);
+    redirects the output back to the console so that the output is shown in the terminal
+    freopen("/dev/tty", "w", stdout);
+}
 
 // void test_edit_merchandise()
 // {
