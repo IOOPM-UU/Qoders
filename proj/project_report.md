@@ -20,13 +20,12 @@
 |Sprint 2 "Deepwork on essential functions"| 18/12/23| 29/12/23|
 | Sprint 3 "Implementation and finalization"| 29/12/23| 12/1/23|
 
-FIXME:
-**Total number of new lines of C code written excluding tests and preexisting code:** 241 
+**Total number of new lines of C code written excluding tests and preexisting code:** 245
 **Total number of lines of test code:** 246
 **Total number of lines of “script code” (e.g., make files, Python scripts for generating test data, etc.):** 78
 **Total number of hours worked by the team:** 231 hours
-**Total number of git commits:** 
-**Total number of pull requests:** 
+**Total number of git commits:** 164 commits
+**Total number of pull requests:** 13 pull requests
 **Total number of GitHub issues:** 7 issues
 
 # 3 Process   

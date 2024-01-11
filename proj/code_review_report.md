@@ -39,7 +39,6 @@ The frequency of pushing back pull request or changing them has been minimal. Th
 
 ### Project Statistics
 
-<!-- FIXME -->
 - **Number of Pull Requests Made:** 13
 
 - **Average Time Pull Requests Were Open:** Approximately 10 hours 
