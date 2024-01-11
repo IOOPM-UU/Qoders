@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In the development of our project a key point we focused on was writing high quality code with focus on readability, maintainability, correctness, performance, and testability. This report aims to dive deeper into these aspects and explain how it affected the project as a whole.
+In the development of our project a key point we focused on was writing high quality code with focus on readability, maintainability, correctness, and testability. This report aims to dive deeper into these aspects and explain how it affected the project as a whole.
 
 ## Code Quality Criteria
 With the standrad for high quality code set by achievment Y65 these are the criteria we have followed:
@@ -20,10 +20,7 @@ With the standrad for high quality code set by achievment Y65 these are the crit
    - All functions have been thoroughly tested to ensure to code behaves as expected.
    - Edge cases and memory leaks have also been thoroughly tested.
 
-4. **Performance**
-   - TODO:
-
-5. **Testability:**
+4. **Testability:**
    - Test cases have been implemented to ensure code works as expected.
    - Helper functions have been implemented to aid in testing.
 
