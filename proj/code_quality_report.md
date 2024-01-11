@@ -2,28 +2,25 @@
 
 ## Introduction
 
-In the development of our project a key point we focused on was writing high quality code with focus on readability, maintainability, correctness, performance, and testability. This report aims to dive deeper into these aspects and explain how it affected the project as a whole.
+In the development of our project a key point we focused on was writing high quality code with focus on readability, maintainability, correctness, and testability. This report aims to dive deeper into these aspects and explain how it affected the project as a whole.
 
 ## Code Quality Criteria
 With the standrad for high quality code set by achievment Y65 these are the criteria we have followed:
 1. **Readability:**
    - We followed the **GNU coding standard** throughout the project to ensure consistensy and readabilty.
    - **Clear variable and function names** have been chosen to enhance reability.
-   - **Code comments** were also utilized to explain more complex section of the code.
+   - **Code comments** were also utilized to explain more complex sections of the code.
 
 2. **Maintainability:**
-   - We structured the code in a modular manner to simplify understanding the code as well as modifying and maintaining.
-   - We used clear seperation between functions to make the code easier to understand not only to enhance maintainability but also to simplify our work process during the project implementation.
-   - The code is also thoroughly reviewed and well documentated.
+   - We structured the code in a modular manner to simplify understanding of the code as well as modifying and maintaining the code.
+   - We used clear seperation between functions to make the code easier to understand and not only to enhance maintainability but also to simplify our work process during the project implementation.
+   - The code is also thoroughly reviewed and well-documentated.
 
 3. **Correctness:**
    - All functions have been thoroughly tested to ensure to code behaves as expected.
    - Edge cases and memory leaks have also been thoroughly tested.
 
-4. **Performance**
-   - TODO:
-
-5. **Testability:**
+4. **Testability:**
    - Test cases have been implemented to ensure code works as expected.
    - Helper functions have been implemented to aid in testing.
 
