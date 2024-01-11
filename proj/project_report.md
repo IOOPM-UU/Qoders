@@ -24,7 +24,8 @@ FIXME:
 **Total number of new lines of C code written excluding tests and preexisting code:**
 **Total number of lines of test code:** 
 **Total number of lines of “script code” (e.g., make files, Python scripts for generating test data, etc.):**
-**Total number of hours worked by the team.:** (hector 42h,Simon 52h, Alex , Martin , Josias 41h)
+**Total number of hours worked by the team.:** Xh
+(hector 42h,Simon 52h, Alex 52h, Martin , Josias 42h)
 **Total number of git commits:**
 **Total number of pull requests:**
 **Total number of GitHub issues:**
