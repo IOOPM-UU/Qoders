@@ -6,85 +6,120 @@
 #include <ctype.h>
 #include "utils.h"
 
+char *strduplicate(char *src)
+{
+    char *str;
+    char *p;
+    int len = 0;
+
+    while (src[len])
+        len++;
+    str = allocate(len + 1);
+    p = str;
+    while (*src)
+        *p++ = *src++;
+    *p = '\0';
+    return str;
+}
+
 int read_string(char *buf, int buf_siz)
 {
-    int readChars = 0;
-    for (int i = 0; i < buf_siz; i++)
+    int nr_chars = 0;
+    int c;
+    do
     {
-        if (i == buf_siz - 1)
+        c = getchar();
+        if (c != '\n' && c != EOF)
         {
-            buf[i] = '\0';
-        }
-        int currChar = getchar();
-        if (currChar != '\n' && currChar != '\0' && currChar != EOF)
-        {
-            buf[i] = currChar;
-            readChars++;
+            buf[nr_chars] = c;
+            ++nr_chars;
         }
         else
         {
-            buf[i] = '\0';
             break;
         }
-    }
-    return readChars;
-}
-
-char *ask_question_string(char *question, char *buf, int buf_siz)
-{
-    int read = 0;
-
-    while (true)
-    {
-        puts(question);
-        read = read_string(buf, buf_siz);
-        if (read == 0)
-        {
-            continue;
-        }
-        break;
-    }
-
-    return buf;
-}
-
-int ask_question_int(char *question)
-{
-    int result = 0;
-    int conversions = 0;
-
-    while (conversions < 1)
-    {
-        printf("%s\n", question);
-        conversions = scanf("%d", &result);
-        int c = 0;
-        while (c != '\n' && c != EOF)
-        {
-            c = getchar();
-        }
-        putchar('\n');
-    }
-    return result;
+    } while (nr_chars < buf_siz - 1);
+    buf[nr_chars] = '\0';
+    return nr_chars;
 }
 
 bool is_number(char *str)
 {
-    int len = strlen(str);
-    for (int i = 0; i < len; i++)
+    int length = strlen(str);
+    if (length < 1)
     {
-        if (isdigit(str[i]) == false)
+        return false;
+    }
+    else if (length == 1)
+    {
+        return isdigit(str[0]);
+    }
+    else
+    {
+        if (str[0] == '-' || isdigit(str[0]))
         {
-            if (i == 0 && str[i] == '-')
+            for (int i = 1; i < length; i++)
             {
-                continue;
+                if (!isdigit(str[i]))
+                {
+                    return false;
+                }
             }
-            printf("is false \n");
-            return false;
+            return true;
         }
         else
         {
+            return false;
         }
     }
-    printf("is true \n");
-    return true;
+}
+
+bool not_empty(char *str)
+{
+    return strlen(str) > 0;
+}
+
+answer_t ask_question(char *question, check_func check, convert_func convert)
+{
+    int buf_siz = 255;
+    char buf[buf_siz];
+    do
+    {
+        printf("%s\n", question);
+        read_string(buf, buf_siz);
+    } while (!check(buf));
+    return convert(buf);
+}
+
+int ask_question_int(char *question)
+{
+    answer_t answer = ask_question(question, is_number, (convert_func)atoi);
+    return answer.int_value; // svaret som ett heltal
+}
+
+char *ask_question_string(char *question)
+{
+    return ask_question(question, not_empty, (convert_func)strduplicate).string_value;
+}
+
+bool is_letter(char *str, char letter)
+{
+    if (strlen(str) != 1)
+    {
+        return false;
+    }
+    else
+    {
+        return toupper(str[0]) == letter;
+    }
+}
+
+int string_sum(char *str)
+{
+    int result = 0;
+    do
+    {
+        result += abs(*str);
+    } while (*++str != '\0');
+    return result;
 }

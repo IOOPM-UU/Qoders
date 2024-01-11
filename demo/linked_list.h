@@ -5,24 +5,10 @@
 typedef bool (*ioopm_int_predicate)(elem_t, void *extra);
 typedef void (*ioopm_apply_int_function)(elem_t *, void *extra);
 
-typedef struct list ioopm_list_t;
-typedef struct link ioopm_link_t;
 
 typedef unsigned long size_t;
 
-struct link
-{
-    elem_t value; // holds the value
-    struct link *next; // points to the next link (possibly NULL)
-};
 
-struct list
-{
-    ioopm_link_t *head; //first element in list - dummy (doesent hold any actual values)
-    ioopm_link_t *last; //holds the last link in the list
-    size_t size;  // total amount of links in the list
-    ioopm_eq_function function; //function that compares values in the list
-};
 
 /// @brief Creates a new empty list
 /// @return an empty linked list

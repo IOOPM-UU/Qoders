@@ -136,7 +136,7 @@ void deallocate(obj **c)
     if (m->reference_counter > 0)
     {
         printf("\nError: Objects with non-zero reference counters can not be deallocated\n");
-        return NULL;
+        return;
     }
 
     if (deallocate_counter == cascade_limit)
