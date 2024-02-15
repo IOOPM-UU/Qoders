@@ -107,17 +107,17 @@ In a project consisting of different parts that all must be compatible, it can b
 
 We feel confident that what we delivered has been implemented in the correct way. This is because we have tests checking the delivered product which gives us confidence we have performed to the standard that was expected. We do however not possess the entire implementation as we have referenced earlier in this report. In essence we are confident in the quality of what we delivered but is missing the complete finished product. 
 
--__On a scale 1–7 (7 is best), rate your satisfaction with your process and provide justification for that number__
+-**On a scale 1–7 (7 is best), rate your satisfaction with your process and provide justification for that number**
 5, we feel that our process has worked well despite us feeling stressed in the last days before the presentation, struggling to finish the final aspects of the project. We believe the process itself has worked fine but we could improve on being more strict in following the process itself more religiously. 
 
--__On a scale 1–7 (7 is best), rate your satisfaction with your delivered product and provide justification for that number__
+-**On a scale 1–7 (7 is best), rate your satisfaction with your delivered product and provide justification for that number**
 3, We are not pleased with the delivered product in terms of completion based on the given task. However, because of a lacking teammember, overlaps with assignments several team members had to finish, and other exams to focus on we believe what we did deliver was material that at least let us sleep at night. These factors and the high expectations we had of ourselves has resulted in us being somewhat disappointed with the outcome. 
 
--__On a scale 1–7 (7 is best), rate your satisfaction with your quality assurance and provide justification for that number__
+-**On a scale 1–7 (7 is best), rate your satisfaction with your quality assurance and provide justification for that number**
 5, our quality assurance worked by having someone that did not write the code(preferably the tech lead) examine the pull requests and then after review push it to the master branch, we believe this was a good system and allowed us to find each others errors efficiently. Other than using a tech lead and pull requests we also worked a lot with unit testing to ensure our quality. 
 
--__What does the team consider its biggest win?__
+-**What does the team consider its biggest win?**
 Collaboration was a big win for us as we managed to split the project into smaller tasks which were then delegated, spread across the group. This allowed us to efficiently have a good idea of what was supposed to be done and who was supposed to do what. 
 
--__What does the team consider its biggest fail?__
+-**What does the team consider its biggest fail?**
 The biggest fail was that we underestimated the workload required to complete the integration and what would be needed for it. This was a result of not being strict enough on when and what should be finished.
