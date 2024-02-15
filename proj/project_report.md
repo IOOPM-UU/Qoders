@@ -90,6 +90,11 @@ We also used pair programming and made our best to divide the project into small
 
 It is difficult to assess the "size" of tasks that are different in nature compared to what one previously has dabbled with. Difference in skill and capability leads to a relevant difference in what is "equal". Because of this Trello was frequently used to track progress but mostly we relied on each other to give everyone a heads up if one was falling behind or quickly succeeding with given task. We also came to realize that whatever time we think we will need, realistically we found that it would take many times the amount. It could be a combination of lacking proper knowledge in creating a coding project and overestimation of skill but looking back we still believed it would be difficult but did not understand how difficult. 
 
+
+
+![alt text](pic/Pie-chart.png)
+![alt text](pic/Burndown-chart.png)
+
 #### Work Breakdown Insights
 - Planning for the integration
 
