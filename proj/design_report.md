@@ -15,8 +15,6 @@ Overall, it's a project that tackles the common issues in manual memory manageme
 ### Design Deviations
 - Double pointers in release() & deallocate()
 We used double pointers in deallocate() and release() so that when we test we can see if the pointer becomes NULL as well, in that way we ensure ourselves that the original pointer is set to NULL when we free the memory. This helps us remove dangling pointers. What this does essentially is that it allows us to use CU_ASSERT_PTR_NULL(c); in our test cases. 
-- get_metadata()
-We implemented the function get_metadata() because an issue we stumbled upon was that the way we returned newly allocated memory made it so that when something was writen into the memory it would overwrite the meta data. Because of this we had to create this helper function.
 
 ### Features Missing
 #### Destructor 
