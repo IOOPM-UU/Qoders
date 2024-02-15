@@ -92,8 +92,10 @@ It is difficult to assess the "size" of tasks that are different in nature compa
 
 
 
-![alt text](pic/Pie-chart.png)
-![alt text](pic/Burndown-chart.png)
+![Pie chart of time distribution](pic/Pie-chart.png)
+_This chart shows how we ended up distributing our time during the course of the project._
+![Burndown chart of project](pic/Burndown-chart.png)
+_This chart shows how much work we got done during the course and the tempo we had_
 
 #### Work Breakdown Insights
 - Planning for the integration
