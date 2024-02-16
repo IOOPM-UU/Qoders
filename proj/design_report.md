@@ -11,6 +11,16 @@ We've also been really focused on keeping the memory overhead low. The goal is t
 
 Overall, it's a project that tackles the common issues in manual memory management, like leaks and segmentation faults, and provides a more structured and less error-prone method for C programmers. 
 
+### Algorithms
+- Remove_from_list()
+The function checks if the list is empty, because if it is, no action needs to be taken. The function ignores invalid inputs (e.g. an item that doesn't exist in the list). Then creates an iterator that goes over the list until it finds the item to be removed or runs out of items in the list.
+- Cleanup()
+The function checks if the list is empty, like remove_from_list(), and does nothing if the list is empty. Then, a new list is created, called delete_list. The function then iterates over the list of created objects and put all objects who's pointer counter is less than 1 and puts them in delete_list. When the list has been fully iterated, all items in delete_list are free'd and the list is removed.
+- Deallocate()
+Deallocate checks if the object given has a pointer counter less than 1. If not, the function prints out an error message and performs a false assert. After that, the function executes remove_from_list() and frees the deallocated object, setting it's pointer to NULL so it can not be accessed again.
+- Allocate()
+Allocate starts by checking if a global bool, instantiate, is set to true. If it is, the function creates a new list for all objects and all delayed frees, and then sets instantiate to false. This ensures that an object list and delayed frees list is instantiated on the first call of allocate and never again. Then the function creates a new object by mallocing the size of the meta data plus the number of bytes specified to be allocated. The meta_data is given appropriate parameters and the newly created object is appended into the object list. 
+
 
 ### Design Deviations
 - Double pointers in release() & deallocate()
