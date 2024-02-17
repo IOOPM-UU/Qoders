@@ -11,6 +11,21 @@ We've also been really focused on keeping the memory overhead low. The goal is t
 
 Overall, it's a project that tackles the common issues in manual memory management, like leaks and segmentation faults, and provides a more structured and less error-prone method for C programmers. 
 
+### Central functions and data structures 
+
+From the previous section, "Design explained" we outlined that our program utilizes various tools in order for us to to achieve a functional memory management program. While each part plays its roll, there are some that stand out as particular central: 
+
+allocate(): 
+This funtion serve as an important tool that intilializes each object with a reference count of zero, allowing us to start the tracking of object references. It makes use of malloc() to allocate the memory, sets metadata, and returns a pointer to the allocated memory. It checks for instantiation needs and triggers the casacading free function when needed.
+
+allocate_array(): 
+Similiar to allocate(), this function intilializes objects with a reference count of zero and allows us to track object references. This function uses calloc() to allocate the memory, sets up metadata, includes a pointer to a destructor and returns a pointer to the allocated memory. The pointer to a destructor allows users - if needed - to specify a custom destructor for the cleanup function.
+
+deallocate(): 
+Counterpart to the traditional 'free()', used to deallocate memory previously allocated by either allocate() or allocate_array(). Takes into consideration the reference count and will depending on the value either decrease or increase it by one. If the value is zero the object is freed.
+
+For our datastructres we decided to use linked lists to store our delayed frees as well as the allocated objects. This was done because of the O(1) append. It also allows us to deallocate the entire lists in O(n) time, where `n` is the length of the list, when we use `cleanup` as opposed to a hashtable which would require a list of keys to be deallocated in parallel. The tradeoff of having only one datastructure to keep track of allocated objects is that allocation also has a complexity of O(n), since allocation and deallocation are not dependent on each other (other than an object must be allocated to be deallocated). To summarize, the linked list gives us the ability to deallocate the entire object list in O(n) time, though the time complexity of a search is also O(n) since we must always start at the head. What is gained in code simplicitly is lost in performance. 
+
 ### Algorithms
 - Remove_from_list()
 The function checks if the list is empty, because if it is, no action needs to be taken. The function ignores invalid inputs (e.g. an item that doesn't exist in the list). Then creates an iterator that goes over the list until it finds the item to be removed or runs out of items in the list.
